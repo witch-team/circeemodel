@@ -32,7 +32,7 @@ This is the calibration file with the values for parameters, and exogenous varia
   
 This file contains the values of exogenous/policy variables that can be introduced into the system at any time in a deterministic set up with no anticipation erros. 
 
-To run the model, users must download Dynare from https://www.dynare.org/. They can then use either Matlab (version 2023-2024) or GNU Octave to run the model. A new version will be available for Julia users in the coming months. If possible, I recommend using Matlab over GNU Octave. To run CIRCEE, users can call the file « CIRCEE_RunFile.m » from their Matlab or GNU Octave console. If you encounter any issues, please contact darius.corbier@cmcc.it. Also, any comments or suggestions for model development are more than welcomed. 
+To run the model, users must download Dynare from https://www.dynare.org/ and use either Matlab (version 2023-2024) or GNU Octave. A new version will be available for Julia users in the coming months. If possible, I recommend using Matlab over GNU Octave. To run CIRCEE, users can call the file « CIRCEE_RunFile.m » from their Matlab or GNU Octave console. If you encounter any issues, please contact darius.corbier@cmcc.it. Also, any comments or suggestions for model development are more than welcomed. 
 
 If you use CIRCEE, please cite:
 
