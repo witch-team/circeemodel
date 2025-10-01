@@ -6,7 +6,7 @@ The repository is composed of the following files :
 
   - Run File : CIRCEE_RunFile.m
     
-This file serves as the primary running file, allowing users to select various model versions. Specifically, they can choose between B2C and C2C sharing business models, as indicated in line 8 of the file: « modelType = ‘B2C’ ». Additionally, users can select different regions, such as Japan, and the EU27 coming in October and China in 2026.
+This file serves as the primary running file, allowing users to select various model versions. Specifically, they can choose between B2C and C2C sharing business models, as indicated in line 8 of the file: « modelType = ‘B2C’ ». Additionally, users can select different regions, such as Japan, and the EU27 coming in October and mainland China in 2026.
 
 Currently, the user can only choose the scenario SSP2 among all available scenarios.  However, other SSP scenarios beyond SSP2 will be added next year. 
 
