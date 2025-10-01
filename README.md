@@ -1,4 +1,4 @@
-                                # CIRCEE: The CIRCular Energy Economy model #
+                                                  # CIRCEE: The CIRCular Energy Economy model #
 
 CIRCEE, a deterministic Dynamic General Equilibrium model, is augmented with material flow analysis with mass balance and has a one-way soft-link to the IAM WITCH model (Emmerling et al., 2016). The model evaluates how circular economy strategies and enablers, such as new business models and lifestyle changes, can advance circular economy and climate change mitigation goals. This model captures the trade-offs and synergies between different sustainability objectives. Additionally, there’s a version called « CIRCEE_LIFE » that soft-links CIRCEE in a two-way with the lifestyle model LIFE model (Pettifor et al., 2023). 
 
@@ -32,7 +32,7 @@ This is the calibration file with the values for parameters, and exogenous varia
   
 This file contains the values of exogenous/policy variables that can be introduced into the system at any time in a deterministic set up with no anticipation erros. 
 
-To run the model, users must download Dynare from https://www.dynare.org/. They can then use either Matlab (version 2023-2024) or GNU Octave to run the model. A new version will be available for Julia users in the coming months. If possible, I recommend using Matlab over GNU Octave. To run CIRCEE, users can call the file « CIRCEE_RunFile.m » from their Matlab or GNU Octave console. If you encounter any issues, please contact darius.corbier@cmcc.it. 
+To run the model, users must download Dynare from https://www.dynare.org/. They can then use either Matlab (version 2023-2024) or GNU Octave to run the model. A new version will be available for Julia users in the coming months. If possible, I recommend using Matlab over GNU Octave. To run CIRCEE, users can call the file « CIRCEE_RunFile.m » from their Matlab or GNU Octave console. If you encounter any issues, please contact darius.corbier@cmcc.it. Also, any comments or suggestions for model development are more than welcomed. 
 
 If you use CIRCEE, please cite:
 
