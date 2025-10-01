@@ -36,6 +36,12 @@ To run the model, users must download Dynare from https://www.dynare.org/ and us
 
 If you use CIRCEE, please cite:
 
-- Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging    the gap between economic and industrial ecology concepts. Journal of Industrial Ecology, 28(6), 1996-2011.
+- Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts. Journal of Industrial Ecology, 28(6), 1996-2011.
 
-- Corbier, D., Pettifor, H., Agnew, M., & Nagashima, M. (2025). Shaping sustainable consumption practices:          Changing consumers’ habits through lifestyle changes and Extended Producer Responsibility schemes. Resources,     Conservation and Recycling, 217, 108214.
+- Corbier, D., Pettifor, H., Agnew, M., & Nagashima, M. (2025). Shaping sustainable consumption practices: Changing consumers’ habits through lifestyle changes and Extended Producer Responsibility schemes. Resources, Conservation and Recycling, 217, 108214.
+
+Other references :
+
+Emmerling, J., Drouet, L., Reis, L. A., Bevione, M., Berger, L., Bosetti, V., ... & Havlik, P. (2016). The WITCH 2016 model-documentation and implementation of the shared socioeconomic pathways (No. 42.2016). Nota di Lavoro.
+
+Pettifor, H., Agnew, M., & Wilson, C. (2023). A framework for measuring and modelling low-carbon lifestyles. Global Environmental Change, 82, 102739.
