@@ -1,4 +1,4 @@
-                                           # CIRCEE: The CIRCular Energy Economy model #
+    # CIRCEE: The CIRCular Energy Economy model #
 
 CIRCEE, a deterministic Dynamic General Equilibrium model, is augmented with material flow analysis with mass balance and has a one-way soft-link to the IAM WITCH model (Emmerling et al., 2016). The model evaluates how circular economy strategies and enablers, such as new business models and lifestyle changes, can advance circular economy and climate change mitigation goals. This model captures the trade-offs and synergies between different sustainability objectives. Additionally, there’s a version called « CIRCEE_LIFE » that soft-links CIRCEE in a two-way with the lifestyle model LIFE model (Pettifor et al., 2023). 
 
