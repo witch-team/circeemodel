@@ -10,7 +10,7 @@ CIRCEE, a deterministic Dynamic Stochastic General Equilibrium (DSGE) model augm
 
 #### **CIRCEE_PF.mod**
 
-**Role**: Main Dynare model file containing the full economic structure
+**Role**: Main model file containing the full economic structure. The file contains the declarations of variables and parameters, as well as the main equations and FOCs of the model. For a comprehensive overview of the equations, please refer to the Appendix of Corbier et al. (2025). It’s important to note that the model’s equations have undergone slight modifications since Corbier et al. (2024 and 2025). 
 
 **Contents**:
 
@@ -44,11 +44,11 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
   * Physical constraints (material balances, emissions)
   * Trade with Armington CES
 
-**Notable features**:
+**Features**:
 
 * Uses the Dynare preprocessor with `@#for` loops to auto-generate equations
 * Supports two variants: B2C (business-to-consumer sharing) and C2C (consumer-to-consumer sharing)
-* Perfect-foresight solution over 82 periods (2018–2100)
+* Perfect-foresight solution with or without anticipation errors over 82 periods (2018–2100)
 
 ---
 
@@ -60,26 +60,26 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 
 1. **Setup**
 
-   * Select mode (classic/calibration)
+   * Select mode ('classic' only available)
    * Select model (B2C/C2C)
-   * Choose SSP scenario (SSP1/SSP2/SSP4/SSP5/NoGrowth)
+   * Choose SSP scenario (SSP2 only available, SSP1/SSP4/SSP5/NoGrowth in later versions)
 
 2. **Generate calibration files**
 
    * `CIRCEE_calibration.m`: Structural parameters from `calibration.csv`
-   * `CIRCEE_baseyear_values.m`: Initial values (2018 base year)
-   * `CIRCEE_shocks.m`: Paths of exogenous shocks from `shocks.csv`
+   * `CIRCEE_baseyear_values.m`: Initial values (2018 base year) for exogeneous variables
+   * `CIRCEE_shocks.m`: Paths of exogenous shocks from `shocks.csv`. To introduce specific exogenous or policy variables (varexo in `CIRCEE_PF.mod`) with a particular growth rate, users can follow the instructions in section 3.1.2. of "CIRCEE_RunFile.m". Alternatively, they can specify specific absolute values in `shock.csv` or in CIRCEE_PF.mod. If they desire a fully deterministic model with no error of anticipation, they can use `shock.csv`. Conversely, if they want a deterministic setup with anticipation errors, they can include the line "@#include CIRCEE_shocks.m " in `CIRCEE_PF.mod`. Also, you need to insert a terminal value for the shock in "terminal conditions" in `CIRCEE_steadystatemodel.m`. For further information of the shock structure, please refer to the Dynare manual book at https://www.dynare.org/. One piece of advice : avoid using too many shocks and to be cautious about the magnitude of the shocks or you will bump into infeasibilities and corner solutions. 
    * `CIRCEE_endvalues.m`: Terminal values for convergence
 
 3. **Run Dynare**
 
    * Call `dynare CIRCEE_PF.mod`
-   * Compute steady state
+   * Compute steady state from the `CIRCEE_steadystatemodel.m`
    * Solve the transition path
 
 4. **Post-processing of results**
 
-   * **Rescaling**: Multiply by population × productivity
+   * **Rescaling**: Multiply by population × labor productivity
    * **Unit conversion**:
 
      * Energy in EJ (÷10¹²)
@@ -91,18 +91,18 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
      * `CIRCEE_output_deviation.csv`: Deviations relative to 2020
      * `CIRCEE_output_levels_efficientlaborunit.csv`: Per effective labor unit
      * `CIRCEE_output_deviation_efficientlaborunit.csv`: Relative deviations
-     * Thematic files: Electrification, Sharing, Repairing, Lowering_Expenditures
+     * Thematic files for CIRCEE_LIFE: Electrification, Sharing, Repairing, Lowering_Expenditures
 
 5. **Welfare analysis**
 
-   * Compute consumption equivalent by lifestyle
+   * Compute steady state consumption equivalent by lifestyle
    * Compare 2018 vs 2050
 
 ---
 
 #### **CIRCEE_steadystatemodel.m**
 
-**Role**: Analytical steady-state computation
+**Role**: Analytical steady-state computation. If you modify any equation in `CIRCEE_PF.mod`, you must also adjust the model’s resolution for the steady state in CIRCEE_steadystatemodel.m.
 
 **Sections**:
 
@@ -128,14 +128,12 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 
 ---
 
-### Calibration files (not provided)
+### Calibration files
 
 #### **calibration.csv**
 
-**Expected structure**:
-
-* Columns: `Variable`, `Value`, `Scenario`, `Model`
-* Contains all structural parameters of the model
+* Columns: `Variable`, `Scenario`, `Model`, `Value`
+* Contains all structural parameters and most exogeneous variables of the model
 * Filtered by SSP scenario and model type (B2C/C2C)
 
 **Example parameters**:
@@ -144,19 +142,17 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 * Distribution shares (α)
 * Depreciation rates (δ)
 * Fiscal parameters
-* Behavioral parameters
 
 #### **shocks.csv**
-
-**Expected structure**:
 
 * Columns: `Variable`, `Year`, `Value`
 * Time paths for 2019–2100 for:
 
   * Energy and material efficiencies (WITCH)
-  * Resource prices
-  * Public policies (taxes, subsidies, EPR)
-  * Utilization and repair rates
+  * Share of each lifestyle in total population
+  * Resource prices evolution (WITCH)
+  * R&D, energy efficiency and power generation sector investments (WITCH)
+  * Behavioral modifiers
   * Emission factors
 
 ---
@@ -174,7 +170,7 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 ### By household lifestyle
 
 * `C_h`: Aggregate consumption
-* `D_h` or `D_lowuse_h`: Stock of durable goods
+* `D_h` or `D_lowuse_h`: Stock of energy-using durable goods
 * `X_h`, `SD_h`: Nondurables and semi-durables
 * `ES_h`: Energy services
 * `Inv_d_new_h`, `Inv_d_repair_h`: New and repaired durable investment
@@ -196,27 +192,23 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 * `MW`, `IW`: Municipal and industrial waste
 * `DMC`, `DMI`: Domestic material consumption and inputs
 * `M_stock`: Total material stock
+* `Gross_additions_stock` and `Net_additions_stock`: Gross and net additions to stock
+* `Material_balance` : Ensures mass balance is verified
 
 ---
 
 ## Usage
 
-### Standard run
+### Standard mode
 
 ```matlab
-CIRCEE_RunFile('classic', 'B2C')
-```
-
-### Calibration mode
-
-```matlab
-CIRCEE_RunFile('calibration', 'C2C')
+CIRCEE_RunFile('classic', 'C2C')
 ```
 
 ### Parameters
 
-* `mode`: 'classic' (default) or 'calibration'
-* `modelType`: 'B2C' (default) or 'C2C'
+* `mode`: 'classic' (default) or 'calibration' (for CIRCEE_LIFE)
+* `modelType`: 'B2C'  or 'C2C'
 
 ---
 
@@ -240,19 +232,14 @@ The model supports 5 population and economic growth scenarios:
 2. Variables normalized per unit of effective labor
 3. Thematic files for circular strategies
 
-### Rescaled variables
-
-* Economic variables: × (population × productivity)
-* Employment: × population
-* Energy: in exajoules (EJ)
-
 ---
 
 ## Dependencies
 
-* **MATLAB** R2016b or later
-* **Dynare** 4.6 or later
-* Toolbox: Statistics and Machine Learning
+* **MATLAB** R2016b or later. A version on Julia will be made available in later months.
+* **Dynare** 4.6 or later (https://www.dynare.org/).
+* Toolbox: Statistics and Machine Learning.
+* If you encounter any issues, please contact darius.corbier@cmcc.it. Also, any comments or suggestions for model development are more than welcomed. 
 
 ---
 
@@ -260,35 +247,13 @@ The model supports 5 population and economic growth scenarios:
 
 * **Time horizon**: 2018–2100 (82 periods)
 * **Frequency**: Annual
-* **Solution method**: Perfect foresight
+* **Solution method**: Perfect foresight with anticipation errors or without anticipation errors. Refer to the Dynare manual for more information.
 * **Expectations handling**: Support for expectation errors (`learnt_in`)
 * **Convergence**: Automatic steady-state verification
 
 ---
 
 ## Author and references
-
-This model implements a circular-economy framework with three heterogeneous lifestyles, integrating production, consumption, material flows, and public policies within a dynamic general equilibrium setting.
-
-
-
-   - Model File : "CIRCEE_PF.mod"
-  
-This is the primary model file that contains the declarations of variables and parameters, as well as the main equations and FOCs of the model. For a comprehensive overview of the equations, please refer to the Appendix of Corbier et al. (2025). It’s important to note that the model’s equations have undergone slight modifications since Corbier et al. (2025). 
-    
-  - Steady State File : "CIRCEE_steadystatemodel.m"
-  
-This file manually solves the steady-state of the model. If you modify any equation in CIRCEE_PF.mod, you must also adjust the model’s resolution for the steady state in CIRCEE_steadystatemodel.m.
-
-  - Calibration file : "calibration.csv"
-  
-This is the calibration file with the values for parameters, and exogenous variables at steady state. The baseline year is 2018. 
-    
-  - Shocks file : "shocks.csv"
-  
-This file contains the values of exogenous/policy variables that can be introduced into the system at any time in a deterministic set up with no anticipation erros. 
-
-To run the model, users must download Dynare from https://www.dynare.org/ and use either Matlab (version 2023-2024) or GNU Octave. A new version will be available for Julia users in the coming months. If possible, I recommend using Matlab over GNU Octave. To run CIRCEE, users can call the file « CIRCEE_RunFile.m » from their Matlab or GNU Octave console. If you encounter any issues, please contact darius.corbier@cmcc.it. Also, any comments or suggestions for model development are more than welcomed. 
 
 If you use CIRCEE, please cite:
 
@@ -301,11 +266,6 @@ Other references :
 Emmerling, J., Drouet, L., Reis, L. A., Bevione, M., Berger, L., Bosetti, V., ... & Havlik, P. (2016). The WITCH 2016 model-documentation and implementation of the shared socioeconomic pathways (No. 42.2016). Nota di Lavoro.
 
 Pettifor, H., Agnew, M., & Wilson, C. (2023). A framework for measuring and modelling low-carbon lifestyles. Global Environmental Change, 82, 102739.
-
-
-To introduce specific exogenous or policy variables (varexo in CIRCEE_PF.mod) with a particular growth rate, users can follow the instructions in section 3.1.2. of "CIRCEE_RunFile.m". Alternatively, they can specify specific absolute values in "shock.csv" or in CIRCEE_PF.mod. If they desire a fully deterministic model with no error of anticipation, they can use "shock.csv". Conversely, if they want a deterministic setup with anticipation errors, they can include the line "@#include CIRCEE_shocks.m " in "CIRCEE_PF.mod". Also, you need to insert a terminal value for the shock in "terminal conditions" in "CIRCEE_steadystatemodel.m". For further information of the shock structure, please refer to the Dynare manual book at https://www.dynare.org/. 
-
-One piece of advice : avoid using too many shocks and to be cautious about the magnitude of the shocks or you will bump into infeasibilities and corner solutions. 
 
 ---
 
