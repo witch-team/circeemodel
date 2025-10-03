@@ -214,7 +214,7 @@ CIRCEE_RunFile('classic', 'C2C')
 
 ## SSP scenarios
 
-The model supports 5 population and economic growth scenarios:
+In its current version, the model supports SSP2 and will support other population and economic growth scenarios:
 
 * **SSP1**: Sustainable development
 * **SSP2**: Middle-of-the-road trends (default)
