@@ -14,7 +14,7 @@ CIRCEE, a deterministic Dynamic Stochastic General Equilibrium (DSGE) model augm
 
 **Contents**:
 
-* **Macro definitions**: Selection of region (JPN/EU27/CN), model type (B2C/C2C), SSP scenarios, sectors, materials, and lifestyles.
+* **Macro definitions**: Selection of region (JPN/EU27/CN), model type (B2C/C2C) and SSP scenarios, and sectors, materials, and lifestyles definition.
 
 Users can choose between B2C and C2C sharing business models. 
 
@@ -24,24 +24,25 @@ Users can only choose the scenario SSP2 among all available scenarios. However, 
 
 Users can only run CIRCEE without any lifestyle changes.The parameters related to lifestyle changes are referred to as « modifiers » and have a default value of 0 in the public version of the file. If users wish to run CIRCEE-LIFE (sufficiency, repair, and sharing lifestyles), they can request this feature at darius.corbier@cmcc.it.
   
-* **Endogenous variables** (600+):
+* **Endogenous variables** (300+):
 
-  * Firms’ decision variables (output, investment, employment, energy)
-  * Household variables by lifestyle (consumption, saving, durables)
+  * Firms’ decision variables (output, capital, labor, energy and material inputs)
+  * Household variables by lifestyle (consumption, saving/investments, energy-using and other durable goods)
   * Government variables (budget, taxes, subsidies)
   * International trade variables
   * Material stocks and flows
+  * Waste flows
   * CO₂ emissions
-* **Predetermined variables**: Capital stocks, durable goods, waste
+* **Predetermined variables**: Capital stocks, energy-using and other durable goods stocks, material stocks
 * **Exogenous variables**: Technological efficiencies, resource prices, fiscal policies
 * **Parameters**: Substitution elasticities, preference parameters, depreciation rates
 * **Model equations**:
 
   * Household behavior (by lifestyle: low-carbon, cautious, constrained)
-  * Sectoral production functions (consumer goods, materials, services)
+  * Sectoral production functions (consumer and capital goods, materials, circular services: repair & sharing)
   * Market-clearing conditions
   * Physical constraints (material balances, emissions)
-  * International trade with Armington CES
+  * Trade with Armington CES
 
 **Notable features**:
 
