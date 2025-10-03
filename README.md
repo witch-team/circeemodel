@@ -255,7 +255,7 @@ The model supports 5 population and economic growth scenarios:
 
 ## Author and references
 
-If you use CIRCEE, please cite:
+**If you use CIRCEE, please cite:**
 
 - Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts. Journal of Industrial Ecology, 28(6), 1996-2011.
 
