@@ -263,9 +263,9 @@ In its current version, the model supports SSP2 and will support other populatio
 
 Other references :
 
-Emmerling, J., Drouet, L., Reis, L. A., Bevione, M., Berger, L., Bosetti, V., ... & Havlik, P. (2016). The WITCH 2016 model-documentation and implementation of the shared socioeconomic pathways (No. 42.2016). Nota di Lavoro.
-
-Pettifor, H., Agnew, M., & Wilson, C. (2023). A framework for measuring and modelling low-carbon lifestyles. Global Environmental Change, 82, 102739.
+- Emmerling, J., Drouet, L., Reis, L. A., Bevione, M., Berger, L., Bosetti, V., ... & Havlik, P. (2016). The WITCH 2016 model-documentation and implementation of the shared socioeconomic pathways (No. 42.2016). Nota di Lavoro.
+  
+- Pettifor, H., Agnew, M., & Wilson, C. (2023). A framework for measuring and modelling low-carbon lifestyles. Global Environmental Change, 82, 102739.
 
 ---
 
