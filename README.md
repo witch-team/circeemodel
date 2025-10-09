@@ -48,7 +48,7 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 
 * Uses the Dynare preprocessor with `@#for` loops to auto-generate equations
 * Supports two variants: B2C (business-to-consumer sharing) and C2C (consumer-to-consumer sharing)
-* Perfect-foresight solution with or without anticipation errors over 82 periods (2018–2100)
+* Perfect-foresight solution with or without anticipation errors over 82 periods (2018–)
 
 ---
 
@@ -146,7 +146,7 @@ Users can only run CIRCEE without any lifestyle changes.The parameters related t
 #### **shocks.csv**
 
 * Columns: `Variable`, `Year`, `Value`
-* Time paths for 2019–2100 for:
+* Time paths for 2019–2080 for:
 
   * Energy and material efficiencies (WITCH)
   * Share of each lifestyle in total population
@@ -245,7 +245,7 @@ In its current version, the model supports SSP2 and will support other populatio
 
 ## Technical notes
 
-* **Time horizon**: 2018–2100 (82 periods)
+* **Time horizon**: 2018–2100. We add 20 more years (82 periods in total) to avoid end of the year spikes. Users should discard results from 2081 to 2100.
 * **Frequency**: Annual
 * **Solution method**: Perfect foresight with anticipation errors or without anticipation errors. Refer to the Dynare manual for more information.
 * **Expectations handling**: Support for expectation errors (`learnt_in`)
