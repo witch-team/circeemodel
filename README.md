@@ -10,7 +10,7 @@ CIRCEE, a deterministic Dynamic Stochastic General Equilibrium (DSGE) model augm
 
 #### **CIRCEE_PF.mod**
 
-**Role**: Main model file containing the full economic structure. The file contains the declarations of variables and parameters, as well as the main equations and FOCs of the model. For a comprehensive overview of the equations, please refer to the Appendix of Corbier et al. (2025). It’s important to note that the model’s equations have undergone slight modifications since Corbier et al. (2024 and 2025). 
+**Role**: Main model file containing the full economic structure. The file contains the declarations of variables and parameters, as well as the main equations and FOCs of the model. For a comprehensive overview of the equations, please refer to the Appendix of Corbier et al. (2025). It’s important to note that the model’s equations have undergone slight modifications since Corbier et al. (2024, 2025, 2026). 
 
 **Contents**:
 
