@@ -302,7 +302,6 @@ If this code supports your work, please cite the associated papers:
 - Corbier, D., Pettifor, H., Agnew, M., & Schlegel, N. (2026). Economic incentives and lifestyle drivers: how they shape consumers' engagement in repairing energy-using consumer goods and their environmental impacts in Japan. *Global Environmental Change*, 96, 103102.
   https://doi.org/10.1016/j.gloenvcha.2026.103102
 - Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts. *Journal of Industrial Ecology*, 28(6), 1996–2011.
-- Corbier, D., Pettifor, H., Agnew, M., & Nagashima, M. (2025). Shaping sustainable consumption practices: Changing consumers' habits through lifestyle changes and Extended Producer Responsibility schemes. *Resources, Conservation and Recycling*, 217, 108214.
 
 **Other references:**
 
