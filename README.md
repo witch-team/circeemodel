@@ -91,8 +91,8 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 ├── CIRCEE_RunFile.m            ← top-level MATLAB driver
 ├── CIRCEE_steadystatemodel.m   ← steady-state computation
 ├── CIRCEE_WelfareAnalysis.m    ← CEV + distributional indices
-├── CIRCEE_WelfarePostProcess.m         ← welfare driver (single lifestyle)
-├── CIRCEE_WelfarePostProcess_batch.m   ← welfare driver (all lifestyles)
+├── CIRCEE_WelfarePostProcess.m         ← welfare driver (single run)
+├── CIRCEE_WelfarePostProcess_batch.m   ← example driver (loops over runs; edit USER PATHS)
 ├── CIRCEE_WelfareExport.m      ← welfare/distribution CSV export
 ├── Footprints.m                ← carbon/waste/material footprints
 ├── calibration.csv             ← CIRCEE calibration table
@@ -155,7 +155,7 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 1. **Setup** — select mode (`'classic'` single run, or `'calibration'` used by the coupling pipeline), model (B2C / C2C), and SSP scenario (SSP2 available).
 2. **Generate calibration files** — `CIRCEE_calibration.m` (structural parameters from `calibration.csv`); `CIRCEE_baseyear_values.m` (2018 base-year values); `CIRCEE_shocks.m` (exogenous shock paths from `shocks.csv`); `CIRCEE_endvalues.m` (terminal values for convergence). See section 3.1.2 of `CIRCEE_RunFile.m` for adding exogenous/policy variables. Advice: avoid too many shocks and be cautious with magnitudes to prevent infeasibilities and corner solutions.
 3. **Run Dynare** — `dynare CIRCEE_PF.mod`; compute the steady state from `CIRCEE_steadystatemodel.m`; solve the transition path.
-4. **Post-processing** — rescaling (per-capita values scaled to economy-wide totals by population × labour productivity × group population share); unit conversion (energy in EJ, employment in millions); GDP in MER and PPP; CSV generation, including per-scenario level files, per-capita variables (`*_percapita`), carbon/waste/material footprints, and thematic CIRCEE-LIFE files.
+4. **Post-processing** — rescaling (per-household values scaled to economy-wide totals by population × labour productivity × group population share); unit conversion (energy in EJ, employment in millions); GDP in MER and PPP; CSV generation, including per-scenario level files, per-household variables (`*_percapita` in the code), carbon/waste/material footprints, and thematic CIRCEE-LIFE files.
 5. **Welfare and distributional analysis** — see below (post-processing on saved outputs; no Dynare re-run required).
 
 ### CIRCEE_steadystatemodel.m
@@ -166,19 +166,24 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 
 ## Welfare and distributional analysis
 
-The welfare pipeline runs as **post-processing on the saved model outputs**, reading the raw per-capita simulation stored in the welfare `.mat` files. It does **not** require re-running Dynare, so it completes in minutes.
+The welfare pipeline runs as **post-processing on the saved model outputs**, reading the raw per-household simulation stored in the welfare `.mat` files. It does **not** require re-running Dynare, so it completes in minutes.
 
-* **`CIRCEE_WelfareAnalysis.m`** — computes lifetime consumption-equivalent variation (CEV) by lifestyle group, and between-group inequality for energy-service access, consumption, and carbon/waste/material footprints. Inequality is reported as a between-group **Gini**, a **high-to-low per-capita ratio**, and a between-group **Atkinson** index (ε robustness). All inequality measures are computed on **per-household** quantities. With three lifestyle groups, decile-based measures such as the Palma are not well-defined; the high-to-low per-capita ratio is reported instead. Also note that since we do not have the whole income distribution, caution is needed when interpreting the results for Gini and Atkinson.
-* **`CIRCEE_WelfarePostProcess.m`** / **`CIRCEE_WelfarePostProcess_batch.m`** — driver scripts. The batch driver loops over lifestyle × scenario × foresight combinations, loads the saved welfare `.mat` files, and runs the analysis for each.
+* **`CIRCEE_WelfareAnalysis.m`** — computes lifetime consumption-equivalent variation (CEV) by lifestyle group, and between-group inequality for energy-service access, consumption, and carbon/waste/material footprints. Inequality is reported as a between-group **Gini**, a **high-to-low per-household ratio**, and a between-group **Atkinson** index (ε robustness). All inequality measures are computed on **per-household** quantities. With three lifestyle groups, decile-based measures such as the Palma are not well-defined; the high-to-low per-household ratio is reported instead. Also note that, since we do not observe the full income distribution, the Gini and Atkinson results should be interpreted with caution.
+* **`CIRCEE_WelfarePostProcess.m`** — the driver for a single run: loads the saved welfare `.mat` files, calls the analysis, and exports results. Point it at your own input/output folders via its arguments.
+* **`CIRCEE_WelfarePostProcess_batch.m`** — an **example** driver that loops over lifestyle × scenario × foresight combinations and calls the single-run driver for each. It is provided as a template: edit the `USER PATHS` block at the top and the lifestyle/scenario lists to match your own runs.
 * **`CIRCEE_WelfareExport.m`** — exports the welfare and distributional results to CSV.
 * **`Footprints.m`** — computes the material, waste, and carbon footprints used in the distributional analysis.
 
-**To run the full welfare recompute**:
+**To run the welfare post-processing** for a single run:
 
 ```matlab
 clear functions          % ensure edited functions are reloaded
-CIRCEE_WelfarePostProcess_batch
+CIRCEE_WelfarePostProcess('folder',   '<path-to-welfare-inputs>', ...
+                          'baseline', 'Baseline', ...
+                          'output',   '<path-to-output>')
 ```
+
+To reproduce a full set of runs, edit the `USER PATHS` block in `CIRCEE_WelfarePostProcess_batch.m` and run it; it loops over the lifestyle and scenario lists you specify.
 
 ---
 
@@ -218,7 +223,7 @@ Saved at the project root, tagged by scenario name:
 | `Sharing_baseline.csv` | CIRCEE sharing outputs (no modifiers applied) |
 | `Lowering_Expenditures_baseline.csv` | CIRCEE expenditures outputs (no modifiers applied) |
 
-Additional intermediate CIRCEE files land in `grid_point_data/` in both modes. Welfare and distributional CSVs (CEV, Gini, high-to-low per-capita ratio, Atkinson) are produced by the welfare pipeline.
+Additional intermediate CIRCEE files land in `grid_point_data/` in both modes. Welfare and distributional CSVs (CEV, Gini, high-to-low per-household ratio, Atkinson) are produced by the welfare pipeline.
 
 ---
 
