@@ -4,7 +4,7 @@
 
 CIRCEE is a dynamic general equilibrium model, augmented with material flow analysis and mass balance, with a one-way soft-link to the IAM WITCH model (Emmerling et al., 2016) for energy efficiency, energy prices, emission factors and energy investments trajectories. It analyses the circular economy by integrating material, energy, and economic flows. The model simulates interactions among producers, consumers, government, and the external sector, with a particular focus on consumer-facing circular strategies (sharing, repair, recycling, sufficiency) and climate change mitigation goals, capturing the trade-offs and synergies between different sustainability objectives.
 
-This repository also includes **CIRCEE-LIFE**, a two-way iterative coupling of CIRCEE with **LIFE**, a lifestyle-dynamics submodel (including cognitions, behaviours, and material and social context) that distinguishes three lifestyle groups from the typology of Pettifor et al. (2023). The coupling jointly calibrates two behavioural modifiers (sharing and sufficiency / lowering expenditures) at year 2020, then iterates between CIRCEE and LIFE until the lifestyle frequency trajectories stabilise out to 2060.
+This repository also includes **CIRCEE-LIFE**, a two-way iterative coupling of CIRCEE with **LIFE**, a lifestyle-dynamics submodel (including cognitions, behaviours, and material and social context) that distinguishes three lifestyle groups from the typology of Pettifor et al. (2023). The coupling jointly calibrates two behavioural modifiers (sharing and sufficiency / lowering expenditures) at year 2020, then iterates between CIRCEE and LIFE until the lifestyle frequency trajectories stabilise out to 2060. The **sufficiency** and **sharing** lifestyles are included here; **repair** is available on demand and will be released open-source by the end of the year.
 
 > ⚠️ Expect long runtimes and high memory use if you do not use an HPC.
 
@@ -34,6 +34,8 @@ Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseli
 | `coupled` | Full CIRCEE ↔ LIFE iterative coupling. Phase 1 jointly calibrates T0 modifiers in propensity space; Phase 2 iterates the LIFE dynamics until lifestyle frequencies converge. Hours-scale runtime. | The full model run. |
 | `baseline` | Single CIRCEE run with all behavioural modifiers held at zero. No Phase 1, no Phase 2, no LIFE feedback. Minutes-scale runtime. `SCENARIO_*` settings are ignored. | Sanity checks, sensitivity analysis on CIRCEE parameters, generating a reference trajectory. |
 
+To run CIRCEE **on its own, without any lifestyle scenario**, set `RUN_MODE="baseline"` (or `RUN_MODE=baseline bash run.sh`). This runs the economic model once with all behavioural modifiers at zero and no ecosystem-scenario variation, producing the reference trajectory against which the coupled runs are compared. It is the fastest way to run the model and the recommended starting point.
+
 ### Scenarios (coupled mode only)
 
 Two behavioural narratives drive sufficiency and sharing lifestyle adoption. They can be combined freely across sharing and sufficiency:
@@ -44,6 +46,20 @@ Two behavioural narratives drive sufficiency and sharing lifestyle adoption. The
 | `affordability` | Necessity-led. Adoption is driven by the need to save money and by budget constraints. |
 
 This yields four combinations, e.g. `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive`. Output files are tagged with the combined name.
+
+### Ecosystem scenarios (substitution elasticity)
+
+Independently of the behavioural narratives, the surrounding *ecosystem* is represented by the elasticity of substitution (σ) between ownership-based and PSS-based (market) energy services. A higher σ means home and market energy services are closer substitutes, i.e. a more enabling ecosystem for moving away from ownership. Ecosystem scenarios differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
+
+| Ecosystem scenario | Logic |
+| --- | --- |
+| `Baseline` | Low substitution held roughly constant — a weakly enabling ecosystem. |
+| `Progressive` | σ rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
+| `Regressive` | σ rises over time, with the largest increase for higher-income groups. |
+
+`Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the ecosystem-scenario block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
+
+> Note: the ecosystem (σ) scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published.
 
 ---
 
@@ -95,7 +111,7 @@ The two behavioural modifier triplets (sharing × {lowcarbon, cautious, constrai
 
 ### Phase 2 — Outer CIRCEE ↔ LIFE loop
 
-* **Run A** — CIRCEE with all behavioural modifiers = 0 (universal baseline; all households have homogeneous behaviours). Runs once.
+* **Run A** — CIRCEE with all behavioural modifiers = 0 (the homogeneous baseline, where all households behave identically). Runs once.
 * **Run B** — CIRCEE with the full behavioural modifier path. Runs each iteration.
 * **LIFE update** — for each year *T* on the 2025…2060 grid:
   * `out_freq_h(T) = in_freq_h(T) × ES_h(T) / ES_h(T-1)`
@@ -114,11 +130,11 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 
 **Contents**:
 
-* **Macro definitions**: region selection (JPN / EU27 / CN), model type (B2C / C2C), SSP scenario, and definitions of sectors, materials, and lifestyles.
+* **Macro definitions**: region selection (JPN / EU27 / KOR), model type (B2C / C2C), SSP scenario, and definitions of sectors, materials, and lifestyles.
   * Users can choose between the B2C and C2C sharing business models.
-  * Users can select different regions: Japan now, with the EU27 and mainland China planned for 2026.
+  * Users can select the region: Japan (JPN) is available now, with the EU27 and South Korea coming soon.
   * Users can currently select SSP2; further SSP scenarios will be added.
-  * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0; the full CIRCEE-LIFE workflow (sufficiency, repair, and sharing lifestyles) is included in this repository (see Quick start).
+  * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0. This repository currently includes the **sufficiency** and **sharing** lifestyles; the **repair** lifestyle is available on demand (darius.corbier@cmcc.it) and will be released open-source by the end of the year.
 * **Endogenous variables (300+)**: firms' decisions (output, capital, labour, energy and material inputs); household variables by lifestyle (consumption, saving/investment, energy-using and other durable goods); government (budget, taxes, subsidies); international trade; material stocks and flows; waste flows; CO₂ emissions.
 * **Predetermined variables**: capital stocks, energy-using and other durable goods stocks, material stocks.
 * **Exogenous variables**: technological efficiencies, resource prices, fiscal policies.
