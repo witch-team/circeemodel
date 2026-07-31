@@ -132,7 +132,7 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 
 * **Macro definitions**: region selection (JPN / EU27 / KOR), SSP scenario, and definitions of sectors, materials, and lifestyles.
   * Users can select the region: Japan (JPN) is available now, with the EU27 and South Korea coming soon.
-  * Users can currently select SSP2, as the LIFE model is only calibrated on SSP2. If you do not wish to run CIRCEE-LIFE, but only CIRCEE, you can run other SSPs.
+  * Users can currently select SSP2, as the LIFE model is only calibrated on SSP2. 
   * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0. This repository currently includes the **sufficiency** and **sharing** lifestyles; the **repair** lifestyle is available on demand (darius.corbier@cmcc.it) and will be released open-source by the end of the year.
 * **Endogenous variables (300+)**: firms' decisions (output, capital, labour, energy and material inputs); household variables by lifestyle (consumption, saving/investment, energy-using and other durable goods); government (budget, taxes, subsidies); international trade; material stocks and flows; waste flows; CO₂ emissions.
 * **Predetermined variables**: capital stocks, energy-using and other durable goods stocks, material stocks.
