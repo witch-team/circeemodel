@@ -2,7 +2,7 @@
 
 ## General description
 
-CIRCEE is a dynamic general equilibrium model, augmented with material flow analysis and mass balance, with a one-way soft-link to the IAM WITCH model (Emmerling et al., 2016) for energy efficiency, energy prices, emission factors and energy investments trajectories. It analyses the circular economy by integrating material, energy, and economic flows. The model simulates interactions among producers, consumers, government, and the external sector, with a particular focus on consumer-facing circular strategies (sharing, repair, recycling, sufficiency) and climate change mitigation goals, capturing the trade-offs and synergies between different sustainability objectives.
+CIRCEE is a dynamic general equilibrium model, augmented with material flow analysis and mass balance, with a one-way soft-link to the IAM WITCH model (Emmerling et al., 2016) for energy efficiency, energy prices, emission factors and energy investments trajectories. It analyses the circular economy by integrating material, energy, and economic flows. The model simulates interactions among producers, consumers, government, and the external sector, with a particular focus on consumer-focused circular strategies (sharing, repair, sufficiency), policies (e.g., EPR schemes) and climate change mitigation goals, capturing the trade-offs and synergies between different sustainability objectives.
 
 This repository also includes **CIRCEE-LIFE**, a two-way iterative coupling of CIRCEE with **LIFE**, a lifestyle-dynamics submodel (including cognitions, behaviours, and material and social context) that distinguishes three lifestyle groups from the typology of Pettifor et al. (2023). The coupling jointly calibrates two behavioural modifiers (sharing and sufficiency / lowering expenditures) at year 2020, then iterates between CIRCEE and LIFE until the lifestyle frequency trajectories stabilise out to 2060. The **sufficiency** and **sharing** lifestyles are included here; **repair** is available on demand and will be released open-source by the end of the year.
 
@@ -49,7 +49,7 @@ This yields four combinations, e.g. `ecoactive_ecoactive`, `affordability_afford
 
 ### Ecosystem scenarios (substitution elasticity)
 
-Independently of the behavioural narratives, the surrounding *ecosystem* is represented by the elasticity of substitution (σ) between ownership-based and PSS-based (market) energy services. A higher σ means home and market energy services are closer substitutes, i.e. a more enabling ecosystem for moving away from ownership. Ecosystem scenarios differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
+Independently of the behavioural narratives, the surrounding *ecosystem* is represented by the elasticity of substitution (siggma_es) between ownership-based and PSS-based (market) energy services. A higher siggma_es means home and market energy services are closer substitutes, i.e. a more enabling ecosystem for moving away from ownership. Ecosystem scenarios differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
 
 | Ecosystem scenario | Logic |
 | --- | --- |
@@ -59,7 +59,7 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 
 `Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the ecosystem-scenario block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
-> Note: the ecosystem (σ) scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published.
+> Note: the ecosystem scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published.
 
 ---
 
@@ -130,10 +130,9 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 
 **Contents**:
 
-* **Macro definitions**: region selection (JPN / EU27 / KOR), model type (B2C / C2C), SSP scenario, and definitions of sectors, materials, and lifestyles.
-  * Users can choose between the B2C and C2C sharing business models.
+* **Macro definitions**: region selection (JPN / EU27 / KOR), SSP scenario, and definitions of sectors, materials, and lifestyles.
   * Users can select the region: Japan (JPN) is available now, with the EU27 and South Korea coming soon.
-  * Users can currently select SSP2; further SSP scenarios will be added.
+  * Users can currently select SSP2, as the LIFE model is only calibrated on SSP2. If you do not wish to run CIRCEE-LIFE, but only CIRCEE, you can run other SSPs.
   * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0. This repository currently includes the **sufficiency** and **sharing** lifestyles; the **repair** lifestyle is available on demand (darius.corbier@cmcc.it) and will be released open-source by the end of the year.
 * **Endogenous variables (300+)**: firms' decisions (output, capital, labour, energy and material inputs); household variables by lifestyle (consumption, saving/investment, energy-using and other durable goods); government (budget, taxes, subsidies); international trade; material stocks and flows; waste flows; CO₂ emissions.
 * **Predetermined variables**: capital stocks, energy-using and other durable goods stocks, material stocks.
