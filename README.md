@@ -54,12 +54,12 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 | Ecosystem scenario | Logic |
 | --- | --- |
 | `Baseline` | Low substitution held roughly constant — a weakly enabling ecosystem. |
-| `Progressive` | σ rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
-| `Regressive` | σ rises over time, with the largest increase for higher-income groups. |
+| `Progressive` | siggma_es rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
+| `Regressive` | siggma_es rises over time, with the largest increase for higher-income groups. |
 
 `Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the ecosystem-scenario block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
-> Note: the ecosystem scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published.
+> Note: the ecosystem scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published. Similarly you can play with other substitution elasticities int he model's equations.
 
 ---
 
@@ -138,7 +138,7 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 * **Predetermined variables**: capital stocks, energy-using and other durable goods stocks, material stocks.
 * **Exogenous variables**: technological efficiencies, resource prices, fiscal policies.
 * **Parameters**: substitution elasticities, preference parameters, depreciation rates.
-* **Model equations**: household behaviour (by lifestyle: low-carbon, cautious, constrained); sectoral production functions (consumer and capital goods, materials, repair and sharing services); market-clearing conditions; physical constraints (material balances, emissions); trade with Armington CES.
+* **Model equations**: household behaviour (by lifestyle: low-carbon is the highest-income group, cautious is the moderate income group, constrained is the lowest-income group); sectoral production functions (consumer and capital goods, materials, repair and sharing services); market-clearing conditions; physical constraints (material balances, emissions); trade with Armington CES.
 
 **Features**:
 
@@ -244,7 +244,7 @@ The current version supports SSP2; further scenarios are planned: SSP1 (sustaina
 
 ## Technical notes
 
-* **Time horizon**: 2018–2100. An extra 20 years (82 periods total) are added to avoid end-of-horizon spikes; discard results from 2081 to 2100.
+* **Time horizon**: 2018–2100. An extra 20 years (82 periods total) are added to avoid end-of-horizon spikes; discard results from 2081 to 2100. The current CIRCEE-LIFE code gives results from 2018 to 2060. Later periods are discareded. If you wish to run CIRCEE-LIFE after 2060, data on lifestyles are available upon request.
 * **Frequency**: annual.
 * **Solution method**: perfect foresight, with or without anticipation errors (see the Dynare manual).
 * **Expectations handling**: support for expectation errors (`learnt_in`).
