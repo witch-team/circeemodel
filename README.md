@@ -45,6 +45,21 @@ Two behavioural narratives drive sufficiency and sharing lifestyle adoption. The
 | `ecoactive` | Awareness-led. Adoption is highest among households that already exhibit environmental awareness and strong low-carbon cognitions. |
 | `affordability` | Necessity-led. Adoption is driven by the need to save money and by budget constraints. |
 
+### Config settings
+
+All user-facing options are set in `config.sh`:
+
+| Variable | Options | Meaning |
+| --- | --- | --- |
+| `RUN_MODE` | `coupled` \| `baseline` | Full CIRCEE↔LIFE coupling, or a single CIRCEE run with no modifiers. |
+| `SCENARIO_SHARING` | `ecoactive` \| `affordability` | Behavioural narrative for sharing (coupled mode). |
+| `SCENARIO_SUFFICIENCY` | `ecoactive` \| `affordability` | Behavioural narrative for sufficiency (coupled mode). |
+| `SIGMA_SCENARIO` | `Baseline` \| `Progressive` \| `Regressive` | Ecosystem (σ) scenario — see below. Run `Baseline` first (welfare reference). |
+| `FORESIGHT_MODE` | `anticipation_errors` \| `perfect_foresight` | How agents anticipate the shock path. |
+| `WELFARE_MODE` | `single` \| `all` | Run welfare for the current σ scenario only, or all σ scenarios sequentially. |
+| `SSP_SCENARIO` | `SSP2` | Socioeconomic pathway (SSP2 available now). |
+| `MATLAB_BIN` | path | Path to your MATLAB binary. |
+
 This yields four combinations, e.g. `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive`. Output files are tagged with the combined name.
 
 ### Ecosystem scenarios (substitution elasticity)
@@ -79,25 +94,34 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 ├── README.md
 ├── config.sh                   ← edit this (scenarios + MATLAB path + tolerances)
 ├── run.sh                      ← run this
+├── MODEL_selection.inc         ← region selection (@#define REGION)
 ├── lib/
 │   ├── parameters.sh           ← LIFE model constants (β, α, frequency arrays, ratios)
 │   ├── common.sh               ← shared helpers (MATLAB call, shocks builder, output reader)
-│   ├── coupling.sh             ← Phase 1 (T0 calibration) and Phase 2 (outer loop)
+│   ├── Full_coupling.sh        ← Phase 1 (T0 calibration) and Phase 2 (outer loop)
 │   ├── tune_sharing.sh         ← 1D bisection tuner for sharing modifiers
 │   └── tune_expenditures.sh    ← 1D bisection tuner for sufficiency modifiers
 ├── templates/
 │   └── shocks.csv              ← shock template consumed by CIRCEE
-├── CIRCEE_PF.mod               ← Dynare model
-├── CIRCEE_RunFile.m            ← top-level MATLAB driver
-├── CIRCEE_steadystatemodel.m   ← steady-state computation
-├── CIRCEE_WelfareAnalysis.m    ← CEV + distributional indices
-├── CIRCEE_WelfarePostProcess.m         ← welfare driver (single run)
-├── CIRCEE_WelfarePostProcess_batch.m   ← example driver (loops over runs; edit USER PATHS)
-├── CIRCEE_WelfareExport.m      ← welfare/distribution CSV export
-├── Footprints.m                ← carbon/waste/material footprints
-├── calibration.csv             ← CIRCEE calibration table
-└── grid_point_data/            ← created at runtime; CIRCEE writes its outputs here
+├── src/                        ← model code (MATLAB + Dynare)
+│   ├── CIRCEE_PF.mod                       ← Dynare model
+│   ├── CIRCEE_RunFile.m                    ← top-level MATLAB driver
+│   ├── CIRCEE_steadystatemodel.m           ← steady-state computation
+│   ├── CIRCEE_calibration.m                ← calibration values (generated/provided)
+│   ├── CIRCEE_WelfareAnalysis.m            ← CEV + distributional indices
+│   ├── CIRCEE_WelfarePostProcess.m         ← welfare driver (single run)
+│   ├── CIRCEE_WelfarePostProcess_batch.m   ← example driver (loops over runs; edit USER PATHS)
+│   ├── CIRCEE_WelfareExport.m              ← welfare/distribution CSV export
+│   ├── Footprints.m                        ← carbon/waste/material footprints
+│   └── clean_up.m                          ← housekeeping helper
+├── data/
+│   └── <REGION>/               ← e.g. JPN
+│       └── calibration.csv     ← CIRCEE calibration table
+└── results/                    ← created at runtime (gitignored)
+    └── grid_point_data/        ← CIRCEE writes its outputs here
 ```
+
+The paths above follow `config.sh` (`SRC_DIR=../src`, `PATH_TEMPLATES=../data/<REGION>/templates/`, `RESULTS_DIR=../results`). Adjust `config.sh` if your layout differs.
 
 Runtime-generated files (`CIRCEE_shocks.m`, `CIRCEE_endvalues.m`, `data_shocks.csv`, runtime `shocks.csv`) and the entire results tree (`grid_point_data/`, welfare `.mat` files) are gitignored; folder structure is preserved via `.gitkeep` files.
 
@@ -131,7 +155,7 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 **Contents**:
 
 * **Macro definitions**: region selection (JPN / EU27 / KOR), SSP scenario, and definitions of sectors, materials, and lifestyles.
-  * Users can select the region: Japan (JPN) is available now, with the EU27 and South Korea coming soon.
+  * Users can select the region in `MODEL_selection.inc` (`@#define REGION`): Japan (JPN) is available now, with the EU27 and South Korea coming soon.
   * Users can currently select SSP2, as the LIFE model is only calibrated on SSP2. 
   * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0. This repository currently includes the **sufficiency** and **sharing** lifestyles; the **repair** lifestyle is available on demand (darius.corbier@cmcc.it) and will be released open-source by the end of the year.
 * **Endogenous variables (300+)**: firms' decisions (output, capital, labour, energy and material inputs); household variables by lifestyle (consumption, saving/investment, energy-using and other durable goods); government (budget, taxes, subsidies); international trade; material stocks and flows; waste flows; CO₂ emissions.
@@ -244,6 +268,18 @@ Additional intermediate CIRCEE files land in `grid_point_data/` in both modes. W
 ## SSP scenarios
 
 The current version supports SSP2; further scenarios are planned: SSP1 (sustainable development), SSP2 (middle-of-the-road, default), SSP4 (inequality), SSP5 (rapid growth), NoGrowth (demographic stationarity).
+
+---
+
+## Roadmap
+
+CIRCEE is under active development. Planned extensions include:
+
+* **Supply-side circular-economy strategies** — the current model focuses on demand-side, consumer-facing strategies (sharing, repair, sufficiency). Future versions will add supply-side strategies such as **recycling** and **green product design** (e.g. durability, reparability, and material choices at the design stage).
+* **Additional lifestyles** — the **repair** lifestyle will be released open-source (currently available on demand).
+* **More regions** — the EU27 and South Korea are planned, alongside the current Japan (JPN) calibration.
+* **More SSP scenarios** — SSP1, SSP4, SSP5, and NoGrowth, beyond the current SSP2.
+* **A Julia implementation** of the model.
 
 ---
 
