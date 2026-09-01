@@ -25,6 +25,17 @@ bash run.sh
 
 The script runs a smoke test on MATLAB, then either runs the full coupling or a single baseline CIRCEE run, depending on `RUN_MODE`.
 
+### Single run without the coupling
+
+To run CIRCEE alone with the exogenous paths in `data/<REGION>/raw/shocks.csv`, from MATLAB:
+
+```matlab
+cd src
+CIRCEE_RunFile
+```
+
+`CIRCEE_RunFile.m` writes `src/CIRCEE_shocks.m` before invoking Dynare, so calling `dynare CIRCEE_PF.mod` directly will fail on that missing include.
+
 ### Run modes
 
 Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseline bash run.sh`).
@@ -220,6 +231,10 @@ To reproduce a full set of runs, edit the `USER PATHS` block in `CIRCEE_WelfareP
 ### shocks.csv (templates/shocks.csv)
 * Columns (semicolon-delimited): `Variable`; `Region`; `Year`; `Value`.
 * Time paths (2019–2100) for: energy and material efficiencies (WITCH); share of each lifestyle in total population; resource-price evolution (WITCH); R&D, energy-efficiency, and power-generation investments (WITCH); behavioural modifiers; emission factors.
+
+Two copies exist and serve different purposes:
+* `data/<REGION>/raw/shocks.csv` — read directly by `CIRCEE_RunFile.m` in classic mode. Shipped with all behavioural modifiers set to zero, so a fresh clone reproduces the reference run.
+* `data/<REGION>/templates/shocks.csv` — the skeleton used by the coupled pipeline. `build_shocks_csv` in `scripts/lib/common.sh` appends the modifier paths for a given lifestyle configuration and writes the result to `results/grid_point_data/shocks.csv`.
 
 ---
 
