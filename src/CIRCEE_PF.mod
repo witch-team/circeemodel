@@ -57,19 +57,19 @@ var
         marginalcost_recycled       ${marginalcost_recycled}$   (long_name='Marginal cost of the recycling firm')
 
 %------------------------------------------------------------------------------------------------------------
-% Sharing firms decision variables
+% PSS sector decision variables
 %------------------------------------------------------------------------------------------------------------        
 
-        Y_sharing                   ${Y_sharing}$               (long_name='Sharing firms output')
-        L_sharing                   ${L_sharing}$               (long_name='Sharing firms labor input')
-        ES_sharing_f                ${ES_sharing_f}$            (long_name='Sharing firms energy-using durables-energy bundle ')
-        E_sharing                   ${E_sharing}$               (long_name='Sharing firms aggregate energy input')
-        El_sharing                  ${El_sharing}$              (long_name='Sharing firms electricity input')
-        Nel_sharing                 ${Nel_sharing}$             (long_name='Sharing firms fuel input')
-        p_e_sharing                 ${p_e_sharing}$             (long_name='Sharing firms aggregate/zero-profit energy price')
-        p_sharing                   ${p_sharing}$               (long_name='sharing services price')
-        ED_highuse                  ${ED_highuse}$              (long_name='energy-using durable goods input for the sharing sector')
-        u_highuse                   ${u_highuse}$               (long_name='use rate of energy-using goods that are shared through B2C')  
+        Y_sharing                   ${Y_sharing}$               (long_name='PSS firm output')
+        L_sharing                   ${L_sharing}$               (long_name='PSS firm labor input')
+        ES_sharing_f                ${ES_sharing_f}$            (long_name='PSS firm energy-using durables-energy bundle ')
+        E_sharing                   ${E_sharing}$               (long_name='PSS firm aggregate energy input')
+        El_sharing                  ${El_sharing}$              (long_name='PSS firm electricity input')
+        Nel_sharing                 ${Nel_sharing}$             (long_name='PSS firm fuel input')
+        p_e_sharing                 ${p_e_sharing}$             (long_name='PSS firm aggregate/zero-profit energy price')
+        p_sharing                   ${p_sharing}$               (long_name='PSS firm price')
+        ED_highuse                  ${ED_highuse}$              (long_name='energy-using durable goods input for the PSS firm')
+        u_highuse                   ${u_highuse}$               (long_name='use rate of energy-using goods used by the PSS sector')  
         AC_ID_new_highuse           ${AC_ID_new_highuse}$       (long_name='high-use energy-using goods investment adjustment costs')  
         deltta_energydurable_highuse ${deltta_energydurable_highuse}$  (long_name='high-use energy-using goods depreciation rate')
         r_ed                        ${r_ed}$                    (long_name='rental rate of high-use energy-using goods')
@@ -103,12 +103,12 @@ var
         g_inv_ed                    ${g_inv_ed}$                (long_name='CES aggregator of new and repaired investments for depreciated energy-using durable goods')
         p_g_inv_ed                  ${p_g_inv_ed}$              (long_name='price of the CES aggregator of new and repaired investments for depreciated energy-using durable goods') 
         alppha_ed_new               ${alppha_ed_new}$           (long_name='share of new energy-using durable good investments for depreciated energy-using durable goods')
-        alppha_ed_repair            ${alppha_ed_repair}$        (long_name='share of new energy-using durable good investments for depreciated energy-using durable goods')
+        alppha_ed_repair            ${alppha_ed_repair}$        (long_name='share of repaired energy-using durable good investments for depreciated energy-using durable goods')
         X                           ${X}$                       (long_name='non-durable goods consumption')
         E_h                         ${E_h}$                     (long_name='households aggregate energy consumption')
         ES                          ${ES}$                      (long_name='aggregate energy services')
         ES_home                     ${ES_home}$                 (long_name='home-produced energy services by households for their own use')
-        ES_sharing                  ${ES_sharing}$              (long_name='energy services bought from the sharing market')
+        ES_sharing                  ${ES_sharing}$              (long_name='energy services bought from the PSS market')
         C                           ${C}$                       (long_name='aggregate consumption')
         NES                         ${NES}$                     (long_name='non-energy services goods')
         El_h                        ${El_h}$                    (long_name='households electricity consumption')
@@ -124,7 +124,7 @@ var
         omegga_lowcarbon_saver      ${omegga_lowcarbon_saver}$  (long_name='share of lowcarbon lifestyle savers in total savers')
         q_k_lowcarbon               ${q_k_lowcarbon}$           (long_name='low-carbon lifestyle households time-varying real price of new capital goods')
         omegga_constrained          ${omegga_constrained}$      (long_name='share of low-income groups in total population')
-        Expenditures_LIFE
+        Expenditures_LIFE           ${Expenditures_LIFE}$       (long_name='aggregate expenditures in energy-using goods owned by households for home production')
 
     @#for h in LIFESTYLES  
         ED_lowuse_@{h}              ${ED_lowuse_@{h}}$          (long_name='@{h} households owned energy-using durable good stock')
@@ -145,7 +145,7 @@ var
         E_@{h}                      ${E_@{h}}$                  (long_name='@{h} households aggregate energy consumption')
         ES_@{h}                     ${ES_@{h}}$                 (long_name='@{h} households aggregate energy services')
         ES_home_@{h}                ${ES_home_@{h}}$            (long_name='@{h} households home-produced energy services by households for their own use')
-        ES_sharing_@{h}             ${ES_sharing_@{h}}$         (long_name='@{h} households energy services bought from the sharing market')
+        ES_sharing_@{h}             ${ES_sharing_@{h}}$         (long_name='@{h} households energy services bought from the PSS market')
         C_@{h}                      ${C_@{h}}$                  (long_name='@{h} households aggregate consumption')
         NES_@{h}                    ${NES_@{h}}$                (long_name='@{h} households non-energy services consumption')        
         El_@{h}                     ${El_@{h}}$                 (long_name='@{h} households electricity consumption')
@@ -157,7 +157,7 @@ var
         disc_factor_@{h}            ${disc_factor_@{h}}$        (long_name='@{h} households discount factor')
         p_e_h_@{h}                  ${p_e_h_@{h}}$              (long_name='@{h} households aggregate/zero-profit energy price')
         A_nel_@{h}                  ${A_nel_@{h}}$              (long_name='@{h} households fuel efficiency')
-        Expenditures_LIFE_@{h}      ${Expenditures_LIFE_@{h}}$  (long_name='@{h} households otherdurable and durable goods total expenditures')
+        Expenditures_LIFE_@{h}      ${Expenditures_LIFE_@{h}}$  (long_name='@{h} households energy-using goods total expenditures')
         share_nondurable_@{h}        ${share_nondurable_@{h}}$          (long_name='@{h} household nondurable share of total nondurable demand including government')
         share_otherdurable_@{h}      ${share_otherdurable_@{h}}$        (long_name='@{h} household share of otherdurables')
         share_energydurable_new_@{h} ${share_energydurable_new_@{h}}$   (long_name='@{h} household share of newly produced energy using goods expenses')
@@ -182,7 +182,7 @@ var
         WF_otherdurable_@{h}         ${WF_otherdurable_@{h}}$           (long_name='@{h} household waste embodied in their consumption of otherdurabless')
         WF_energydurable_@{h}        ${WF_energydurable_@{h}}$          (long_name='@{h} household waste embodied in their consumption of lowuse energy using goods')
         WF_repair_@{h}               ${WF_repair_@{h}}$                 (long_name='@{h} household waste embodied in their consumption of repair services')
-        WF_sharing_@{h}              ${WF_sharing_@{h}}$                (long_name='@{h} household waste embodied in their consumption of sharing services')
+        WF_sharing_@{h}              ${WF_sharing_@{h}}$                (long_name='@{h} household waste embodied in their consumption of PSS energy services')
         WF_@{h}                      ${WF_@{h}}$                        (long_name='@{h} household total waste footprint of their consumption basket')
         MF_@{h}                      ${MF_@{h}}$                        (long_name='@{h} household consumption-side material footprint (net of process losses)')
     @#endfor
@@ -198,7 +198,7 @@ var
 % Government's decision variables
 %------------------------------------------------------------------------------------------------------------ 
 
-        Carbon_budget               ${Carbon_budget}$                   (long_name='primary surplus')  
+        Carbon_budget               ${Carbon_budget}$                   (long_name='Carbon budget')  
         Revenues                    ${Revenues}$                        (long_name='fiscal revenues of the government')
         Expenses                    ${Expenses}$                        (long_name='public expenses of the government')
         X_G                         ${X_G}$                             (long_name='public non-durable goods consumption') 
@@ -276,7 +276,7 @@ var
         E_prod_energydurable_lowuse         ${E_prod_energydurable_lowuse}$      (long_name='Upstream and production phase energy of energy-using good lowuse channel') 
         E_prod_energydurable_highuse        ${E_prod_energydurable_highuse}$     (long_name='Upstream and production phase energy of energy-using good highuse B2C channel') 
         E_prod_energydurable                ${E_prod_energydurable}$             (long_name='Upstream and production phase energy of total energy-using good') 
-        E_prod_sharing                      ${E_prod_sharing}$                   (long_name='Upstream and production phase energy of B2C sharing services including highuse durable goods manufacturing') 
+        E_prod_sharing                      ${E_prod_sharing}$                   (long_name='Upstream and production phase energy of PSS energy services including highuse durable goods manufacturing') 
         E_direct_capital                    ${E_direct_capital}$                 (long_name='Direct production phase energy of capital sector') 
         E_prod_capital                      ${E_prod_capital}$                   (long_name='Total production phase energy of capital sector') 
         E_prod_total                        ${E_prod_total}$                     (long_name='Total production phase energy across all attributed channels') 
@@ -284,13 +284,13 @@ var
         CO2_prod_nondurable                 ${CO2_prod_nondurable}$              (long_name='Production phase CO2 attributed to nondurable goods sector') 
         CO2_prod_otherdurable               ${CO2_prod_otherdurable}$            (long_name='Production phase CO2 attributed to otherdurable goods sector') 
         CO2_prod_energydurable              ${CO2_prod_energydurable}$           (long_name='Production phase CO2 attributed to household owned energy-using good lowuse goods') 
-        CO2_prod_sharing                    ${CO2_prod_sharing}$                 (long_name='Production phase CO2 attributed to B2C sharing services including highuse durable goods') 
+        CO2_prod_sharing                    ${CO2_prod_sharing}$                 (long_name='Production phase CO2 attributed to PSS energy services including highuse durable goods') 
         CO2_prod_capital                    ${CO2_prod_capital}$                 (long_name='Production phase CO2 attributed to capital goods') 
         CO2_prod_capital_nondurable         ${CO2_prod_capital_nondurable}$      (long_name='Production phase CO2 from capital sector attributed to nondurable goods') 
         CO2_prod_capital_otherdurable       ${CO2_prod_capital_otherdurable}$    (long_name='Production CO2 from capital sector attributed to otherdurable goods') 
         CO2_prod_capital_energydurable      ${CO2_prod_capital_energydurable}$   (long_name='Production CO2 from capital sector attributed to household owned energy-using good lowuse goods') 
         CO2_prod_capital_repair             ${CO2_prod_capital_repair}$          (long_name='Production phase CO2 from capital sector attributed to repair services') 
-        CO2_prod_capital_sharing            ${CO2_prod_capital_sharing}$         (long_name='Production CO2 from capital sector attributed to B2C sharing services including highuse durable goods') 
+        CO2_prod_capital_sharing            ${CO2_prod_capital_sharing}$         (long_name='Production CO2 from capital sector attributed to PSS energy services including highuse durable goods') 
         CO2_eol_nondurable                  ${CO2_eol_nondurable}$               (long_name='End of life incineration CO2 from nondurable goods municipal waste') 
         CO2_eol_otherdurable                ${CO2_eol_otherdurable}$             (long_name='End of life incineration CO2 from otherdurable goods municipal waste') 
         CO2_eol_energydurable_lowuse        ${CO2_eol_energydurable_lowuse}$     (long_name='End of life incineration CO2 from owned energy-using good lowuse municipal waste') 
@@ -298,9 +298,9 @@ var
         CO2_IW_nondurable                   ${CO2_IW_nondurable}$                (long_name='Industrial waste incineration CO2 attributable to nondurable goods production') 
         CO2_IW_otherdurable                 ${CO2_IW_otherdurable}$              (long_name='Industrial waste incineration CO2 attributable to otherdurable goods production') 
         CO2_IW_capital                      ${CO2_IW_capital}$                   (long_name='Industrial waste incineration CO2 from capital sector production') 
-        CO2_IW_repair                       ${CO2_IW_repair}$                    (long_name='Industrial waste incineration CO2 attributable to lowuse energy using goods production and repaired lowuse energy using goods') 
-        CO2_IW_energydurable                ${CO2_IW_energydurable}$             (long_name='Industrial waste incineration CO2 attributable to energy-using good highuse B2C production') 
-        CO2_IW_sharing                      ${CO2_IW_sharing}$                   (long_name='Industrial waste incineration CO2 attributable to repair sector') 
+        CO2_IW_repair                       ${CO2_IW_repair}$                    (long_name='Industrial waste incineration CO2 attributable to repair sector') 
+        CO2_IW_energydurable                ${CO2_IW_energydurable}$             (long_name='Industrial waste incineration CO2 attributable to energy-using goods owned by households for home production') 
+        CO2_IW_sharing                      ${CO2_IW_sharing}$                   (long_name='Industrial waste incineration CO2 attributable to energy-using good used by the PSS sector') 
 
 %------------------------------------------------------------------------------------------------------------
 % Energy prices
@@ -324,7 +324,7 @@ var
         DIV_energydurable           ${DIV_energydurable}$               (long_name='Energy durable firm dividends')
         DIV_virgin                  ${DIV_virgin}$                      (long_name='Virgin material firm dividends')
         DIV_recycled                ${DIV_recycled}$                    (long_name='Secondary material firm dividends')
-        DIV_sharing                 ${DIV_sharing}$                     (long_name='Sharing services firm dividends')
+        DIV_sharing                 ${DIV_sharing}$                     (long_name='PSS firm dividends')
         DIV_repair                  ${DIV_repair}$                      (long_name='Repair services firm dividends')
         DIV_imports                 ${DIV_imports}$                     (long_name='Dividends of the import sector')    
         IMP_goods_mateq             ${IMP_goods_mateq}$                 (long_name='Import of goods in material equivalent')    
@@ -356,8 +356,8 @@ varexo
 % Resources Efficiency exogeneous
 %------------------------------------------------------------------------------------------------------------ 
 
-    A_nel_WITCH                 ${A_el_WITCH }$                    (long_name='aggregate electricity efficiency') 
-    A_el_WITCH                  ${A_el_WITCH}$                     (long_name='aggregate fuel efficiency') 
+    A_nel_WITCH                 ${A_nel_WITCH }$                   (long_name='aggregate fuel efficiency') 
+    A_el_WITCH                  ${A_el_WITCH}$                     (long_name='aggregate electricity efficiency') 
 
     @#for s in SECTORS    
         A_m_@{s}                    ${A_m_@{s}}$                   (long_name='@{s} good firm material efficiency')
@@ -413,10 +413,10 @@ varexo
     @#for h in LIFESTYLES   
         modifier_sharing_@{h}      ${modifier_sharing_@{h}}$            (long_name='@{h} sharing lifestyle modifier')
         modifier_repair_@{h}       ${modifier_repair_@{h}}$             (long_name='@{h} repair lifestyle modifier')
-        modifier_expenditures_@{h} ${modifier_expenditures_@{h}}$       (long_name='@{h} repair lifestyle modifier')
-        siggma_es_@{h}             ${siggma_es_@{h}}$                   (long_name='_@{h} households homeproduced-sharing energy services substitution parameter')
-        alppha_sharing_@{h}        ${alppha_sharing_@{h}}$              (long_name='@{h} lifestyle households market-produced sharing services distribution parameter')
-        alppha_home_@{h}           ${alppha_home_@{h}}$                 (long_name='@{h} lifestyle households market-produced sharing services distribution parameter')
+        modifier_expenditures_@{h} ${modifier_expenditures_@{h}}$       (long_name='@{h} sufficiency lifestyle modifier')
+        siggma_es_@{h}             ${siggma_es_@{h}}$                   (long_name='@{h} households home to market energy services substitution parameter')
+        alppha_sharing_@{h}        ${alppha_sharing_@{h}}$              (long_name='@{h} lifestyle households market-produced energy services distribution parameter')
+        alppha_home_@{h}           ${alppha_home_@{h}}$                 (long_name='@{h} lifestyle households home-produced energy services distribution parameter')
     @#endfor
 
     @#for h in ["lowcarbon","cautious"]
@@ -457,7 +457,7 @@ parameters
 %------------------------------------------------------------------------------------------------------------
 
     betta                      ${betta}$                            (long_name='nominal discount rate')
-    siggma_ies                 ${siggma_ies}$                       (long_name='intertemporel elasticity of substitution')
+    siggma_ies                 ${siggma_ies}$                       (long_name='coefficient of relative risk aversion')
     siggma_e_h                 ${siggma_e_h}$                       (long_name='households interfuel substitution parameter')
     siggma_home                ${siggma_home}$                      (long_name='energy-using durable goods-energy substitution parameter')
     siggma_c                   ${siggma_c}$                         (long_name='consumption elasticity of substitution')
@@ -472,7 +472,7 @@ parameters
     alppha_e                   ${alppha_e}$                         (long_name='energy distribution parameter') 
     share_savings_cautious     ${share_savings_cautious}$           (long_name='cautious lifestyle sharings as a share of lowcarbon lifestyle sharing')  
     siggma_dep                 ${siggma_dep}$                       (long_name='sensitivity of the depreciation rate to the use rate of energy-using durable goods')  
-    siggma_dep_lowuse
+    siggma_dep_lowuse          ${siggma_dep_lowuse}$                (long_name='sensitivity of the depreciation rate to the use rate of energy-using durable goods owned by households')  
     ac_ik                      ${ac_ik}$                            (long_name='capital investments adjustment cost parameter')
     ac_id                      ${ac_id}$                            (long_name='durable goods investments adjustment cost parameter')
 
@@ -481,7 +481,7 @@ parameters
         alppha_el_@{h}             ${alppha_el_@{h}}$                   (long_name='@{h} lifestyle households electricity distribution parameter')
         alppha_nel_@{h}            ${alppha_nel_@{h}}$                  (long_name='@{h} lifestyle households fuel distribution parameter')
         alppha_ed_new_@{h}         ${alppha_ed_new_@{h}}$               (long_name='@{h} lifestyle households share of new energy-using durable goods investments for depreciated energy-using durable goods')
-        alppha_ed_repair_@{h}      ${alppha_ed_repair_@{h}}$            (long_name='@{h} lifestyle households share of new energy-using durable goods investments for depreciated energy-using durable goods')
+        alppha_ed_repair_@{h}      ${alppha_ed_repair_@{h}}$            (long_name='@{h} lifestyle households share of repaired energy-using durable goods investments for depreciated energy-using durable goods')
     @#endfor
     
 %------------------------------------------------------------------------------------------------------------
@@ -501,7 +501,7 @@ parameters
         alppha_z_@{s}              ${alppha_z_@{s}}$                    (long_name='@{s} good firms capital-labor-energy distribution parameter')
         alppha_e_@{s}              ${alppha_e_@{s}}$                    (long_name='@{s} good firms energy distribution parameter')
         alppha_v_@{s}              ${alppha_v_@{s}}$                    (long_name='@{s} good firms virgin materials distribution parameter')
-        alppha_r_@{s}              ${alppha_r_@{s}}$                    (long_name='@{s} good firms virgin materials distribution parameter') 
+        alppha_r_@{s}              ${alppha_r_@{s}}$                    (long_name='@{s} good firms recycled materials distribution parameter') 
     @#endfor
 
     @#for m in MATERIALS
@@ -521,11 +521,11 @@ parameters
     siggma_y                    ${siggma_y}$                        (long_name='aggregate output substitution parameter')
     siggma_kl                   ${siggma_kl}$                       (long_name='aggregate capital-labor substitution parameter')
     siggma_m                    ${siggma_m}$                        (long_name='intermaterial substitution parameter')
-    alppha_es_sharing           ${alppha_es_sharing}$               (long_name='sharing firms energy services distribution parameter')
-    alppha_n_sharing            ${alppha_n_sharing}$                (long_name='sharing firms labor distribution share')
-    siggma_sharing              ${siggma_sharing}$                  (long_name='sharing firms labor-energyservices substitution parameter')
-    alppha_ed_sharing           ${alppha_ed_sharing}$               (long_name='sharing firms energy-using durable goods distribution parameter')
-    alppha_e_sharing            ${alppha_e_sharing}$                (long_name='sharing firms energy distribution parameter')
+    alppha_es_sharing           ${alppha_es_sharing}$               (long_name='PSS firm energy services distribution parameter')
+    alppha_n_sharing            ${alppha_n_sharing}$                (long_name='PSS firm labor distribution share')
+    siggma_sharing              ${siggma_sharing}$                  (long_name='PSS firm labor-energyservices substitution parameter')
+    alppha_ed_sharing           ${alppha_ed_sharing}$               (long_name='PSS firm energy-using durable goods distribution parameter')
+    alppha_e_sharing            ${alppha_e_sharing}$                (long_name='PSS firm energy distribution parameter')
     alppha_n_repair             ${alppha_n_repair}$                 (long_name='repair firms labor distribution parameter')
     alppha_k_repair             ${alppha_k_repair}$                 (long_name='repair firms capital distribution parameter')
     p_capital_norm              ${p_capital_norm}$                  (long_name='normalized capital good price')
@@ -536,7 +536,7 @@ parameters
         alppha_nel_@{s}            ${alppha_nel_@{s}}$                  (long_name='@{s} good firms fuel distribution parameter')
     @#endfor
 
-    cost_maintenance            ${cost_maintenance}$                (long_name='maintenance costs for energy-using consumer goods of the sharing economy') 
+    cost_maintenance            ${cost_maintenance}$                (long_name='maintenance costs for energy-using goods of the PSS firm') 
 
 %------------------------------------------------------------------------------------------------------------
 % Government parameters
@@ -561,20 +561,20 @@ parameters
     siggma_exports              ${siggma_exports}$                  (long_name='substitution elasticity between bundles of domestic and foreign goods for the RoW')  
 
     @#for s in SECTORS
-        share_domestic_@{s}         ${share_domestic_@{s}}$             (long_name='domestically-produced @{s} good demand distribution parameter for the domestic economy')
-        share_imp_@{s}              ${share_imp_@{s}}$                  (long_name='domestically-produced @{s} good demand distribution parameter for the domestic economy')
-        share_row_@{s}              ${share_row_@{s}}$                  (long_name='domestically-produced @{s} good demand distribution parameter for the RoW')
-        share_row_dom_@{s}          ${share_row_@{s}}$                  (long_name='domestically-produced @{s} good demand distribution parameter for the RoW')
-        Foreign_@{s} 
+        share_domestic_@{s}         ${share_domestic_@{s}}$             (long_name='weight on domestically-produced @{s} good in the domestic Armington bundle')
+        share_imp_@{s}              ${share_imp_@{s}}$                  (long_name='weight on imported @{s} good in the domestic Armington bundle')
+        share_row_@{s}              ${share_row_@{s}}$                  (long_name='weight on @{s} good imported from the domestic economy in the RoW Armington bundle')
+        share_row_dom_@{s}          ${share_row_dom_@{s}}$              (long_name='weight on RoW-produced @{s} good in the RoW Armington bundle')
+        Foreign_@{s}                ${Foreign_@{s}}$                    (long_name='Foreign demand of domestically-produced @{s} good')
         t_imports_@{s}              ${t_imports_@{s}}$                  (long_name='import duties')
         margin_@{s}                 ${margin_@{s}}$                     (long_name='margins for reexports')
         gamma_reexport_@{s}         ${gamma_reexport_@{s}}$             (long_name='Reexports as a share of exports')
     @#endfor
 
     @#for m in MATERIALS
-        share_domestic_@{m}         ${share_domestic_@{m}}$             (long_name='domestically-produced @{m} materials demand distribution parameter for the domestic economy')
-        share_imp_@{m}              ${share_imp_@{m}}$                  (long_name='domestically-produced @{m} materials demand distribution parameter for the domestic economy')
-        share_row_@{m}              ${share_row_@{m}}$                  (long_name='domestically-produced @{m} materials demand distribution parameter for the RoW')
+        share_domestic_@{m}         ${share_domestic_@{m}}$             (long_name='weight on domestically-produced @{m} material in the domestic Armington bundle')
+        share_imp_@{m}              ${share_imp_@{m}}$                  (long_name='weight on imported @{m} material in the domestic Armington bundle')
+        share_row_@{m}              ${share_row_@{m}}$                  (long_name='weight on @{m} material imported from the domestic economy in the RoW Armington bundle')
         Demand_foreign_@{m}         ${Demand_foreign_@{m}}$             (long_name='RoW demand share of domestically-produced @{m} material') 
     @#endfor
 
@@ -602,7 +602,7 @@ parameters
         deltta_@{s}_fix             ${deltta_@{s}_fix}$                 (long_name='@{s} good economic depreciation rate')  
         deltta_@{s}_physical        ${deltta_@{s}_physical}$            (long_name='@{s} good physical depreciation rate')   
     @#endfor
-    deltta_energydurable_gov
+    deltta_energydurable_gov        ${deltta_energydurable_gov}$        (long_name='depreciation rate of energy-using goods owned by the government')  
 
 %------------------------------------------------------------------------------------------------------------
 % Other
@@ -640,7 +640,7 @@ model;
 
     p_home_@{h}	=   (((alppha_ed^(siggma_home))*(uc_@{h}(-1)/(u_lowuse_@{h}))^(1-siggma_home))+((alppha_e^(siggma_home))*(p_e_h_@{h})^(1-siggma_home)))^(1/(1-siggma_home));
 
-    [name='@{h} lifestyle household sharing services relative demand compared to home-produced energy services demand']
+    [name='@{h} lifestyle household market energy services relative demand compared to home-produced energy services demand']
 
     p_sharing*(1+t_c)/p_home_@{h}	=   ((alppha_sharing_@{h}*(1-modifier_sharing_@{h}))/((alppha_home_@{h})))*(ES_home_@{h}/(ES_sharing_@{h}))^(1/siggma_es_@{h});
 
@@ -782,30 +782,30 @@ model;
     q_k_lowcarbon	=   betta*(p_nd_ati/p_nd_ati(+1))*(1/disc_factor_lowcarbon)*((r_k(+1)/(1+g+n+g*n))*(1-t_k*(1-deltta_capital_fix))+q_k_lowcarbon(+1)
                         *(1-deltta_capital_fix));                        
     
-    [name='Sharing firms high-use energy-using goods depreciation rate']
+    [name='PSS firm high-use energy-using goods depreciation rate']
 
      deltta_energydurable_highuse   =   deltta_energydurable_fix*(u_highuse^(siggma_dep));
 
-     [name='Sharing firms high-use energy-using goods use rate']
+     [name='PSS firm high-use energy-using goods use rate']
 
      r_ed*(1-t_k)   =   q_ed_newtild_highuse*deltta_energydurable_fix*siggma_dep*(u_highuse^(siggma_dep-1))+cost_maintenance;
 
-     [name='Sharing firms Euler equation for high-use energy-using goods']
+     [name='PSS firm Euler equation for high-use energy-using goods']
 
      q_ed_newtild_highuse = betta*(p_nd_ati/p_nd_ati(+1))*(1/disc_factor_lowcarbon)*(r_ed(+1)*u_highuse(+1)*(1-t_k)
                             +q_ed_newtild_highuse(+1)*(1-deltta_energydurable_fix*(u_highuse(+1)^siggma_dep))-cost_maintenance*u_highuse(+1));
 
-    [name='Sharing firms high-use energy-using goods law of motion']
+    [name='PSS firm high-use energy-using goods law of motion']
 
      (1-AC_ID_new_highuse)*Inv_ed_new_highuse = (1+g+n+g*n)*ED_highuse(+1)-ED_highuse+deltta_energydurable_fix*((u_highuse^siggma_dep))*ED_highuse;
     
-    [name='Sharing firms investment decision in high-use energy-using goods']
+    [name='PSS firm investment decision in high-use energy-using goods']
 
      p_def_energydurable*(1+t_c+epr_fee_energydurable) = q_ed_newtild_highuse*(1-AC_ID_new_highuse-ac_id*((Inv_ed_new_highuse/(Inv_ed_new_highuse(-1)))-1)*(Inv_ed_new_highuse/(Inv_ed_new_highuse(-1))))
                                                         +betta*(p_nd_ati/p_nd_ati(+1))*(1/disc_factor_lowcarbon)*q_ed_newtild_highuse(+1)
                                                         *ac_id*((Inv_ed_new_highuse(+1)/(Inv_ed_new_highuse))-1)*(((Inv_ed_new_highuse(+1))/(Inv_ed_new_highuse))^2);
 
-    [name='Sharing firms high-use energy-using good investments adjustment cost function'] 
+    [name='PSS firm high-use energy-using good investments adjustment cost function'] 
 
      AC_ID_new_highuse	=   (ac_id/2)*(((Inv_ed_new_highuse)/(Inv_ed_new_highuse(-1)))-1)^2;     
 
@@ -933,11 +933,11 @@ model;
 
    [name='@{m} firms electricity demand']
 
-   (p_el_f+t_el_f)/p_e_@{m}=alppha_el_@{m}*A_el_WITCH*(E_@{m}/(A_el_WITCH*El_@{m}))^(1/siggma_e_f);
+   (p_el_f+t_el_f)/p_e_@{m}=alppha_el_@{m}*A_el_WITCH*(E_@{m}/(A_el_WITCH*El_@{m}))^(1/siggma_e_@{m});
 
    [name='@{m} good firms fuel demand']
 
-   (p_nel_f+t_nel_f)/p_e_@{m}=alppha_nel_@{m}*A_nel_WITCH*(E_@{m}/(A_nel_WITCH*Nel_@{m}))^(1/siggma_e_f); 
+   (p_nel_f+t_nel_f)/p_e_@{m}=alppha_nel_@{m}*A_nel_WITCH*(E_@{m}/(A_nel_WITCH*Nel_@{m}))^(1/siggma_e_@{m}); 
 
 @#endfor
 
@@ -1016,39 +1016,39 @@ model;
 
     Y_capital	=   (alppha_z_capital*(Z_capital^((siggma_y-1)/siggma_y))+alppha_m_capital*((M_capital)^((siggma_y-1)/siggma_y)))^(siggma_y/(siggma_y-1));
 
-     /* Sharing sector */
+     /* PSS sector */
      %%%%%%%%%%%%%%%%%%%
 
-     [name='Sharing firm production technology']
+     [name='PSS firm production technology']
 
      Y_sharing	=   (alppha_n_sharing*((h_sharing*L_sharing)^((siggma_sharing-1)/siggma_sharing))+alppha_es_sharing*(ES_sharing_f^((siggma_sharing-1)/siggma_sharing)))^(siggma_sharing/(siggma_sharing-1));
 
 
-     [name='Sharing firms price']
+     [name='PSS firm price']
 
      p_sharing = ((Y_sharing_ss/Y_sharing(-1)))^(etta)*((alppha_n_sharing^siggma_sharing)*((w)^(1-siggma_sharing))+(alppha_es_sharing^siggma_sharing)*(((alppha_e_sharing^siggma_home)*((p_e_sharing))^(1-siggma_home)+(alppha_ed_sharing^siggma_home)*(((r_ed)))^(1-siggma_home))^(1/(1-siggma_home)))^(1-siggma_sharing))^(1/((1-siggma_sharing)));
     
-    [name='Sharing firms uED demand']
+     [name='PSS firm demand of effective energy-using goods services u_highuse*ED_highuse']
 
      r_ed      = p_sharing*alppha_es_sharing*((Y_sharing/ES_sharing_f)^(1/siggma_sharing))*alppha_ed_sharing*((ES_sharing_f/(u_highuse*ED_highuse))^(1/siggma_home));
 
-     [name='Sharing firms labor demand']
+     [name='PSS firm labor demand']
 
      w/(p_sharing) =   alppha_n_sharing*((Y_sharing/(h_sharing*L_sharing))^(1/siggma_sharing));
 
-     [name='Sharing firms energy demand']
+     [name='PSS firm energy demand']
 
      p_e_sharing/(p_sharing)	=   alppha_es_sharing*((Y_sharing/ES_sharing_f)^(1/siggma_sharing))*alppha_e_sharing*((ES_sharing_f/(E_sharing))^(1/siggma_home));
 
-     [name='Sharing firms aggregate/zero-profit energy price']
+     [name='PSS firm aggregate/zero-profit energy price']
 
      p_e_sharing	=   (((alppha_el_sharing^(siggma_e_h))*((p_el_f+t_el_f)/A_el_WITCH)^(1-siggma_e_h))+((alppha_nel_sharing)^(siggma_e_h))*(((p_nel_f+t_nel_f)/A_nel)^(1-siggma_e_h)))^(1/(1-siggma_e_h));
 
-     [name='Sharing firms electricity demand']
+     [name='PSS firm electricity demand']
 
      (p_el_f+t_el_f)/p_e_sharing=alppha_el_sharing*A_el_WITCH*(E_sharing/(A_el_WITCH*El_sharing))^(1/siggma_e_h);
 
-     [name='Sharing firms fuel demand']
+     [name='PSS firm fuel demand']
 
      (p_nel_f+t_nel_f)/p_e_sharing=alppha_nel_sharing*A_nel*(E_sharing/(A_nel*Nel_sharing))^(1/siggma_e_h); 
 
@@ -1253,7 +1253,7 @@ model;
 
      Y_repair	=   (omegga_lowcarbon*Inv_ed_repair_lowcarbon+omegga_cautious*Inv_ed_repair_cautious+(1-omegga_lowcarbon-omegga_cautious)*Inv_ed_repair_constrained);
 
-     [name='Sharing market clearing']
+     [name='PSS market clearing']
 
      Y_sharing	=   ES_sharing;
 
