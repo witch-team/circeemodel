@@ -136,9 +136,9 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
             └── shocks.csv                  ← skeleton for the coupled pipeline
 ```
 
-The paths above follow `config.sh` (`SRC_DIR=../src`, `PATH_TEMPLATES=../data/<REGION>/templates/`, `RESULTS_DIR=../results`). Adjust `config.sh` if your layout differs.
+The paths above follow scripts/config.sh (SRC_DIR=../src, PATH_TEMPLATES=../data/<REGION>/templates/, RESULTS_DIR=../results), so the scripts are run from within scripts/. Adjust config.sh if your layout differs.
 
-Runtime-generated files (`CIRCEE_shocks.m`, `CIRCEE_endvalues.m`, `data_shocks.csv`, runtime `shocks.csv`) and the entire results tree (`grid_point_data/`, welfare `.mat` files) are gitignored; folder structure is preserved via `.gitkeep` files.
+results/ is created at runtime and is not tracked. Runtime-generated files — src/CIRCEE_shocks.m, src/CIRCEE_endvalues.m, src/CIRCEE_baseyear_values.m, src/data_shocks.csv, Dynare's src/+CIRCEE_PF/, and the entire results tree including welfare .mat files — are gitignored.
 
 ---
 
