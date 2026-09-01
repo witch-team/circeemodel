@@ -178,7 +178,6 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 **Features**:
 
 * Uses the Dynare preprocessor with `@#for` loops to auto-generate equations.
-* Supports two variants: B2C (business-to-consumer sharing) and C2C (consumer-to-consumer sharing).
 * Perfect-foresight solution, with or without anticipation errors, over 82 periods (2018–2100).
 
 ### CIRCEE_RunFile.m
