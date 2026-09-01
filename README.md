@@ -85,7 +85,7 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 
 `Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the ecosystem-scenario block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
-> Note: the ecosystem scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published. Similarly you can play with other substitution elasticities int he model's equations.
+> Note: the ecosystem scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published. Similarly you can play with other substitution elasticities in the model's equations.
 
 ---
 
@@ -103,18 +103,20 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 ```
 .
 ├── README.md
-├── config.sh                   ← edit this (scenarios + MATLAB path + tolerances)
-├── run.sh                      ← run this
-├── MODEL_selection.inc         ← region selection (@#define REGION)
-├── lib/
-│   ├── parameters.sh           ← LIFE model constants (β, α, frequency arrays, ratios)
-│   ├── common.sh               ← shared helpers (MATLAB call, shocks builder, output reader)
-│   ├── Full_coupling.sh        ← Phase 1 (T0 calibration) and Phase 2 (outer loop)
-│   ├── tune_sharing.sh         ← 1D bisection tuner for sharing modifiers
-│   └── tune_expenditures.sh    ← 1D bisection tuner for sufficiency modifiers
-├── templates/
-│   └── shocks.csv              ← shock template consumed by CIRCEE
-├── src/                        ← model code (MATLAB + Dynare)
+├── LICENSE
+├── CITATION.cff
+├── .gitignore
+├── scripts/
+│   ├── config.sh                           ← edit this (scenarios + MATLAB path + tolerances)
+│   ├── run.sh                              ← run this
+│   └── lib/
+│       ├── parameters.sh                   ← LIFE model constants (β, α, frequency arrays, ratios)
+│       ├── common.sh                       ← shared helpers (MATLAB call, shocks builder, output reader)
+│       ├── Full_coupling.sh                ← Phase 1 (T0 calibration) and Phase 2 (outer loop)
+│       ├── tune_sharing.sh                 ← 1D bisection tuner for sharing modifiers
+│       └── tune_expenditures.sh            ← 1D bisection tuner for sufficiency modifiers
+├── src/                                    ← model code (MATLAB + Dynare)
+│   ├── MODEL_selection.inc                 ← region selection (@#define REGION)
 │   ├── CIRCEE_PF.mod                       ← Dynare model
 │   ├── CIRCEE_RunFile.m                    ← top-level MATLAB driver
 │   ├── CIRCEE_steadystatemodel.m           ← steady-state computation
@@ -125,11 +127,13 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 │   ├── CIRCEE_WelfareExport.m              ← welfare/distribution CSV export
 │   ├── Footprints.m                        ← carbon/waste/material footprints
 │   └── clean_up.m                          ← housekeeping helper
-├── data/
-│   └── <REGION>/               ← e.g. JPN
-│       └── calibration.csv     ← CIRCEE calibration table
-└── results/                    ← created at runtime (gitignored)
-    └── grid_point_data/        ← CIRCEE writes its outputs here
+└── data/
+    └── <REGION>/                           ← e.g. JPN
+        ├── raw/
+        │   ├── calibration.csv             ← CIRCEE calibration table
+        │   └── shocks.csv                  ← exogenous paths; zero modifiers (classic mode)
+        └── templates/
+            └── shocks.csv                  ← skeleton for the coupled pipeline
 ```
 
 The paths above follow `config.sh` (`SRC_DIR=../src`, `PATH_TEMPLATES=../data/<REGION>/templates/`, `RESULTS_DIR=../results`). Adjust `config.sh` if your layout differs.
@@ -299,7 +303,7 @@ CIRCEE is under active development. Planned extensions include:
 
 ## Technical notes
 
-* **Time horizon**: 2018–2100. An extra 20 years (82 periods total) are added to avoid end-of-horizon spikes; discard results from 2081 to 2100. The current CIRCEE-LIFE code gives results from 2018 to 2060. Later periods are discareded. If you wish to run CIRCEE-LIFE after 2060, data on lifestyles are available upon request.
+* **Time horizon**: 2018–2100. An extra 20 years (82 periods total) are added to avoid end-of-horizon spikes; discard results from 2081 to 2100. The current CIRCEE-LIFE code gives results from 2018 to 2060. Later periods are discarded. If you wish to run CIRCEE-LIFE after 2060, data on lifestyles are available upon request.
 * **Frequency**: annual.
 * **Solution method**: perfect foresight, with or without anticipation errors (see the Dynare manual).
 * **Expectations handling**: support for expectation errors (`learnt_in`).
