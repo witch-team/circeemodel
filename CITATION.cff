@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use CIRCEE, please cite the following works."
+title: "CIRCEE: The CIRCular Energy Economy model"
+type: software
+authors:
+  - family-names: Corbier
+    given-names: Darius
+    affiliation: "CMCC Foundation"
+    email: darius.corbier@cmcc.it
+repository-code: "https://github.com/witch-team/circeemodel"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Corbier
+      given-names: Darius
+    - family-names: Pettifor
+      given-names: Heather
+    - family-names: Agnew
+      given-names: Michael
+    - family-names: Schlegel
+      given-names: Nicolas
+  title: "Economic incentives and lifestyle drivers: how they shape consumers' engagement in repairing energy-using consumer goods and their environmental impacts in Japan"
+  journal: "Resources, Conservation and Recycling"
+  volume: 96
+  year: 2026
+  doi: "https://doi.org/10.1016/j.gloenvcha.2025.103102"
+references:
+  - type: article
+    authors:
+      - family-names: Corbier
+        given-names: Darius
+      - family-names: Pettifor
+        given-names: Heather
+      - family-names: Agnew
+        given-names: Michael
+      - family-names: Drouet
+        given-names: Laurent
+    title: "CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts"
+    journal: "Journal of Industrial Ecology"
+    volume: 28
+    issue: 6
+    start: 1996
+    end: 2011
+    year: 2024
+    doi: "10.1111/jiec.13540"
