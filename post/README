@@ -1,0 +1,107 @@
+# Post-processing scripts
+
+R scripts producing the figures in Corbier et al., *Beyond Ownership: Lifestyle,
+infrastructures, and inequality challenges for Product-Service Systems*.
+
+These read **model output**, not the model itself. Run CIRCEE first (see the main
+README), then point these scripts at the resulting files.
+
+---
+
+## Inputs
+
+| Input | Produced by |
+| --- | --- |
+| `<lifestyle>_AE_<scenario>.csv` — one per run, wide format (`Row`, `Y2018`, `Y2019`, …) | `src/CIRCEE_RunFile.m` |
+| `NoModifiers_AE.csv` — the reference run | `src/CIRCEE_RunFile.m`, all modifiers at zero |
+| `welfare_CEV_lifetime.csv` and the other welfare CSVs | `src/CIRCEE_WelfarePostProcess.m` |
+| `shocks_final_<scenario>.csv` — long format (`Variable`; `Region`; `Year`; `Value`) | the coupled pipeline, `scripts/run.sh` |
+
+Twelve scenario runs are expected: four lifestyle configurations
+(`ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`,
+`affordability_ecoactive`) × three infrastructure configurations (`Baseline`,
+`Strong.Regressive`, `Strong.Progressive`), plus the reference run.
+
+`Baseline` is the file and data token throughout; `BAU` is the display label
+used in the figures.
+
+Set the input and output directories at the top of each script:
+
+```r
+levels_dir <- "path/to/CIRCEE_output_levels"
+out_dir    <- "path/to/figures"
+```
+
+---
+
+## Main figures
+
+| Script | Produces |
+| --- | --- |
+| `Figure_2.R` | Behavioural engagement: 2050 heatmap, Refuse and Rethink trajectories |
+| `Figure_3.R` | Environmental footprints, and footprint change by consumption good |
+| `Figure_4.R` | Material flows, waste flows, cumulative CO2 |
+| `Figure_5.R` | Energy-service access ratios, lifetime CEV by group, trilemma panel |
+
+## Supplementary figures
+
+| Script | Produces | Needs first |
+| --- | --- | --- |
+| `SI/Carbon_and_waste_footprint_SI.R` | Footprint change by good, all four lifestyle configurations | `Figure_3.R` |
+| `SI/TrilemmaWaste_SI.R` | Trilemma panel with the waste footprint on the vertical axis | `Figure_5.R` |
+| `SI/Prices_SI.R` | Factor-price divergence between home production and market services | — |
+| `SI/Userates_SI.R` | Utilisation rates of owned and shared energy-using goods | — |
+| `SI/Energy_SI.R` | Exogenous WITCH/SSP2 inputs: efficiencies, emission factors, price growth | `scen_meta`, from any main script |
+| `SI/Sensitivitybounds_SI.R` | Sensitivity of the behavioural response to the substitution elasticity | — |
+
+`Sensitivitybounds_SI.R` carries its derivative values inline rather than
+reading a file, so it runs standalone.
+
+---
+
+## Order of execution
+
+Three SI scripts reuse objects built by other scripts. Source those first, **in
+a clean session**:
+
+```r
+rm(list = ls())
+source("Figure_3.R")
+source("SI/Carbon_and_waste_footprint_SI.R")
+
+rm(list = ls())
+source("Figure_5.R")
+source("SI/TrilemmaWaste_SI.R")
+```
+
+Clearing the workspace matters. These scripts share object names
+(`group_levels`, `lifestyle_labels`, `shapes_sc`, `scen_meta` and others), so a
+stale copy left from a previous run can silently mismatch a factor level.
+`ggplot` then drops the affected rows with a "Removed *n* rows containing
+missing values" warning rather than an error, and the figure renders with points
+missing.
+
+---
+
+## Requirements
+
+R >= 4.0 with:
+
+```r
+install.packages(c("tidyverse", "patchwork", "ggh4x", "ggrepel", "ggnewscale",
+                   "cowplot", "gridExtra", "gtable", "readxl", "scales"))
+```
+
+`grid` ships with R. `dplyr`, `tidyr`, `purrr`, `stringr`, `ggplot2` and `readr`
+come with `tidyverse`.
+
+---
+
+## Conventions
+
+* Footprint changes are expressed as a percentage of the reference-run
+  footprint, except where a panel's axis label states otherwise.
+* Colours follow the Okabe-Ito colourblind-safe palette.
+* Inequality measures are computed on per-household quantities; with three
+  lifestyle groups, decile-based measures are not well defined (see the main
+  README's welfare section).
