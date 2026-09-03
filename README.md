@@ -7,6 +7,8 @@ CIRCEE is a dynamic general equilibrium model, augmented with material flow anal
 This repository also includes **CIRCEE-LIFE**, a two-way iterative coupling of CIRCEE with **LIFE**, a lifestyle-dynamics submodel (including cognitions, behaviours, and material and social context) that distinguishes three lifestyle groups from the typology of Pettifor et al. (2023). The coupling jointly calibrates two behavioural modifiers (sharing and sufficiency / lowering expenditures) at year 2020, then iterates between CIRCEE and LIFE until the lifestyle frequency trajectories stabilise out to 2060. The **sufficiency** and **sharing** lifestyles are included here; **repair** is available on demand and will be released open-source by the end of the year.
 
 > ⚠️ Expect long runtimes and high memory use if you do not use an HPC.
+>
+> Version note. This repository holds the current version of CIRCEE. The 2025 Resources, Conservation and Recycling and 2026 Global Environmental Change papers were run on earlier versions: the CIRCEE calibration has since been refined as newer material- and waste-flow data became available, and the LIFE calibration was updated. Those papers cannot be reproduced exactly from this code — the qualitative dynamics are unchanged, but levels can differ slightly. Earlier versions for the reproduction of the two papers will be made available soon.
 
 ---
 
