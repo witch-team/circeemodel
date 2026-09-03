@@ -8,7 +8,7 @@ This repository also includes **CIRCEE-LIFE**, a two-way iterative coupling of C
 
 > ⚠️ Expect long runtimes and high memory use if you do not use an HPC.
 >
-> Version note. This repository holds the current version of CIRCEE. The 2025 Resources, Conservation and Recycling and 2026 Global Environmental Change papers were run on earlier versions: the CIRCEE calibration has since been refined as newer material- and waste-flow data became available, and the LIFE calibration was updated. Those papers cannot be reproduced exactly from this code — the qualitative dynamics are unchanged, but levels can differ slightly. Earlier versions for the reproduction of the two papers will be made available soon.
+> Version note. This repository holds the current version of CIRCEE. The 2025 Resources, Conservation and Recycling and 2026 Global Environmental Change papers were run on earlier versions: the CIRCEE calibration has since been refined as newer material- and waste-flow data became available, and the LIFE calibration was updated by Hazel Pettifor and Hazel Maureen. Those papers cannot be reproduced exactly from this code — the qualitative dynamics are unchanged, but levels can differ slightly. Earlier versions for the reproduction of the two papers will be made available soon.
 
 ---
 
@@ -317,14 +317,15 @@ If you encounter any issues, please contact darius.corbier@cmcc.it. Comments and
 
 ## Citation
 
-If this code supports your work, please cite the associated papers:
+If this code supports your work, please cite:
 
-- Corbier, D., Pettifor, H., Agnew, M., & Schlegel, N. (2026). Economic incentives and lifestyle drivers: how they shape consumers' engagement in repairing energy-using consumer goods and their environmental impacts in Japan. *Global Environmental Change*, 96, 103102.
-  https://doi.org/10.1016/j.gloenvcha.2026.103102
-- Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts. *Journal of Industrial Ecology*, 28(6), 1996–2011.
+- Corbier, D., Pettifor, H., Agnew, Maureen (2026). CIRCEE: The CIRCular Energy Economy model (Version X.Y) [Software]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
 
 **Other references:**
 
 - Emmerling, J., Drouet, L., Reis, L. A., Bevione, M., Berger, L., Bosetti, V., … & Havlik, P. (2016). The WITCH 2016 model — documentation and implementation of the shared socioeconomic pathways (No. 42.2016). Nota di Lavoro.
 - Pettifor, H., Agnew, M., & Wilson, C. (2023). A framework for measuring and modelling low-carbon lifestyles. *Global Environmental Change*, 82, 102739.
+- Corbier, D., Pettifor, H., Agnew, M., & Nagashima, M. (2025). Shaping sustainable consumption practices: Changing consumers’ habits through lifestyle changes and Extended Producer Responsibility schemes. 
+*Resources, Conservation and Recycling*, 217, 108214.
+- Corbier, D., Pettifor, H., Agnew, M., & Schlegel, N. (2026). Economic incentives and lifestyle drivers: how they shape consumers' engagement in repairing energy-using consumer goods and their environmental impacts in Japan. *Global Environmental Change*, 96, 103102.
 
