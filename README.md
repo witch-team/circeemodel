@@ -111,7 +111,6 @@ Households are split into three groups following the typology of Pettifor et al.
 | `cautious` | Medium income | 11.7% |
 | `constrained` | Lower income | 13.7% |
 
-The names describe lifestyle archetypes rather than income deciles; the income ordering is a property of the groups, not their definition.
 ---
 
 ## Requirements
