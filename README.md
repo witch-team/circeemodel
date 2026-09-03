@@ -82,11 +82,24 @@ Independently of the behavioural narratives, the surrounding *infrastructures* i
 | Infrastructure configurations | Logic |
 | --- | --- |
 | `Baseline` | Low substitution held roughly constant — a weakly enabling infrastructures. |
-| `Progressive` | siggma_es rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
-| `Regressive` | siggma_es rises over time, with the largest increase for higher-income groups. |
+| `Strong.Progressive` | siggma_es rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
+| `Strong.Regressive` | siggma_es rises over time, with the largest increase for higher-income groups. |
 
 `Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the infrastructures-configuration block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
+### Naming: code tokens vs. paper labels
+
+Scenario names differ between the code and the published figures. The code token is the stable identifier used in filenames, the `Scenario` column of the output CSVs, and `SIGMA_SCENARIO` in `config.sh`; the paper label is what appears in figures and text.
+
+| Code token | Paper label |
+| --- | --- |
+| `Baseline` | BAU |
+| `Strong.Regressive` | Regressive |
+| `Strong.Progressive` | Progressive |
+
+Output files are named `<lifestyle>_AE_<code token>.csv`, so for example the reference-ecosystem run under the Ecoactive-All configuration is `ecoactive_ecoactive_AE_Baseline.csv`, and appears in the figures as BAU.
+
+The token is written with a dot separator in filenames and the `Scenario` column (`Strong.Regressive`), and with an underscore in some R factor level vectors (`Strong_Regressive`). Check which form a given script expects before editing it.
 ---
 
 ## Requirements
