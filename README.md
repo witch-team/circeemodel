@@ -319,6 +319,7 @@ If you encounter any issues, please contact darius.corbier@cmcc.it. Comments and
 
 If this code supports your work, please cite:
 
+- Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts. *Journal of Industrial Ecology*, 28(6)
 - Corbier, D., Pettifor, H., Agnew, Maureen (2026). CIRCEE: The CIRCular Energy Economy model (Version X.Y) [Software]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
 
 **Other references:**
