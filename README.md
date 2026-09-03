@@ -108,6 +108,18 @@ Independently of the behavioural narratives, the surrounding *ecosystem* is repr
 ├── LICENSE
 ├── CITATION.cff
 ├── .gitignore
+├── post/                                    ← Figures
+    ├── README.md              
+    ├── Figure_2.R
+    ├── Figure_3.R
+    ├── Figure_4.R
+    ├── Figure_5.R
+    └── SI/
+        ├── TrilemmaWaste_SI.R
+        └── Carbon_and_waste_footprint_SI.R
+        └── Prices_SI.R
+        └── Userates_SI.R
+        └── Sensitivitybounds_SI.R
 ├── scripts/
 │   ├── config.sh                           ← edit this (scenarios + MATLAB path + tolerances)
 │   ├── run.sh                              ← run this
@@ -174,7 +186,7 @@ The loop iterates until the maximum behavioural frequency change (share of uptak
 * **Macro definitions**: region selection (JPN only for now), SSP scenario, and definitions of sectors, materials, and lifestyles.
   * Users can select the region in `MODEL_selection.inc` (`@#define REGION`): Japan (JPN) is available now, with the EU27 and China coming soon.
   * Users can currently select SSP2, as the LIFE model is only calibrated on SSP2. 
-  * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0. This repository currently includes the **sufficiency** and **sharing** lifestyles; the **repair** lifestyle is available on demand (darius.corbier@cmcc.it) and will be released open-source by the end of the year.
+  * The parameters governing lifestyle changes are the "modifiers". A baseline run holds all modifiers at 0. This repository currently includes the **sufficiency** and **sharing** lifestyles; the **repair** lifestyle is available on demand (darius.corbier@cmcc.it) and will be released by the end of the year.
 * **Endogenous variables (300+)**: firms' decisions (output, capital, labour, energy and material inputs); household variables by lifestyle (consumption, saving/investment, energy-using and other durable goods); government (budget, taxes, subsidies); international trade; material stocks and flows; waste flows; CO₂ emissions.
 * **Predetermined variables**: capital stocks, energy-using and other durable goods stocks, material stocks.
 * **Exogenous variables**: technological efficiencies, resource prices, fiscal policies.
