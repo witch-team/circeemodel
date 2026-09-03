@@ -100,6 +100,18 @@ Scenario names differ between the code and the published figures. The code token
 Output files are named `<lifestyle>_AE_<code token>.csv`, so for example the reference-ecosystem run under the Ecoactive-All configuration is `ecoactive_ecoactive_AE_Baseline.csv`, and appears in the figures as BAU.
 
 The token is written with a dot separator in filenames and the `Scenario` column (`Regressive`), and with an underscore in some R factor level vectors (`Regressive`). Check which form a given script expects before editing it.
+
+### Naming: lifestyle groups
+
+Households are split into three groups following the typology of Pettifor et al. (2023). The code token appears in every variable name, output column and filename; the paper label is what appears in figures and text.
+
+| Code token | Paper label | Share of households in 2018 |
+| --- | --- | --- |
+| `lowcarbon` | Higher income | 74.6% |
+| `cautious` | Medium income | 11.7% |
+| `constrained` | Lower income | 13.7% |
+
+The names describe lifestyle archetypes rather than income deciles; the income ordering is a property of the groups, not their definition.
 ---
 
 ## Requirements
