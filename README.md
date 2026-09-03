@@ -77,7 +77,7 @@ This yields four combinations, e.g. `ecoactive_ecoactive`, `affordability_afford
 
 ### Infrastructures configuration (substitution elasticity)
 
-Independently of the behavioural narratives, the surrounding *infrastructures* is represented by the elasticity of substitution (siggma_es) between ownership-based and PSS-based (market) energy services. A higher siggma_es means home and market energy services are closer substitutes, i.e. more enabling infrastructures for moving away from ownership. They differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
+Independently of the behavioural narratives, the surrounding *infrastructures* is represented by the elasticity of substitution (siggma_es) between ownership-based and PSS-based (market) energy services. A higher siggma_es means home and PSS energy services are closer substitutes, i.e. more enabling infrastructures for moving away from ownership. They differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
 
 | Infrastructure configurations | Logic |
 | --- | --- |
