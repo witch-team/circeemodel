@@ -47,7 +47,7 @@ Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseli
 | `coupled` | Full CIRCEE ↔ LIFE iterative coupling. Phase 1 jointly calibrates T0 modifiers in propensity space; Phase 2 iterates the LIFE dynamics until lifestyle frequencies converge. Hours-scale runtime. | The full model run. |
 | `baseline` | Single CIRCEE run with all behavioural modifiers held at zero. No Phase 1, no Phase 2, no LIFE feedback. Minutes-scale runtime. `SCENARIO_*` settings are ignored. | Sanity checks, sensitivity analysis on CIRCEE parameters, generating a reference trajectory. |
 
-To run CIRCEE **on its own, without any lifestyle scenario**, set `RUN_MODE="baseline"` (or `RUN_MODE=baseline bash run.sh`). This runs the economic model once with all behavioural modifiers at zero and no ecosystem-scenario variation, producing the reference trajectory against which the coupled runs are compared. It is the fastest way to run the model and the recommended starting point.
+To run CIRCEE **on its own, without any lifestyle scenario**, set `RUN_MODE="baseline"` (or `RUN_MODE=baseline bash run.sh`). This runs the economic model once with all behavioural modifiers at zero and BAU infrastructures (Baseline in the model), producing the reference trajectory against which the coupled runs are compared. It is the fastest way to run the model and the recommended starting point.
 
 ### Scenarios (coupled mode only)
 
@@ -67,7 +67,7 @@ All user-facing options are set in `config.sh`:
 | `RUN_MODE` | `coupled` \| `baseline` | Full CIRCEE↔LIFE coupling, or a single CIRCEE run with no modifiers. |
 | `SCENARIO_SHARING` | `ecoactive` \| `affordability` | Behavioural narrative for sharing (coupled mode). |
 | `SCENARIO_SUFFICIENCY` | `ecoactive` \| `affordability` | Behavioural narrative for sufficiency (coupled mode). |
-| `SIGMA_SCENARIO` | `Baseline` \| `Progressive` \| `Regressive` | Ecosystem (σ) scenario — see below. Run `Baseline` first (welfare reference). |
+| `SIGMA_SCENARIO` | `Baseline` \| `Progressive` \| `Regressive` | Infrastructure (σ^es) scenario — see below. Run `Baseline` first (welfare reference). |
 | `FORESIGHT_MODE` | `anticipation_errors` \| `perfect_foresight` | How agents anticipate the shock path. |
 | `WELFARE_MODE` | `single` \| `all` | Run welfare for the current σ scenario only, or all σ scenarios sequentially. |
 | `SSP_SCENARIO` | `SSP2` | Socioeconomic pathway (SSP2 available now). |
@@ -75,19 +75,17 @@ All user-facing options are set in `config.sh`:
 
 This yields four combinations, e.g. `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive`. Output files are tagged with the combined name.
 
-### Ecosystem scenarios (substitution elasticity)
+### Infrastructures configuration (substitution elasticity)
 
-Independently of the behavioural narratives, the surrounding *ecosystem* is represented by the elasticity of substitution (siggma_es) between ownership-based and PSS-based (market) energy services. A higher siggma_es means home and market energy services are closer substitutes, i.e. a more enabling ecosystem for moving away from ownership. Ecosystem scenarios differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
+Independently of the behavioural narratives, the surrounding *infrastructures* is represented by the elasticity of substitution (siggma_es) between ownership-based and PSS-based (market) energy services. A higher siggma_es means home and market energy services are closer substitutes, i.e. more enabling infrastructures for moving away from ownership. They differ in the **level** of σ and in how it is **distributed** across the three lifestyle groups over 2018–2050:
 
-| Ecosystem scenario | Logic |
+| Infrastructure configurations | Logic |
 | --- | --- |
-| `Baseline` | Low substitution held roughly constant — a weakly enabling ecosystem. |
+| `Baseline` | Low substitution held roughly constant — a weakly enabling infrastructures. |
 | `Progressive` | siggma_es rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
 | `Regressive` | siggma_es rises over time, with the largest increase for higher-income groups. |
 
-`Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the ecosystem-scenario block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
-
-> Note: the ecosystem scenarios support an ongoing paper. They are fully runnable in this repository, but the accompanying analysis is not yet published. Similarly you can play with other substitution elasticities in the model's equations.
+`Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the infrastructures-configuration block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
 ---
 
