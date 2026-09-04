@@ -9,7 +9,7 @@
 % ========================================================================
 %  USER PATHS — EDIT THESE to point at your own directories
 % ========================================================================
-mat_base     = '<PATH>/Mat files';                  % saved welfare .mat files
+mat_base     = '<PATH>/Mat_files';                  % saved welfare .mat files
 welfare_base = '<PATH>/Welfare';                    % welfare CSV output
 csv_dir      = '<PATH>/CIRCEE_output_levels';       % output-level CSVs
 % ------------------------------------------------------------------------
