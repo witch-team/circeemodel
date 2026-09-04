@@ -56,8 +56,8 @@ SCENARIO_SUFFICIENCY="${SCENARIO_SUFFICIENCY:-affordability}"   # ecoactive | af
 #                     end of the simulation horizon.
 #                     *** Run Baseline scenario FIRST — it is the reference for
 #                         the welfare comparison. Then run the others
-#                         in any order. ***
-#                              Baseline              (1.9 / 1.5 / 1.1)
+#                         in any order. Terminal sigma by 2050 (lowcarbon / cautious / constrained)***
+#                              Baseline       (1.9 / 1.5 / 1.1)
 #                              Progressive    (2.5 / 3.5 / 4.0)
 #                              Regressive     (4.0 / 3.0 / 2.5)
 # RUN MODE FOR SCENARIOS single    Run "-single" the SIGMA_SCENARIO below if you are interested by only one scenario + welfare
