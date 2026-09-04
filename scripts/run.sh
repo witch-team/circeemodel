@@ -36,8 +36,12 @@ if [ "$WELFARE_MODE" == "all" ]; then
         export CIRCEE_SIGMA_SCENARIO="Baseline"
         run_coupling
 
-        mv "${PATH_GRID_POINT_DATA}welfare_inputs/Baseline_${CIRCEE_FORESIGHT}.mat" \
-           "${PATH_GRID_POINT_DATA}welfare_inputs/NoModifiers_${CIRCEE_FORESIGHT}.mat"
+           nm_src="${PATH_GRID_POINT_DATA}welfare_inputs/Baseline_${CIRCEE_FORESIGHT}.mat"
+        if [ -f "$nm_src" ]; then
+            mv "$nm_src" "${PATH_GRID_POINT_DATA}welfare_inputs/NoModifiers_${CIRCEE_FORESIGHT}.mat"
+        else
+            echo "WARNING: reference .mat not found at $nm_src — welfare baseline missing"
+        fi
 
         for ext in csv xlsx; do
             src_file="${PATH_GRID_POINT_DATA}CIRCEE_output_levels_Baseline_${CIRCEE_FORESIGHT}.${ext}"
