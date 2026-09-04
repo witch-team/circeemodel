@@ -60,17 +60,29 @@ SCENARIO_SUFFICIENCY="${SCENARIO_SUFFICIENCY:-affordability}"   # ecoactive | af
 #                              Baseline       (1.9 / 1.5 / 1.1)
 #                              Progressive    (2.5 / 3.5 / 4.0)
 #                              Regressive     (4.0 / 3.0 / 2.5)
-# RUN MODE FOR SCENARIOS single    Run "-single" the SIGMA_SCENARIO below if you are interested by only one scenario + welfare
-#                                  Run "-all" SIGMA_SCENARIO scenarios sequentially (each scenario has its own recalibrated modifiers) + welfare
-#                                  Attention: Be aware that the run "-all" scenario can take up to 10 days to run on a HPC. 
-#                                  It is recommended to run the "-single" for each siggma scenario then to the welfare post-processing as follows (expect 2-3 days per job on a HPC):
-#                                  Run "-single" for each SIGMA_SCENARIO. After all of your jobs are complete:
+# RUN MODE FOR SCENARIOS single    Run "-single" for one SIGMA_SCENARIO.
+#                                  Run "-all" for the three SIGMA_SCENARIO runs sequentially,
+#                                  each with its own recalibrated modifiers.
+#                                  Attention: "-all" can take up to 10 days on an HPC.
+#                                  Recommended: run "-single" for each SIGMA_SCENARIO as a
+#                                  separate job (2-3 days each).
+#                                  Welfare is not produced by run.sh in either mode. Once all
+#                                  runs are complete, run src/CIRCEE_WelfarePostProcess_batch.m.
 # -----------------------------------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------------------------------
 SSP_SCENARIO="${SSP_SCENARIO:-SSP2}" 
 SIGMA_SCENARIO="${SIGMA_SCENARIO:-Baseline}"            # Baseline | Progressive | Regressive
 WELFARE_MODE="${WELFARE_MODE:-single}"                     # single | all
 export WELFARE_MODE
+
+# RUN MODE FOR SCENARIOS single    Run "-single" for one SIGMA_SCENARIO.
+#                                  Run "-all" for the three SIGMA_SCENARIO runs sequentially,
+#                                  each with its own recalibrated modifiers.
+#                                  Attention: "-all" can take up to 10 days on an HPC.
+#                                  Recommended: run "-single" for each SIGMA_SCENARIO as a
+#                                  separate job (2-3 days each).
+#                                  Welfare is not produced by run.sh in either mode. Once all
+#                                  runs are complete, run src/CIRCEE_WelfarePostProcess_batch.m.
 
 # -----------------------------------------------------------------------------
 # 4. FORESIGHT MODE
@@ -105,7 +117,7 @@ MAX_CALIB_ITER=12             # cap on Phase-1 joint calibration loop
 # -----------------------------------------------------------------------------
  
 PATH_GRID_POINT_DATA="${RESULTS_DIR}/grid_point_data/"
-REGION=$(grep '@#define REGION' ../src/CIRCEE_PF.mod | sed 's/.*"\(.*\)".*/\1/')
+REGION=$(grep '@#define REGION' "${SRC_DIR}/CIRCEE_PF.mod" | sed 's/.*"\(.*\)".*/\1/')
 PATH_TEMPLATES="${_CONFIG_DIR}/../data/${REGION}/templates/"
  
  
