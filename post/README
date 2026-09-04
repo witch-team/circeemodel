@@ -10,28 +10,28 @@ These read **model output**, not the model itself. Run CIRCEE first (see the mai
 
 | Input | Produced by |
 | --- | --- |
-| `<lifestyle>_AE_<scenario>.csv` — one per run, wide format (`Row`, `Y2018`, `Y2019`, …) | `src/CIRCEE_RunFile.m` |
+| `<behavioural>_AE_<scenario>.csv` — one per run, wide format (`Row`, `Y2018`, `Y2019`, …) | `src/CIRCEE_RunFile.m` |
 | `NoModifiers_AE.csv` — the reference run | `src/CIRCEE_RunFile.m`, all modifiers at zero |
 | `welfare_CEV_lifetime.csv` and the other welfare CSVs | `src/CIRCEE_WelfarePostProcess.m` |
-| `shocks_final_<lifestyle>_<scenario>.csv` — long format (`Variable`; `Region`; `Year`; `Value`) | the coupled pipeline, `scripts/run.sh` |
+| `shocks_final_<behavioural>_<scenario>.csv` — long format (`Variable`; `Region`; `Year`; `Value`) | the coupled pipeline, `scripts/run.sh` |
 
 ### What the filenames encode
 
-Two dimensions vary across runs: the infrastructures configurations (the substitution elasticity path) and the behavioural modifiers (the behavioural configuration). Filenames encode both, and `Baseline` refers to the infrastructures, not to the
-absence of behaviour.
+Two dimensions vary across runs: the infrastructures configurations (the substitution elasticity path) and the behavioural modifiers (the behavioural configuration). Filenames encode both, and `Baseline` refers to the infrastructures with the presence of lifestyle heterogeneity.
 
-| File | Infrastructures | Behavioural modifiers |
+| File | Behavioural modifiers | Infrastructures
 | --- | --- | --- |
-| `NoModifiers_AE.csv` | BAU | all zero — the reference run |
-| `<behavioural>_AE_Baseline.csv` | BAU | as set by the behavioural configuration |
-| `<behavioural>_AE_Progressive.csv` | Progressive | as set by the behavioural configuration |
-| `<behavioural>_AE_Regressive.csv` | Regressive | as set by the behavioural configuration |
+| `NoModifiers_AE.csv` | Behavioural modifiers all zero — the reference run | BAU
+| `<behavioural>_AE_Baseline.csv`| Behavioural modifiers active| BAU
+| `<behavioural>_AE_Progressive.csv`| Behavioural modifiers active | Progressive
+| `<behavioural>_AE_Regressive.csv`| Behavioural modifiers active | Regressive
 
 `AE` denotes anticipation errors. `<behavioural>` is one of `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive` — sharing driver followed by sufficiency driver.
+For example, `ecoactive_affordability`, reads as Ecoactive - Sharing x Affordability - Sufficiency.
 
 Twelve scenario runs are expected (four behavioural configurations × three infrastructures), plus the reference run.
 
-**All figures report changes relative to `NoModifiers_AE.csv`**: the BAU infrastructures with no behavioural change (no lfiestyle heterogeneity).
+**All figures report changes relative to `NoModifiers_AE.csv`**: the BAU infrastructures with no behavioural modifiers active (no lifestyle heterogeneity).
 
 ### Code tokens vs. paper labels
 
