@@ -1,3 +1,7 @@
+data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
+out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
+
+
 library(tidyverse)
 library(ggrepel)
 

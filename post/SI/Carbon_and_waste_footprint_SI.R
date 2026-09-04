@@ -1,4 +1,8 @@
 
+data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
+out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
+
+
 stopifnot(exists("basket_2050_joined"), exists("compute_cf_change"),
           exists("compute_wf_change"), exists("pop_lookup"))
 

@@ -1,3 +1,7 @@
+data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
+out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
+
+
 read_shock_file <- function(path) {
   read.csv(path.expand(path), sep = ";", header = FALSE, stringsAsFactors = FALSE,
            col.names = c("Variable", "Region", "Year", "Value"))
@@ -6,7 +10,7 @@ read_shock_file <- function(path) {
 rep_lifestyle <- "ecoactive_ecoactive"
 rep_scenario_dir  <- "Baseline"
 rep_scenario_file <- "Baseline" 
-rep_path <- file.path("~/Desktop/Paper_Rethink_Results/Coupling",
+rep_path <- file.path(data_dir, "Coupling",
                       paste0(rep_lifestyle, "_AE_", rep_scenario_dir),
                       paste0("shocks_final_", rep_lifestyle, "_", rep_scenario_file, ".csv"))
 
@@ -29,9 +33,9 @@ if (!all(matches)) {
   stop("Fix variable names above (see message output) before proceeding — do not guess and plot silently-wrong data.")
 }
 
-prog_path <- file.path("~/Desktop/Paper_Rethink_Results/Coupling",
-                       paste0(rep_lifestyle, "_AE_Strong_Progressive"),
-                       paste0("shocks_final_", rep_lifestyle, "_Strong.Progressive.csv"))
+prog_path <- file.path(data_dir, "Coupling",
+                       paste0(rep_lifestyle, "_AE_Progressive"),
+                       paste0("shocks_final_", rep_lifestyle, "_Progressive.csv"))
 
 d_prog_check <- tryCatch(read_shock_file(prog_path), error = function(e) NULL)
 

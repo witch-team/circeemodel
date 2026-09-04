@@ -1,4 +1,8 @@
 
+data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
+out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
+
+
 library(ggplot2)
 library(readxl)
 library(dplyr)

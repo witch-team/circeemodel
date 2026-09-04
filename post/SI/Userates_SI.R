@@ -1,14 +1,18 @@
+data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
+out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
+
+
 library(tidyverse)
 library(patchwork)
 
-base    <- "~/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
-out_dir <- "~/Desktop/Paper_Rethink_Results/figures"
+base    <- file.path(data_dir, "Outputs", "CIRCEE_output_levels")
+out_dir <- out_dir_default
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 foresight_keep <- "AE"
 groups <- c("constrained","cautious","lowcarbon")
-scen_levels <- c("Baseline","Strong_Regressive","Strong_Progressive")
-scen_labels <- c("Baseline","Regressive","Progressive")
+scen_levels <- c("Baseline","Regressive","Progressive")
+scen_labels <- c("BAU","Regressive","Progressive")
 group_levels <- c("Low income","Medium income","High income")
 
 lifestyle_labels <- c(
@@ -21,8 +25,8 @@ ls_col <- c(" Ecoactive - All"="#1B7837"," Affordability - All"="#762A83",
             " Ecoactive sharing \n Affordability sufficiency"="#E08214",
             " Affordability sharing \n Ecoactive sufficiency"="#2166AC")
 
-scen_shapes    <- c("Baseline"=21,"Regressive"=24,"Progressive"=23)
-scen_linetypes <- c("Baseline"="solid","Regressive"="solid","Progressive"="solid")
+scen_shapes    <- c("BAU"=21,"Regressive"=24,"Progressive"=23)
+scen_linetypes <- c("BAU"="solid","Regressive"="solid","Progressive"="solid")
 
 read_years <- function(path, keep_rows = NULL) {
   df <- read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
@@ -98,7 +102,7 @@ theme_ns <- function(base = 9) {
 }
 theme_evo <- theme_ns()
 
-MAIN_SCENARIO <- "Baseline"
+MAIN_SCENARIO <- "BAU"
 
 evo_main <- filter(evo, scenario_lbl == MAIN_SCENARIO)
 
@@ -125,9 +129,9 @@ mk_traj <- function(ind, ttl, sub = NULL, data = evo_main, show_ecosystem = FALS
 }
 
 pA <- mk_traj("Refuse",  "a. Refuse",
-              paste0("Reduction in energy-using goods investments vs. reference run (", MAIN_SCENARIO, "infrasructures)"))
+              paste0("Reduction in energy-using goods investments vs. reference run (", MAIN_SCENARIO, " infrastructures)"))
 pB <- mk_traj("Rethink", "b. Rethink",
-              paste0("PSS to home energy-services ratio vs. reference run (", MAIN_SCENARIO, "infrastructures)"))
+              paste0("PSS to home energy-services ratio vs. reference run (", MAIN_SCENARIO, " infrastructures)"))
 
 pA_SI <- mk_traj("Refuse",  "a. Refuse (all infrastructures configurations)",
                  "Reduction in energy-using goods investments for each scenario in comparison to the reference run",
@@ -205,7 +209,7 @@ dpct <- scen_meta %>%
   mutate(pct = 100*(y2050-y2018)/y2018,
          series = factor(ls_series[Row], levels = ser_lv),
          scen   = factor(scenario, levels = scen_levels,
-                         labels = c("Baseline","Regressive","Progressive")),
+                         labels = c("BAU","Regressive","Progressive")),
          ls_lbl = factor(lifestyle_labels[lifestyle], levels = lifestyle_labels))
 
 pD <- ggplot(dpct, aes(scen, fct_rev(series), fill=pct))+
@@ -260,7 +264,7 @@ pE <- ggplot(ulow_main, aes(year, value, colour = lifestyle_lbl,
   scale_colour_manual("Behaviour", values = ls_col) +
   scale_x_continuous(breaks = c(2020,2035,2050), limits = c(2018,2050)) +
   labs(title = "c. Use rate of (household) owned energy-using goods",
-       subtitle = paste0(MAIN_SCENARIO, "infrasructures"),
+       subtitle = paste0(MAIN_SCENARIO, " infrastructures"),
        x = NULL, y = NULL) +
   theme_evo + theme(axis.text.y = element_text(size = 8),
                     strip.background = element_rect(fill = "grey85", colour = NA),
@@ -307,7 +311,7 @@ pF <- ggplot(uhigh_main, aes(year, value, colour = lifestyle_lbl,
   scale_colour_manual("Behaviour", values = ls_col) +
   scale_x_continuous(breaks = c(2020,2035,2050), limits = c(2018,2050)) +
   labs(title = "d. Use rate of PSS energy-using goods",
-       subtitle = paste0(MAIN_SCENARIO, "infrastructures"),
+       subtitle = paste0(MAIN_SCENARIO, " infrastructures"),
        x = NULL, y = NULL) +
   theme_evo + theme(axis.text.y = element_text(size = 8))
 

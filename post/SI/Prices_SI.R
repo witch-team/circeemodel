@@ -1,15 +1,19 @@
 
+data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
+out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
+
+
 library(tidyverse)
 library(patchwork)
 
-base    <- "~/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
-out_dir <- "~/Desktop/Paper_Rethink_Results/figures"
+base    <- file.path(data_dir, "Outputs", "CIRCEE_output_levels")
+out_dir <- out_dir_default
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 foresight_keep <- "AE"
 groups <- c("constrained","cautious","lowcarbon")
-scen_levels <- c("Baseline","Strong_Regressive","Strong_Progressive")
-scen_labels <- c("Baseline","Regressive","Progressive")
+scen_levels <- c("Baseline","Regressive","Progressive")
+scen_labels <- c("BAU","Regressive","Progressive")
 group_levels <- c("Low income","Medium income","High income")
 
 lifestyle_labels <- c(
@@ -20,8 +24,8 @@ lifestyle_labels <- c(
 ls_col <- c(" Ecoactive - All"="#1B7837"," Affordability - All"="#762A83",
             " Ecoactive sharing \n Affordability sufficiency"="#E08214",
             " Affordability sharing \n Ecoactive sufficiency"="#2166AC")
-scen_shapes    <- c("Baseline"=21,"Regressive"=24,"Progressive"=23)
-scen_linetypes <- c("Baseline"="solid","Regressive"="solid","Progressive"="solid")
+scen_shapes    <- c("BAU"=21,"Regressive"=24,"Progressive"=23)
+scen_linetypes <- c("BAU"="solid","Regressive"="solid","Progressive"="solid")
 
 read_years <- function(path, keep_rows = NULL) {
   df <- read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
@@ -249,7 +253,7 @@ dpct <- scen_meta %>%
   mutate(pct = 100*(y2050-y2018)/y2018,
          series = factor(ls_series[Row], levels = ser_lv),
          scen   = factor(scenario, levels = scen_levels,
-                         labels = c("Baseline","Regressive","Progressive")),
+                         labels = c("BAU","Regressive","Progressive")),
          ls_lbl = factor(lifestyle_labels[lifestyle], levels = lifestyle_labels))
 
 pD <- ggplot(dpct, aes(scen, fct_rev(series), fill=pct))+
