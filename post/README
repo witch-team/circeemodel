@@ -1,10 +1,8 @@
 # Post-processing scripts
 
-R scripts producing the figures in Corbier et al., *Beyond Ownership: Lifestyle,
-infrastructures, and inequality challenges for Product-Service Systems*.
+R scripts producing the figures in Corbier et al., *Beyond Ownership: Lifestyle, infrastructures, and distributional challenges for Product-Service Systems*.
 
-These read **model output**, not the model itself. Run CIRCEE first (see the main
-README), then point these scripts at the resulting files.
+These read **model output**, not the model itself. Run CIRCEE first (see the main README), then point these scripts at the resulting files.
 
 ---
 
@@ -15,15 +13,41 @@ README), then point these scripts at the resulting files.
 | `<lifestyle>_AE_<scenario>.csv` — one per run, wide format (`Row`, `Y2018`, `Y2019`, …) | `src/CIRCEE_RunFile.m` |
 | `NoModifiers_AE.csv` — the reference run | `src/CIRCEE_RunFile.m`, all modifiers at zero |
 | `welfare_CEV_lifetime.csv` and the other welfare CSVs | `src/CIRCEE_WelfarePostProcess.m` |
-| `shocks_final_<scenario>.csv` — long format (`Variable`; `Region`; `Year`; `Value`) | the coupled pipeline, `scripts/run.sh` |
+| `shocks_final_<lifestyle>_<scenario>.csv` — long format (`Variable`; `Region`; `Year`; `Value`) | the coupled pipeline, `scripts/run.sh` |
 
-Twelve scenario runs are expected: four lifestyle configurations
-(`ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`,
-`affordability_ecoactive`) × three infrastructure configurations (`Baseline`,
-`Strong.Regressive`, `Strong.Progressive`), plus the reference run.
+### What the filenames encode
 
-`Baseline` is the file and data token throughout; `BAU` is the display label
-used in the figures.
+Two dimensions vary across runs: the infrastructures configurations (the substitution elasticity path) and the behavioural modifiers (the behavioural configuration). Filenames encode both, and `Baseline` refers to the infrastructures, not to the
+absence of behaviour.
+
+| File | Infrastructures | Behavioural modifiers |
+| --- | --- | --- |
+| `NoModifiers_AE.csv` | BAU | all zero — the reference run |
+| `<behavioural>_AE_Baseline.csv` | BAU | as set by the behavioural configuration |
+| `<behavioural>_AE_Progressive.csv` | Progressive | as set by the behavioural configuration |
+| `<behavioural>_AE_Regressive.csv` | Regressive | as set by the behavioural configuration |
+
+`AE` denotes anticipation errors. `<behavioural>` is one of `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive` — sharing driver followed by sufficiency driver.
+
+Twelve scenario runs are expected (four behavioural configurations × three infrastructures), plus the reference run.
+
+**All figures report changes relative to `NoModifiers_AE.csv`**: the BAU infrastructures with no behavioural change (no lfiestyle heterogeneity).
+
+### Code tokens vs. paper labels
+
+| Code token | Paper label |
+| --- | --- |
+| `Baseline` | BAU |
+| `Progressive` | Progressive |
+| `Regressive` | Regressive |
+| `NoModifiers` | reference run |
+| `lowcarbon` | Higher income |
+| `cautious` | Medium income |
+| `constrained` | Lower income |
+
+Lifestyle group names describe archetypes from Pettifor et al. (2023) rather than income deciles; the income ordering is a property of the groups, not their definition.
+
+### Setting the paths
 
 Set the input and output directories at the top of each script:
 
@@ -47,22 +71,20 @@ out_dir    <- "path/to/figures"
 
 | Script | Produces | Needs first |
 | --- | --- | --- |
-| `SI/Carbon_and_waste_footprint_SI.R` | Footprint change by good, all four lifestyle configurations | `Figure_3.R` |
+| `SI/Carbon_and_waste_footprint_SI.R` | Footprint change by good, all four behavioural configurations | `Figure_3.R` |
 | `SI/TrilemmaWaste_SI.R` | Trilemma panel with the waste footprint on the vertical axis | `Figure_5.R` |
-| `SI/Prices_SI.R` | Factor-price divergence between home production and market services | — |
-| `SI/Userates_SI.R` | Utilisation rates of owned and shared energy-using goods | — |
+| `SI/Prices_SI.R` | Price divergence between home production and PSS energy services | — |
+| `SI/Userates_SI.R` | Use rates of owned and PSS energy-using goods | — |
 | `SI/Energy_SI.R` | Exogenous WITCH/SSP2 inputs: efficiencies, emission factors, price growth | `scen_meta`, from any main script |
 | `SI/Sensitivitybounds_SI.R` | Sensitivity of the behavioural response to the substitution elasticity | — |
 
-`Sensitivitybounds_SI.R` carries its derivative values inline rather than
-reading a file, so it runs standalone.
+`Sensitivitybounds_SI.R` carries its values inline rather than reading a file, so it runs standalone.
 
 ---
 
 ## Order of execution
 
-Three SI scripts reuse objects built by other scripts. Source those first, **in
-a clean session**:
+Three SI scripts reuse objects built by other scripts. Source those first, **in a clean session**:
 
 ```r
 rm(list = ls())
@@ -74,12 +96,7 @@ source("Figure_5.R")
 source("SI/TrilemmaWaste_SI.R")
 ```
 
-Clearing the workspace matters. These scripts share object names
-(`group_levels`, `lifestyle_labels`, `shapes_sc`, `scen_meta` and others), so a
-stale copy left from a previous run can silently mismatch a factor level.
-`ggplot` then drops the affected rows with a "Removed *n* rows containing
-missing values" warning rather than an error, and the figure renders with points
-missing.
+Clearing the workspace matters. These scripts share object names (`group_levels`, `behavioural_labels`, `shapes_sc`, `scen_meta` and others), so a stale copy left from a previous run can silently mismatch a factor level. `ggplot` then drops the affected rows with a "Removed *n* rows containing missing values" warning rather than an error, and the figure renders with points missing.
 
 ---
 
@@ -99,9 +116,5 @@ come with `tidyverse`.
 
 ## Conventions
 
-* Footprint changes are expressed as a percentage of the reference-run
-  footprint, except where a panel's axis label states otherwise.
-* Colours follow the Okabe-Ito colourblind-safe palette.
-* Inequality measures are computed on per-household quantities; with three
-  lifestyle groups, decile-based measures are not well defined (see the main
-  README's welfare section).
+* Footprint changes are expressed as a percentage of the reference-run footprint, except where a panel's axis label states otherwise.
+* Inequality measures are computed on per-household quantities; with three lifestyle groups, decile-based measures are not well defined (see the main README's welfare section).
