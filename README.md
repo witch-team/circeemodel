@@ -87,29 +87,33 @@ Independently of the behavioural narratives, the surrounding *infrastructures* i
 
 `Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the infrastructures-configuration block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
-### Naming: code tokens vs. paper labels
+### Naming: files and scenarios
 
-Scenario names differ between the code and the published figures. The code token is the stable identifier used in filenames, the `Scenario` column of the output CSVs, and `SIGMA_SCENARIO` in `config.sh`; the paper label is what appears in figures and text.
+Two dimensions vary across runs — the ecosystem scenario (the substitution elasticity path) and the behavioural modifiers (the lifestyle configuration).
+Output filenames encode both, and `Baseline` refers to the ecosystem, not to the absence of behaviour.
+
+| File | Ecosystem | Behavioural modifiers |
+| --- | --- | --- |
+| `NoModifiers_AE.csv` | BAU | all zero — the reference run |
+| `<lifestyle>_AE_Baseline.csv` | BAU | as set by the lifestyle configuration |
+| `<lifestyle>_AE_Progressive.csv` | Progressive | as set by the lifestyle configuration |
+| `<lifestyle>_AE_Regressive.csv` | Regressive | as set by the lifestyle configuration |
+
+`AE` denotes anticipation errors. `<lifestyle>` is one of `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive`, given as sharing driver followed by sufficiency driver.
+
+All results in the paper are reported as changes relative to `NoModifiers_AE.csv`: the BAU ecosystem with no lifestyle heterogeneity.
+
+Code tokens differ from the labels used in the paper:
 
 | Code token | Paper label |
 | --- | --- |
 | `Baseline` | BAU |
-| `Regressive` | Regressive |
 | `Progressive` | Progressive |
-
-Output files are named `<lifestyle>_AE_<code token>.csv`, so for example the reference-ecosystem run under the Ecoactive-All configuration is `ecoactive_ecoactive_AE_Baseline.csv`, and appears in the figures as BAU.
-
-The token is written with a dot separator in filenames and the `Scenario` column (`Regressive`), and with an underscore in some R factor level vectors (`Regressive`). Check which form a given script expects before editing it.
-
-### Naming: lifestyle groups
-
-Households are split into three groups following the typology of Pettifor et al. (2023). The code token appears in every variable name, output column and filename; the paper label is what appears in figures and text.
-
-| Code token | Paper label | Share of households in 2018 |
-| --- | --- | --- |
-| `lowcarbon` | Higher income | 74.6% |
-| `cautious` | Medium income | 11.7% |
-| `constrained` | Lower income | 13.7% |
+| `Regressive` | Regressive |
+| `NoModifiers` | reference run |
+| `lowcarbon` | Higher income |
+| `cautious` | Medium income |
+| `constrained` | Lower income |
 
 ---
 
