@@ -8,7 +8,7 @@ This repository also includes **CIRCEE-LIFE**, a two-way iterative coupling of C
 
 > ⚠️ Expect long runtimes and high memory use if you do not use an HPC.
 >
-> Version note. This repository holds the current version of CIRCEE. The 2025 Resources, Conservation and Recycling and 2026 Global Environmental Change papers were run on earlier versions: the CIRCEE calibration has since been refined as newer material- and waste-flow data became available, and the LIFE calibration was updated by Hazel Pettifor and Hazel Maureen. Those papers cannot be reproduced exactly from this code — the qualitative dynamics are unchanged, but levels can differ slightly. Earlier versions for the reproduction of the two papers will be made available soon.
+> Version note. This repository holds the current version of CIRCEE. The 2025 Resources, Conservation and Recycling and 2026 Global Environmental Change papers were run on earlier versions: the CIRCEE calibration has since been refined as newer material- and waste-flow data became available, and the LIFE calibration was updated by Hazel Pettifor and Maureen Agnew. Those papers cannot be reproduced exactly from this code — the qualitative dynamics are unchanged, but levels can differ slightly. Earlier versions for the reproduction of the two papers will be made available soon.
 
 ---
 
