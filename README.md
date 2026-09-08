@@ -38,9 +38,19 @@ CIRCEE_RunFile
 
 `CIRCEE_RunFile.m` writes `src/CIRCEE_shocks.m` before invoking Dynare, so calling `dynare CIRCEE_PF.mod` directly will fail on that missing include.
 
-### Reproducing Corbier et al. "Beyond Ownership : Lifestyles, infrastructures and distributional challenges to move away from ownership models"
+## Reproducing Corbier et al., *Beyond Ownership*
 
-Coupled runs must be reproduced through `scripts/run.sh`, which reaches the converged behavioural modifiers iteratively. Supplying an already-converged `shocks_final_*.csv` to a single classic-mode run does not reliably reproduce them: the solver has to reach the same allocation from the steady state in one step, and does not converge for the configurations with the largest behavioural response.
+The paper reports twelve runs: four lifestyle configurations (sharing driver × sufficiency driver) under three ecosystem scenarios, plus a zero-modifier reference run.
+
+**Environment.** Results were produced with MATLAB R2024b and **Dynare 6.5** on Linux (HPC). Other Dynare versions have not been tested; the perfect-foresight solver's behaviour can differ between major releases.
+
+**Producing a scenario.** Set `SCENARIO_SHARING`, `SCENARIO_SUFFICIENCY` and `SIGMA_SCENARIO` in `scripts/config.sh`, then `cd scripts && bash run.sh`. Each configuration is a separate job; expect 2–3 days on an HPC. The coupling converges within two outer iterations for all twelve configurations.
+
+**Welfare.** Once all runs are complete, edit the `USER PATHS` block in `src/CIRCEE_WelfarePostProcess_batch.m` and run it. This produces the consumption-equivalent variation, access ratios and distributional indices used in Figures 4 and 5.
+
+**Figures.** See `post/README.md`.
+
+**A note on the converged modifiers.** The behavioural modifiers in `shocks_final_*.csv` are reached iteratively by the coupling, each solve starting from the previous one. Supplying a converged file to a single classic-mode run asks the solver to reach the same allocation from the steady state in one step; this does not converge for the configurations with the largest behavioural response. Reproduce coupled runs through `scripts/run.sh`, not by feeding converged modifiers to classic mode.
 
 ### Run modes
 
