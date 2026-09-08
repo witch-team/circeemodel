@@ -38,6 +38,10 @@ CIRCEE_RunFile
 
 `CIRCEE_RunFile.m` writes `src/CIRCEE_shocks.m` before invoking Dynare, so calling `dynare CIRCEE_PF.mod` directly will fail on that missing include.
 
+### Reproducing Corbier et al. "Beyond Ownership : Lifestyles, infrastructures and distributional challenges to move away from ownership models"
+
+Coupled runs must be reproduced through `scripts/run.sh`, which reaches the converged behavioural modifiers iteratively. Supplying an already-converged `shocks_final_*.csv` to a single classic-mode run does not reliably reproduce them: the solver has to reach the same allocation from the steady state in one step, and does not converge for the configurations with the largest behavioural response.
+
 ### Run modes
 
 Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseline bash run.sh`).
@@ -120,7 +124,7 @@ Code tokens differ from the labels used in the paper:
 ## Requirements
 
 * **MATLAB R2024b** (older versions probably work; R2023b or later is recommended).
-* **Dynare** installed and on MATLAB's path (the CIRCEE model is a `.mod` file). Download from https://www.dynare.org/ — the latest version is recommended.
+* **Dynare 6.5**, installed and on MATLAB's path. Download from https://www.dynare.org/. The published results were produced with 6.5 on  Linux (MATLAB R2024b); other versions have not been tested and the perfect-foresight solver's behaviour can differ between major releases.
 * **bash** ≥ 4, plus `bc`, `awk`, `sed`, `grep` (standard on macOS/Linux).
 * For distributional/figure post-processing: **R** (≥ 4.0) with `ggplot2`, `patchwork`, `ggh4x`.
 
