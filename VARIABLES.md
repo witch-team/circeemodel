@@ -3,10 +3,6 @@
 Code names, descriptions and units for the main endogenous variables in
 `src/CIRCEE_PF.mod` and the output CSVs.
 
-Adapted from Table A1 of Corbier et al. (2026, *Global Environmental Change*),
-with the paper's mathematical notation replaced by the variable names as they
-appear in the code and in the output files.
-
 `@{h}` stands for a lifestyle group — `lowcarbon`, `cautious` or `constrained`.
 `@{s}` stands for a final-goods sector — `nondurable`, `otherdurable`,
 `energydurable` or `capital`. `@{m}` stands for a material — `virgin` or
@@ -27,16 +23,18 @@ in the CSVs. CO₂ is in **Gt**.
 
 Anything named `*_percapita` in the code is **per household**, not per person.
 
+CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measured in different units and are therefore index values, normalised at the 2018 base year. Only their ratios and growth rates are meaningful; the levels depend on the distribution parameters.
+
 ---
 
-## Households
+## Households (lifestyle groups)
 
 | Code name | Description | Unit |
 | --- | --- | --- |
-| `C_@{h}` | Aggregate consumption | JPY |
-| `NES_@{h}` | Non-energy services bundle | JPY |
-| `ES_@{h}` | Aggregate energy services | JPY |
-| `ES_home_@{h}` | Home-produced energy services | JPY |
+| `C_@{h}` | Aggregate consumption (CES index) | index |
+| `NES_@{h}` | Non-energy services bundle (CES index) | index |
+| `ES_@{h}` | Aggregate energy services (CES index) | index |
+| `ES_home_@{h}` | Home-produced energy services (CES aggregate of durable stock and energy) | index |
 | `ES_sharing_@{h}` | Energy services bought from the PSS market | JPY |
 | `X_@{h}` | Non-durable good consumption | JPY |
 | `OD_@{h}` | Other durable good stock | JPY |
