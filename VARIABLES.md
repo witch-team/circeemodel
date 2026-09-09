@@ -13,17 +13,26 @@ Code names, descriptions and units for the main endogenous variables in
 
 ## Units
 
-Monetary values are in **detrended JPY**: the model is solved on a balanced
-growth path with labour-productivity and population growth removed, and the
-capital-good price normalised (`p_capital_norm = 1`). `CIRCEE_RunFile.m`
-rescales per-household values to economy-wide totals in post-processing, and
-converts energy to **EJ** and employment to **millions** in the output CSVs.
-Materials and waste are in **grams** inside the model and reported in **tonnes**
-in the CSVs. CO₂ is in **Mt**.
+The output CSVs and the model's internal values differ, and the tables below
+document the **output CSVs**.
+
+In the CSVs, monetary values are economy-wide totals in JPY, rescaled by
+`CIRCEE_RunFile.m` from the model's per-household values (2018 GDP ≈ 5.4e14 JPY).
+Energy is converted to **EJ** (2018 household electricity ≈ 0.94 EJ).
+Employment is in **millions**. CO₂ is in **Mt** (2018 total ≈ 1155 Mt).
+Materials and waste stay in **grams** — divide by 1e12 for megatonnes
+(2018 in-use stock ≈ 3.6e16 g, i.e. 36 Gt).
+
+Inside the model, before post-processing, values are detrended and
+per-household: the model is solved on a balanced growth path with
+labour-productivity and population growth removed, and the capital-good price
+normalised (`p_capital_norm = 1`). Energy is in MJ.
 
 Anything named `*_percapita` in the code is **per household**, not per person.
 
-CES aggregates (e.g., `C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measured in different units and are therefore index values, normalised at the 2018 base year. Only their ratios and growth rates are meaningful; the levels depend on the distribution parameters.
+CES aggregates — `C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*` — combine inputs
+measured in different units and are therefore index values normalised at the
+2018 base year. Only their ratios and growth rates are meaningful.
 
 ---
 
