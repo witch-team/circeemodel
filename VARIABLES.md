@@ -39,9 +39,9 @@ CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measu
 | `X_@{h}` | Non-durable good consumption | JPY |
 | `OD_@{h}` | Other durable good stock | JPY |
 | `ED_lowuse_@{h}` | Owned energy-using durable good stock | JPY |
-| `E_@{h}` | Aggregate energy consumption | MJ |
-| `El_@{h}` | Electricity consumption | MJ |
-| `Nel_@{h}` | Fuel consumption | MJ |
+| `E_@{h}` | Aggregate energy consumption | EJ |
+| `El_@{h}` | Electricity consumption | EJ |
+| `Nel_@{h}` | Fuel consumption | EJ |
 | `Inv_ed_new_@{h}` | New energy-using durable goods, replacing depreciated stock | JPY |
 | `Inv_ed_new_tild_@{h}` | New energy-using durable goods, additions to the stock | JPY |
 | `Inv_ed_repair_@{h}` | Repaired energy-using durable goods | JPY |
@@ -78,8 +78,8 @@ CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measu
 | `Y_@{s}`, `Y_@{m}`, `Y_sharing`, `Y_repair` | Sector output | JPY |
 | `K_f_@{s}`, `K_@{m}`, `K_repair` | Capital input | JPY |
 | `L_@{s}`, `L_@{m}`, `L_sharing`, `L_repair` | Labour input | share of total employment |
-| `E_@{s}`, `E_@{m}`, `E_sharing` | Aggregate energy input | MJ |
-| `El_@{s}`, `Nel_@{s}` | Electricity and fuel input | MJ |
+| `E_@{s}`, `E_@{m}`, `E_sharing` | Aggregate energy input | EJ |
+| `El_@{s}`, `Nel_@{s}` | Electricity and fuel input | EJ |
 | `M_@{s}` | Aggregate material input | g |
 | `M_virgin_@{s}` | Virgin material input | g |
 | `M_recycled_@{s}` | Secondary material input | g |
@@ -111,8 +111,8 @@ CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measu
 | `r_k` | Rental price of capital | – |
 | `K` | Capital stock of the economy | JPY |
 | `h` | Average hours worked | hours |
-| `p_el_h`, `p_el_f` | Household and firm electricity price | JPY/MJ |
-| `p_nel_h`, `p_nel_f` | Household and firm fuel price | JPY/MJ |
+| `p_el_h`, `p_el_f` | Household and firm electricity price | JPY/EJ |
+| `p_nel_h`, `p_nel_f` | Household and firm fuel price | JPY/EJ |
 | `p_nd_ati` | All-tax-included non-durable price | – |
 
 ## Government
@@ -169,7 +169,7 @@ CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measu
 | `CO2` | Total CO₂ emissions | Gt |
 | `CO2_economy` | Emissions excluding incineration | Gt |
 | `CO2_incineration` | Incineration emissions | Gt |
-| `El`, `Nel` | Economy-wide electricity and fuel flows | MJ |
+| `El`, `Nel` | Economy-wide electricity and fuel flows | EJ |
 | `GDP` | Gross domestic product | JPY |
 | `Y_power` | Power sector value added | JPY |
 
