@@ -215,7 +215,6 @@ var
 % Trade module variables
 %------------------------------------------------------------------------------------------------------------ 
 
-        IMP_R                       ${IMP_R}$                           (long_name='Resources imports')
         Domestic_Extraction         ${Domestic_Extraction}$             (long_name='Domestic Extraction')
         TB                          ${TB}$                              (long_name='Trade balance')                           
 
@@ -1201,13 +1200,6 @@ model;
 
      Demand_dom_capital	=   (((share_domestic_capital)*(p_def_capital/p_capital))^siggma_imports)*(Inv_k+Inv_k_energy);
 
-     [name='Ressources imports']
-
-     % The values in equations are the share of biomass (imported for 48%, 0.48), metals ores (fully imported, 1) and other non-metallic minerals (fully domestically extracted, hence it does not appear here) that are imported or domestically_produced, weighted by the share of each in each product category mass. 
-     % For example, biomass represents 3 percent of materials used for energy-using durable goods and metal ores 66 percent.
-
-     IMP_R	=   RM*(((6.6053092E-01*1+3.1742072E-02*0.48)*(M_virgin_energydurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+(2.0252225E-01*1+6.9488153E-02*0.48)*(M_virgin_otherdurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+(3.6768029E-01*1+6.6377722E-02*0.48)*(M_virgin_capital/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+1.8454667E-02*0.48*(M_virgin_nondurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))))+p_nel_f*(Nel_nondurable+Nel_otherdurable+Nel_energydurable+Nel_capital+Nel_virgin+Nel_recycled+Nel_sharing)+p_nel_h*(Nel_h);
-
      [name='Domestic extraction']
 
      Domestic_Extraction    =   RM*(1-((6.6053092E-01*1+3.1742072E-02*0.48)*(M_virgin_energydurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+(2.0252225E-01*1+6.9488153E-02*0.48)*(M_virgin_otherdurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+(3.6768029E-01*1+6.6377722E-02*0.48)*(M_virgin_capital/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+1.8454667E-02*0.48*(M_virgin_nondurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))));
@@ -1484,6 +1476,8 @@ model;
       EXP_materials = EXPORT_recycled+EXPORT_virgin;
 
       [name='Imports of raw materials']
+     % The values in equations are the share of biomass (imported for 48%, 0.48), metals ores (fully imported, 1) and other non-metallic minerals (fully domestically extracted, hence it does not appear here) that are imported or domestically_produced, weighted by the share of each in each product category mass. 
+     % For example, biomass represents 3 percent of materials used for energy-using durable goods and metal ores 66 percent.
 
       IMP_raw = RM*(((6.6053092E-01*1+3.1742072E-02*0.48)*(M_virgin_energydurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+(2.0252225E-01*1+6.9488153E-02*0.48)*(M_virgin_otherdurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+(3.6768029E-01*1+6.6377722E-02*0.48)*(M_virgin_capital/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital))+1.8454667E-02*0.48*(M_virgin_nondurable/(M_virgin_energydurable+M_virgin_nondurable+M_virgin_otherdurable+M_virgin_capital)))); 
 
