@@ -67,6 +67,16 @@ measured in different units and are therefore index values normalised at the
 | `Expenditures_LIFE_@{h}` | Total energy-using goods expenditure | JPY |
 | `AC_ID_new_@{h}` | Durable investment adjustment costs | JPY |
 | `AC_IK_@{h}` | Capital investment adjustment costs | JPY |
+| `g_inv_ed_@{h}` | CES aggregator of new and repaired investment for depreciated durables | index |
+| `AC_ID_g_@{h}` | Adjustment costs on the depreciated-durable investment aggregator | – |
+| `repair_ed_@{h}` | Repair expenditure per unit of owned energy-using durable | – |
+| `deltta_energydurable_lowuse_@{h}` | Endogenous depreciation rate of the owned durable stock | rate |
+| `A_nel_@{h}` | Fuel efficiency of the group's durable stock | – |
+| `p_e_h_@{h}` | Zero-profit household energy price (CES index) | – |
+| `q_ed_newtild_@{h}` | Shadow price of new owned energy-using goods (additions to the stock) | – |
+| `q_ed_depreciated_@{h}` | Shadow price of owned energy-using goods at the replacement margin | – |
+| `q_ed_newtild_highuse` | Shadow price of new PSS-held durables | – |
+| `q_k_lowcarbon` | Shadow price of new capital goods | – |
 
 ## Footprints (totals by lifestyle group)
 
