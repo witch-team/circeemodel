@@ -19,11 +19,11 @@ capital-good price normalised (`p_capital_norm = 1`). `CIRCEE_RunFile.m`
 rescales per-household values to economy-wide totals in post-processing, and
 converts energy to **EJ** and employment to **millions** in the output CSVs.
 Materials and waste are in **grams** inside the model and reported in **tonnes**
-in the CSVs. CO₂ is in **Gt**.
+in the CSVs. CO₂ is in **Mt**.
 
 Anything named `*_percapita` in the code is **per household**, not per person.
 
-CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measured in different units and are therefore index values, normalised at the 2018 base year. Only their ratios and growth rates are meaningful; the levels depend on the distribution parameters.
+CES aggregates (e.g., `C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measured in different units and are therefore index values, normalised at the 2018 base year. Only their ratios and growth rates are meaningful; the levels depend on the distribution parameters.
 
 ---
 
@@ -61,12 +61,12 @@ CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measu
 
 | Code name | Description | Unit |
 | --- | --- | --- |
-| `CF_@{h}` | Total lifecycle carbon footprint | Gt CO₂ |
+| `CF_@{h}` | Total lifecycle carbon footprint | Mt CO₂ |
 | `WF_@{h}` | Total waste footprint of the consumption basket | t |
 | `MF_@{h}` | Consumption-side material footprint, net of process losses | t |
-| `CF_prod_<good>_@{h}` | Upstream and production-phase carbon, by good | Gt CO₂ |
-| `CF_eol_<good>_@{h}` | End-of-life carbon, by good | Gt CO₂ |
-| `CF_IW_<good>_@{h}` | Industrial-waste incineration carbon, by good | Gt CO₂ |
+| `CF_prod_<good>_@{h}` | Upstream and production-phase carbon, by good | Mt CO₂ |
+| `CF_eol_<good>_@{h}` | End-of-life carbon, by good | Mt CO₂ |
+| `CF_IW_<good>_@{h}` | Industrial-waste incineration carbon, by good | Mt CO₂ |
 | `WF_<good>_@{h}` | Waste embodied in consumption, by good | t |
 
 `<good>` is `nondurable`, `otherdurable`, `energydurable`, `sharing` or `repair`.
@@ -166,9 +166,9 @@ CES aggregates (`C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*`) combine inputs measu
 
 | Code name | Description | Unit |
 | --- | --- | --- |
-| `CO2` | Total CO₂ emissions | Gt |
-| `CO2_economy` | Emissions excluding incineration | Gt |
-| `CO2_incineration` | Incineration emissions | Gt |
+| `CO2` | Total CO₂ emissions | Mt |
+| `CO2_economy` | Emissions excluding incineration | Mt |
+| `CO2_incineration` | Incineration emissions | Mt |
 | `El`, `Nel` | Economy-wide electricity and fuel flows | EJ |
 | `GDP` | Gross domestic product | JPY |
 | `Y_power` | Power sector value added | JPY |
