@@ -28,6 +28,8 @@ per-household: the model is solved on a balanced growth path with
 labour-productivity and population growth removed, and the capital-good price
 normalised (`p_capital_norm = 1`). Energy is in MJ.
 
+All user costs and prices are relative to the capital good, which is the numeraire (p_capital_norm = 1), and are therefore dimensionless.
+
 Anything named `*_percapita` in the code is **per household**, not per person.
 
 CES aggregates — `C`, `NES`, `ES`, `ES_home`, `Z_*`, `KL_*` — combine inputs
@@ -51,14 +53,14 @@ measured in different units and are therefore index values normalised at the
 | `E_@{h}` | Aggregate energy consumption | EJ |
 | `El_@{h}` | Electricity consumption | EJ |
 | `Nel_@{h}` | Fuel consumption | EJ |
-| `Inv_ed_new_@{h}` | New energy-using durable goods, replacing depreciated stock | JPY |
-| `Inv_ed_new_tild_@{h}` | New energy-using durable goods, additions to the stock | JPY |
-| `Inv_ed_repair_@{h}` | Repaired energy-using durable goods | JPY |
+| `Inv_ed_new_@{h}` | New energy-using durable goods investments, replacing depreciated stock | JPY |
+| `Inv_ed_new_tild_@{h}` | New energy-using durable goods investments, additions to the stock | JPY |
+| `Inv_ed_repair_@{h}` | Repaired energy-using durable goods investments | JPY |
 | `Inv_od_@{h}` | Other durable good investment | JPY |
-| `Inv_k_@{h}` | Capital investment (savers only) | JPY |
+| `Inv_k_@{h}` | Capital investment (savers only, i.e. low-carbon and cautious households) | JPY |
 | `K_@{h}` | Capital stock (savers only) | JPY |
-| `u_lowuse_@{h}` | Utilisation rate of the owned durable stock | – |
-| `uc_@{h}` | User cost of owned energy-using durables | JPY |
+| `u_lowuse_@{h}` | Utilisation rate of the owned durable stock(share of time in use) | – |
+| `uc_@{h}` | User cost of owned energy-using durables | – |
 | `omegga_repair_@{h}` | Share of repair in total energy-using goods expenditure | – |
 | `p_home_@{h}` | Price of home-produced energy services | – |
 | `disc_factor_@{h}` | Effective discount factor | – |
