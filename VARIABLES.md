@@ -68,25 +68,25 @@ measured in different units and are therefore index values normalised at the
 | `AC_ID_new_@{h}` | Durable investment adjustment costs | JPY |
 | `AC_IK_@{h}` | Capital investment adjustment costs | JPY |
 
-## Footprints (per household, by group)
+## Footprints (totals by lifestyle group)
 
 | Code name | Description | Unit |
 | --- | --- | --- |
 | `CF_@{h}` | Total lifecycle carbon footprint | Mt CO₂ |
-| `WF_@{h}` | Total waste footprint of the consumption basket | t |
-| `MF_@{h}` | Consumption-side material footprint, net of process losses | t |
+| `WF_@{h}` | Total waste footprint of the consumption basket | g |
+| `MF_@{h}` | Consumption-side material footprint, net of process losses | g |
 | `CF_prod_<good>_@{h}` | Upstream and production-phase carbon, by good | Mt CO₂ |
 | `CF_eol_<good>_@{h}` | End-of-life carbon, by good | Mt CO₂ |
 | `CF_IW_<good>_@{h}` | Industrial-waste incineration carbon, by good | Mt CO₂ |
-| `WF_<good>_@{h}` | Waste embodied in consumption, by good | t |
-
+| `WF_<good>_@{h}` | Waste embodied in consumption, by good | g |
 `<good>` is `nondurable`, `otherdurable`, `energydurable`, `sharing` or `repair`.
 
 ## Production
 
 | Code name | Description | Unit |
 | --- | --- | --- |
-| `Y_@{s}`, `Y_@{m}`, `Y_sharing`, `Y_repair` | Sector output | JPY |
+| `Y_@{s}`, `Y_sharing`, `Y_repair` | Sector output | JPY |
+| `Y_@{m}`, | Virgin and secondary material sector output | g | 
 | `K_f_@{s}`, `K_@{m}`, `K_repair` | Capital input | JPY |
 | `L_@{s}`, `L_@{m}`, `L_sharing`, `L_repair` | Labour input | share of total employment |
 | `E_@{s}`, `E_@{m}`, `E_sharing` | Aggregate energy input | EJ |
@@ -108,7 +108,7 @@ measured in different units and are therefore index values normalised at the
 | `Y_sharing` | PSS firm output | JPY |
 | `p_sharing` | PSS price | – |
 | `ED_highuse` | Energy-using durables held by the PSS firm | JPY |
-| `u_highuse` | Utilisation rate of PSS-held durables | – |
+| `u_highuse` | Utilisation rate of PSS-held durables (share of time) | – |
 | `r_ed` | Rental rate of PSS-held durables | – |
 | `Inv_ed_new_highuse` | PSS investment in new energy-using durables | JPY |
 | `Y_repair` | Repair sector output | JPY |
@@ -118,7 +118,7 @@ measured in different units and are therefore index values normalised at the
 
 | Code name | Description | Unit |
 | --- | --- | --- |
-| `w` | Detrended efficiency wage | JPY |
+| `w` | Detrended efficiency wage | – |
 | `r_k` | Rental price of capital | – |
 | `K` | Capital stock of the economy | JPY |
 | `h` | Average hours worked | hours |
