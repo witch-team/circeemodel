@@ -193,9 +193,3 @@ measured in different units and are therefore index values normalised at the
 | `modifier_expenditures_@{h}` | Sufficiency lifestyle modifier (exogenous) | – |
 | `modifier_repair_@{h}` | Repair lifestyle modifier (exogenous, held at 0) | – |
 | `siggma_es_@{h}` | Home-to-market energy services substitution elasticity | – |
-
----
-
-For parameter values, data sources and the calibration procedure, see the
-appendices of Corbier et al. (2024, *Journal of Industrial Ecology*) and
-Corbier et al. (2026, *Global Environmental Change*).
