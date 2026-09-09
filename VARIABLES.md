@@ -118,7 +118,7 @@ measured in different units and are therefore index values normalised at the
 
 | Code name | Description | Unit |
 | --- | --- | --- |
-| `w` | Detrended efficiency wage | – |
+| `w` | Detrended efficiency wage; the wage per worker is w × A_t | – |
 | `r_k` | Rental price of capital | – |
 | `K` | Capital stock of the economy | JPY |
 | `h` | Average hours worked | hours |
@@ -144,7 +144,6 @@ measured in different units and are therefore index values normalised at the
 | `IMP_@{s}`, `IMP_@{m}` | Imports of goods and materials | JPY, g |
 | `EXPORT_@{s}`, `EXPORT_@{m}` | Exports of goods and materials | JPY, g |
 | `Demand_dom_@{s}` | Domestic demand for domestically-produced goods | JPY |
-| `IMP_R` | Resource imports | mixed (mass + value) |
 | `Domestic_Extraction` | Domestic extraction of raw materials | g |
 | `TB` | Trade balance | JPY |
 
