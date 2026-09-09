@@ -89,6 +89,13 @@ measured in different units and are therefore index values normalised at the
 | `CF_eol_<good>_@{h}` | End-of-life carbon, by good | Mt CO₂ |
 | `CF_IW_<good>_@{h}` | Industrial-waste incineration carbon, by good | Mt CO₂ |
 | `WF_<good>_@{h}` | Waste embodied in consumption, by good | g |
+| `share_nondurable_@{h}` | Group share of total non-durable demand, including government | – |
+| `share_otherdurable_@{h}` | Group share of other durable demand | – |
+| `share_energydurable_new_@{h}` | Group share of newly produced energy-using goods | – |
+| `share_sharing_@{h}` | Group share of PSS energy services | – |
+| `share_repair_@{h}` | Group share of repair services | – |
+| `share_energydurable_lowuse_prod` | Share of energy-using good production going to the owned channel | – |
+| `share_energydurable_highuse_prod` | Share going to the PSS channel | – |
 `<good>` is `nondurable`, `otherdurable`, `energydurable`, `sharing` or `repair`.
 
 ## Production
@@ -99,6 +106,10 @@ measured in different units and are therefore index values normalised at the
 | `Y_@{m}`, | Virgin and secondary material sector output | g | 
 | `K_f_@{s}`, `K_@{m}`, `K_repair` | Capital input | JPY |
 | `L_@{s}`, `L_@{m}`, `L_sharing`, `L_repair` | Labour input | share of total employment |
+| `KL_@{s}`, `KL_@{m}` | Capital-labour bundle (CES index) | index |
+| `Z_@{s}` | Capital-labour-energy bundle (CES index) | index |
+| `Z_@{m}` | Capital-energy bundle (CES index) | index |
+| `marginalcost_recycled` | Marginal cost of the recycling firm | – |
 | `E_@{s}`, `E_@{m}`, `E_sharing` | Aggregate energy input | EJ |
 | `El_@{s}`, `Nel_@{s}` | Electricity and fuel input | EJ |
 | `M_@{s}` | Aggregate material input | g |
@@ -121,6 +132,7 @@ measured in different units and are therefore index values normalised at the
 | `u_highuse` | Utilisation rate of PSS-held durables (share of time) | – |
 | `r_ed` | Rental rate of PSS-held durables | – |
 | `Inv_ed_new_highuse` | PSS investment in new energy-using durables | JPY |
+| `deltta_energydurable_highuse` | Endogenous depreciation rate of PSS-held durables | rate |
 | `Y_repair` | Repair sector output | JPY |
 | `p_repair` | Repair services price | – |
 
@@ -146,6 +158,7 @@ measured in different units and are therefore index values normalised at the
 | `Carbon_budget` | Carbon-tax revenue redistributed to households | JPY |
 | `EPR_budget` | EPR revenue redistributed to households | JPY |
 | `sub_recycled` | Implicit subsidy to the recycling sector (diagnostic) | JPY |
+| `Inv_ed_G` | Public energy-using durable goods investment | JPY |
 
 ## Trade
 
@@ -156,6 +169,12 @@ measured in different units and are therefore index values normalised at the
 | `Demand_dom_@{s}` | Domestic demand for domestically-produced goods | JPY |
 | `Domestic_Extraction` | Domestic extraction of raw materials | g |
 | `TB` | Trade balance | JPY |
+| `EXP_materials` | Exports of materials (virgin + recycled) | g |
+| `IMP_materials` | Imports of refined materials | g |
+| `IMP_raw` | Imports of raw materials | g |
+| `IMP_goods_mateq` | Imports of goods in material equivalent | g |
+| `EXPORT_goods_mateq` | Exports of goods in material equivalent | g |
+
 
 ## Material stocks and flows
 
@@ -192,6 +211,8 @@ measured in different units and are therefore index values normalised at the
 | `El`, `Nel` | Economy-wide electricity and fuel flows | EJ |
 | `GDP` | Gross domestic product | JPY |
 | `Y_power` | Power sector value added | JPY |
+| `A_nel` | Aggregate fuel efficiency | index |
+| `diff_A_nel` | Difference between aggregate and exogenous WITCH fuel efficiency | – |
 
 ## Lifestyle shares and modifiers
 
