@@ -430,7 +430,6 @@ varexo
     @#for s in ["otherdurable","energydurable","capital"]
         Error_stock_@{s}           ${Error_stock_@{s}}$                 (long_name='Error term to macth 2018 data')
     @#endfor
-    etta
 ;
 
 parameters  
@@ -608,7 +607,6 @@ parameters
 %------------------------------------------------------------------------------------------------------------
 
     alppha_k_powercapacities    ${alppha_k_powercapacities}$        (long_name='share of powercapacities capital stock in total capital stock')
-    Y_sharing_ss                ${Y_sharing_ss}$                    (long_name='Production of market energy services at steady state')
 ;
 
 @#include "CIRCEE_calibration.m"
@@ -1025,7 +1023,7 @@ model;
 
      [name='PSS firm price']
 
-     p_sharing = ((Y_sharing_ss/Y_sharing(-1)))^(etta)*((alppha_n_sharing^siggma_sharing)*((w)^(1-siggma_sharing))+(alppha_es_sharing^siggma_sharing)*(((alppha_e_sharing^siggma_home)*((p_e_sharing))^(1-siggma_home)+(alppha_ed_sharing^siggma_home)*(((r_ed)))^(1-siggma_home))^(1/(1-siggma_home)))^(1-siggma_sharing))^(1/((1-siggma_sharing)));
+     p_sharing = ((alppha_n_sharing^siggma_sharing)*((w)^(1-siggma_sharing))+(alppha_es_sharing^siggma_sharing)*(((alppha_e_sharing^siggma_home)*((p_e_sharing))^(1-siggma_home)+(alppha_ed_sharing^siggma_home)*(((r_ed)))^(1-siggma_home))^(1/(1-siggma_home)))^(1-siggma_sharing))^(1/((1-siggma_sharing)));
     
      [name='PSS firm demand of effective energy-using goods services u_highuse*ED_highuse']
 
