@@ -194,7 +194,7 @@ baseline.cautious    = baseline.lowcarbon;
 baseline.constrained = baseline.lowcarbon;
 
 %% -------- 1) Calibration block (CIRCEE_calibration.m) --------
-variablesOfInterest = {'Y_sharing_ss','deltta_energydurable_gov', 'material_int_nondurable','material_int_otherdurable','material_int_energydurable','material_int_capital','gamma_energydurable','gamma_otherdurable','gamma_nondurable','gamma_capital','margin_capital', 'margin_nondurable', 'margin_otherdurable', 'margin_energydurable','gamma_reexport_capital', 'gamma_reexport_nondurable', 'gamma_reexport_otherdurable', 'gamma_reexport_energydurable','t_imports_capital','t_imports_nondurable','t_imports_otherdurable','t_imports_energydurable','alppha_k_powercapacities','t_el_f','t_el_h','gamma_virgin','gamma_recycled','omegga_mun_recycled','omegga_ind_recycled','Foreign_nondurable', 'Foreign_otherdurable', 'Foreign_energydurable', 'Foreign_capital', 'Foreign_virgin', 'Foreign_recycled','siggma_dep_lowuse','siggma_dep','siggma_imports', 'siggma_exports', 'siggma_c', 'siggma_home', 'siggma_y', 'siggma_kl', 'siggma_e_f', 'siggma_e_recycled', 'siggma_e_virgin', 'siggma_m', 'siggma_z', 'siggma_e_h', 'siggma_sharing', 'siggma_ies', 'siggma_nes', 'siggma_inv_ed', 'ac_ik', 'ac_id', 'p_capital_norm', 'decay_mu', 'decay_indu',  't_c', 't_k', 't_l', 'g_c_nondurable', 'g_c_otherdurable', 'g_c_energydurable',...
+variablesOfInterest = {'deltta_energydurable_gov', 'material_int_nondurable','material_int_otherdurable','material_int_energydurable','material_int_capital','gamma_energydurable','gamma_otherdurable','gamma_nondurable','gamma_capital','margin_capital', 'margin_nondurable', 'margin_otherdurable', 'margin_energydurable','gamma_reexport_capital', 'gamma_reexport_nondurable', 'gamma_reexport_otherdurable', 'gamma_reexport_energydurable','t_imports_capital','t_imports_nondurable','t_imports_otherdurable','t_imports_energydurable','alppha_k_powercapacities','t_el_f','t_el_h','gamma_virgin','gamma_recycled','omegga_mun_recycled','omegga_ind_recycled','Foreign_nondurable', 'Foreign_otherdurable', 'Foreign_energydurable', 'Foreign_capital', 'Foreign_virgin', 'Foreign_recycled','siggma_dep_lowuse','siggma_dep','siggma_imports', 'siggma_exports', 'siggma_c', 'siggma_home', 'siggma_y', 'siggma_kl', 'siggma_e_f', 'siggma_e_recycled', 'siggma_e_virgin', 'siggma_m', 'siggma_z', 'siggma_e_h', 'siggma_sharing', 'siggma_ies', 'siggma_nes', 'siggma_inv_ed', 'ac_ik', 'ac_id', 'p_capital_norm', 'decay_mu', 'decay_indu',  't_c', 't_k', 't_l', 'g_c_nondurable', 'g_c_otherdurable', 'g_c_energydurable',...
  'Demand_foreign_virgin','Demand_foreign_recycled','alppha_n_nondurable', 'alppha_k_nondurable', 'alppha_n_otherdurable', 'alppha_k_otherdurable', 'alppha_n_energydurable', 'alppha_k_energydurable', 'alppha_n_capital', 'alppha_k_capital', 'alppha_n_virgin', 'alppha_k_virgin', 'alppha_n_recycled', 'alppha_k_recycled', 'alppha_n_repair', 'alppha_k_repair', 'alppha_kl_nondurable', 'alppha_e_nondurable', 'alppha_kl_otherdurable', 'alppha_e_otherdurable', 'alppha_kl_energydurable', 'alppha_e_energydurable',...
  'alppha_kl_capital', 'alppha_e_capital', 'alppha_kl_virgin', 'alppha_e_virgin', 'alppha_kl_recycled', 'alppha_e_recycled', 'alppha_z_nondurable', 'alppha_m_nondurable', 'alppha_z_otherdurable', 'alppha_m_otherdurable', 'alppha_z_energydurable', 'alppha_m_energydurable', 'alppha_z_capital', 'alppha_m_capital', 'alppha_z_virgin', 'alppha_rm', 'alppha_z_recycled', 'alppha_rw','h_nondurable','h_otherdurable','h_energydurable','h_capital','h_repair','h_virgin','h_recycled','h_sharing',...
  'betta','share_domestic_nondurable','share_domestic_otherdurable','share_domestic_energydurable','share_domestic_capital','share_domestic_virgin','share_domestic_recycled','share_imp_nondurable','share_imp_otherdurable','share_imp_energydurable','share_imp_capital','share_imp_virgin','share_imp_recycled','share_row_nondurable','share_row_otherdurable','share_row_energydurable','share_row_capital','share_row_virgin','share_row_recycled',...
@@ -217,7 +217,7 @@ end
 fclose(fid);
 
 %% -------- 2) Initval block (CIRCEE_baseyear_values.m) --------
-includedVars = {'etta','subsidies','eppsilon','Error_stock_otherdurable','Error_stock_energydurable','Error_stock_capital','Inv_RDEN_EE',' Inv_k_powercapacities','modifier_expenditures_cautious','modifier_expenditures_constrained','modifier_expenditures_lowcarbon','modifier_repair_cautious','modifier_repair_constrained','modifier_repair_lowcarbon','modifier_sharing_cautious','modifier_sharing_constrained','modifier_sharing_lowcarbon','A_m_nondurable','A_m_otherdurable','A_m_energydurable','A_m_capital','t_c_reduced',...
+includedVars = {'subsidies','eppsilon','Error_stock_otherdurable','Error_stock_energydurable','Error_stock_capital','Inv_RDEN_EE',' Inv_k_powercapacities','modifier_expenditures_cautious','modifier_expenditures_constrained','modifier_expenditures_lowcarbon','modifier_repair_cautious','modifier_repair_constrained','modifier_repair_lowcarbon','modifier_sharing_cautious','modifier_sharing_constrained','modifier_sharing_lowcarbon','A_m_nondurable','A_m_otherdurable','A_m_energydurable','A_m_capital','t_c_reduced',...
 'repair_ed_bonus','mu_share','omegga_lowcarbon','omegga_cautious','epr_fee_otherdurable','epr_fee_energydurable',...
 'c_m','A_el_WITCH','A_nel_WITCH','t_nel_h','t_nel_f','p_virgin','p_recycled','t_m','t_w','p_rawmaterials','redistribution','redistribution_epr','g_nel_witch','g_el_witch','emissions_el_WITCH','emissions_nel_WITCH'};
 
@@ -394,16 +394,6 @@ for year = 2019:2100
         yr = Error_stock_energydurable_pattern{i,1}; val = Error_stock_energydurable_pattern{i,2};
         if year>=yr(1) && year<=yr(2)
             mergedTable = [mergedTable; {'Error_stock_energydurable', year, val}];
-        end
-    end
-end
-
-etta_pattern = { [2018,2100], 0 };
-for year = 2019:2100
-    for i = 1:size(etta_pattern,1)
-        yr = etta_pattern{i,1}; val = etta_pattern{i,2};
-        if year>=yr(1) && year<=yr(2)
-            mergedTable = [mergedTable; {'etta', year, val}];
         end
     end
 end
