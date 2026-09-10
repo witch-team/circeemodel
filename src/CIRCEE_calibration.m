@@ -11,7 +11,6 @@ Foreign_otherdurable = 0.024922122035524;
 Foreign_recycled = 0.009224819951713;
 Foreign_virgin = 0.039748036420764;
 Tr = 0.12365478964883400000;
-Y_sharing_ss = 0.003380840509449;
 ac_id = 0.86845;
 ac_ik = 1.46;
 alppha_e = 1.57555979402923E-02;
