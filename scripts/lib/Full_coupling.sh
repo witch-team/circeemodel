@@ -478,13 +478,16 @@ finalize() {
         "$modifier_sharing_lowcarbon" "$modifier_sharing_cautious" "$modifier_sharing_constrained" \
         "$modifier_exp_lowcarbon"     "$modifier_exp_cautious"     "$modifier_exp_constrained"
 
-    echo "Running CIRCEE one last time with the converged modifier path..."
+        echo "Running CIRCEE one last time with the converged modifier path..."
     local conv=$(run_matlab)
-    [ "$conv" == "false" ] && echo "WARNING: Final CIRCEE run did not converge." >&2
-
     local tag="${SCENARIO_NAME}_${CIRCEE_SIGMA_SCENARIO}"
-    cp "${PATH_GRID_POINT_DATA}Sharing.csv"               "${RESULTS_DIR}/Sharing_final_${tag}.csv"
-    cp "${PATH_GRID_POINT_DATA}Lowering_Expenditures.csv" "${RESULTS_DIR}/Lowering_Expenditures_final_${tag}.csv"
+    if [ "$conv" == "false" ]; then
+        echo "WARNING: final CIRCEE run did not converge. Its output is NOT copied;" >&2
+        echo "         the files from the last converged outer iteration are kept." >&2
+    else
+        cp "${PATH_GRID_POINT_DATA}Sharing.csv"               "${RESULTS_DIR}/Sharing_final_${tag}.csv"
+        cp "${PATH_GRID_POINT_DATA}Lowering_Expenditures.csv" "${RESULTS_DIR}/Lowering_Expenditures_final_${tag}.csv"
+    fi
     cp "${PATH_GRID_POINT_DATA}shocks.csv"                "${RESULTS_DIR}/shocks_final_${tag}.csv"
 
     banner "Output files"
