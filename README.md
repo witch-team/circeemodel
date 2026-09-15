@@ -52,6 +52,26 @@ The paper reports twelve runs: four lifestyle configurations (sharing driver × 
 
 **A note on the converged modifiers.** The behavioural modifiers in `shocks_final_*.csv` are reached iteratively by the coupling, each solve starting from the previous one. Supplying a converged file to a single classic-mode run asks the solver to reach the same allocation from the steady state in one step; this does not converge for the configurations with the largest behavioural response. Reproduce coupled runs through `scripts/run.sh`, not by feeding converged modifiers to classic mode.
 
+**On convergence warnings.** `run.sh` reports "Modifier run did not converge"
+when Dynare's perfect-foresight solver stops on its iteration or step-size
+criterion rather than reaching its error tolerance. This concerns a single
+CIRCEE solve, not the coupling: the CIRCEE–LIFE fixed point is judged by the
+frequency changes in `convergence_*.csv`, and in the runs behind this paper
+all twelve configurations converged there within two outer iterations. Where
+the warning appeared — four of the twelve configuration — it was on the final iteration's
+solve, after the outer loop had already converged.
+
+If you see the warning, check whether the solution actually satisfies the model before discarding the run. Adding `resid;` after the solver in CIRCEE_PF.mod reports the residual of every equation by name; all should be near zero. A failed solve leaves the solver's initial
+guess in place: in a single classic-mode run that is the steady state, so the
+output is then identical to the zero-modifier reference; inside the coupled
+loop each run starts from the previous iteration's solution (which has not failed), so a failure
+there produces a path that still differs from the reference.
+
+Note that `scripts/lib/Full_coupling.sh` does not copy the final outputs when
+this warning fires on the last run, so `Sharing_final_*.csv` and
+`Lowering_Expenditures_final_*.csv` may be absent while the other outputs
+are present.
+
 ### Run modes
 
 Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseline bash run.sh`).
