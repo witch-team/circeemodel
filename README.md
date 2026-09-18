@@ -72,6 +72,27 @@ this warning fires on the last run, so `Sharing_final_*.csv` and
 `Lowering_Expenditures_final_*.csv` may be absent while the other outputs
 are present.
 
+**On the joint calibration warning.** Phase 1 tunes each behavioural modifier
+in turn, holding the others at their current values, and each tuner converges
+to its own target to within 0.01%. After each pass, `check_joint_verification`
+reports how far the joint run — all modifiers active — sits from a target
+computed from the zero-modifier baseline. Those two targets are not the same
+quantity: the tuners work from a baseline in which the other modifiers are
+already calibrated, the joint check from one in which none are. The check
+therefore reports a gap in every run, including the twelve behind this paper,
+and prints "Joint calibration did not converge. Proceeding with best available
+modifiers."
+
+This affects the diagnostic, not the calibration. Phase 2 runs on the tuner
+modifiers, which are the ones that reproduce the LIFE propensities. Computing
+the tuner targets from the zero-modifier baseline instead was tested and
+rejected: for the lowest-income group it implies a change of around 40% at T0,
+which the model does not solve.
+
+The modifiers should therefore be read as reproducing the LIFE propensities
+**conditionally** — each with the others held at their calibrated values —
+rather than simultaneously.
+
 ### Run modes
 
 Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseline bash run.sh`).
