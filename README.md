@@ -58,8 +58,7 @@ criterion rather than reaching its error tolerance. This concerns a single
 CIRCEE solve, not the coupling: the CIRCEE–LIFE fixed point is judged by the
 frequency changes in `convergence_*.csv`, and in the runs behind this paper
 all twelve configurations converged there within two outer iterations. Where
-the warning appeared — four of the twelve configuration — it was on the final iteration's
-solve, after the outer loop had already converged.
+the warning appeared — four of the twelve configuration — it was on the final iteration's solve or on the redundant re-solve that follows it
 
 If you see the warning, check whether the solution actually satisfies the model before discarding the run. Adding `resid;` after the solver in CIRCEE_PF.mod reports the residual of every equation by name; all should be near zero. A failed solve leaves the solver's initial
 guess in place: in a single classic-mode run that is the steady state, so the
