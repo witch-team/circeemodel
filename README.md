@@ -101,7 +101,7 @@ Set `RUN_MODE` in `config.sh` (or override on the command line: `RUN_MODE=baseli
 | `coupled` | Full CIRCEE ↔ LIFE iterative coupling. Phase 1 jointly calibrates T0 modifiers in propensity space; Phase 2 iterates the LIFE dynamics until lifestyle frequencies converge. Hours-scale runtime. | The full model run. |
 | `baseline` | Single CIRCEE run with all behavioural modifiers held at zero. No Phase 1, no Phase 2, no LIFE feedback. Minutes-scale runtime. `SCENARIO_*` settings are ignored. | Sanity checks, sensitivity analysis on CIRCEE parameters, generating a reference trajectory. |
 
-To run CIRCEE **on its own, without any lifestyle scenario**, set `RUN_MODE="baseline"` (or `RUN_MODE=baseline bash run.sh`). This runs the economic model once with all behavioural modifiers at zero and BAU infrastructures (Baseline in the model), producing the reference trajectory against which the coupled runs are compared. It is the fastest way to run the model and the recommended starting point.
+To run CIRCEE **on its own, without any lifestyle scenario**, set `RUN_MODE="baseline"` (or `RUN_MODE=baseline bash run.sh`). This runs the economic model once with all behavioural modifiers at zero and Current enablement infrastructures (Baseline in the model), producing the reference trajectory against which the coupled runs are compared. It is the fastest way to run the model and the recommended starting point.
 
 ### Scenarios (coupled mode only)
 
@@ -139,7 +139,7 @@ Independently of the behavioural narratives, the surrounding *infrastructures* i
 | `Progressive` | siggma_es rises over time, with the largest increase for lower-income groups (enablement concentrated on those who most depend on external conditions). |
 | `Regressive` | siggma_es rises over time, with the largest increase for higher-income groups. |
 
-`Progressive` and `Regressive` reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the infrastructures-configuration block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
+`Progressive` (Broad in the paper) and `Regressive` (Concentrated in the paper) reach a similar aggregate level of enablement by 2050 but distribute it oppositely, isolating the effect of *how* enablement is distributed from *how much* there is. The σ trajectories are set in the calibration/shock inputs; see `config.sh` and the infrastructures-configuration block in the calibration files. (Earlier model versions also included `Utopia_Equality` and `Dystopian_Equality`.)
 
 ### Naming: files and scenarios
 
@@ -148,22 +148,22 @@ Output filenames encode both, and `Baseline` refers to the ecosystem, not to the
 
 | File | Ecosystem | Behavioural modifiers |
 | --- | --- | --- |
-| `NoModifiers_AE.csv` | BAU | all zero — the reference run |
-| `<lifestyle>_AE_Baseline.csv` | BAU | as set by the lifestyle configuration |
-| `<lifestyle>_AE_Progressive.csv` | Progressive | as set by the lifestyle configuration |
-| `<lifestyle>_AE_Regressive.csv` | Regressive | as set by the lifestyle configuration |
+| `NoModifiers_AE.csv` | Current enablement | all zero — the reference run |
+| `<lifestyle>_AE_Baseline.csv` | Current enablement | as set by the lifestyle configuration |
+| `<lifestyle>_AE_Progressive.csv` | Broad | as set by the lifestyle configuration |
+| `<lifestyle>_AE_Regressive.csv` | Concentrated | as set by the lifestyle configuration |
 
 `AE` denotes anticipation errors. `<lifestyle>` is one of `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive`, given as sharing driver followed by sufficiency driver.
 
-All results in the paper are reported as changes relative to `NoModifiers_AE.csv`: the BAU ecosystem with no lifestyle heterogeneity.
+All results in the paper are reported as changes relative to `NoModifiers_AE.csv`: the Current enablement ecosystem with no lifestyle heterogeneity.
 
 Code tokens differ from the labels used in the paper:
 
 | Code token | Paper label |
 | --- | --- |
-| `Baseline` | BAU |
-| `Progressive` | Progressive |
-| `Regressive` | Regressive |
+| `Baseline` | Current enablement |
+| `Progressive` | Broad |
+| `Regressive` | Concentrated |
 | `NoModifiers` | reference run |
 | `lowcarbon` | Higher income |
 | `cautious` | Medium income |
