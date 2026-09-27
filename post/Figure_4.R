@@ -1,6 +1,3 @@
-data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
-out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
-
 library(tidyr)
 library(dplyr)
 library(stringr)
@@ -9,10 +6,32 @@ library(ggplot2)
 library(cowplot)
 library(ggh4x)
 library(ggnewscale)
+library(patchwork)
 
-base    <- file.path(data_dir, "Outputs", "CIRCEE_output_levels")
-out_dir <- out_dir_default
+base    <- "/Users/dariuscorbier/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
+out_dir <- "/Users/dariuscorbier/Desktop/Paper_Rethink_Results/figures"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+FIG_W <- 180 / 25.4 
+DPI   <- 600              
+FONT  <- "sans" 
+
+update_geom_defaults("text",  list(family = FONT))
+update_geom_defaults("label", list(family = FONT))
+if (requireNamespace("ggrepel", quietly = TRUE))
+  update_geom_defaults(ggrepel::GeomTextRepel, list(family = FONT))
+
+save_ns <- function(plot, name, height_in, dir = out_dir) {
+  if (inherits(plot, "patchwork"))
+    plot <- plot & ggplot2::theme(text = ggplot2::element_text(family = FONT))
+  ggsave(file.path(dir, paste0(name, ".pdf")), plot,
+         width = FIG_W, height = height_in, units = "in",
+         device = "pdf", family = FONT)
+  ggsave(file.path(dir, paste0(name, ".png")), plot,
+         width = FIG_W, height = height_in, units = "in", dpi = DPI)
+  message("Saved ", name, " at 180 mm x ", round(height_in * 25.4), " mm")
+}
+
 
 foresight      <- "AE"
 selected_years <- c("Y2030", "Y2040", "Y2050")
@@ -28,13 +47,13 @@ lifestyles <- c("ecoactive_ecoactive", "affordability_affordability",
 lifestyle_labels <- c(
   ecoactive_ecoactive         = "Ecoactive - All",
   affordability_affordability = "Affordability - All",
-  ecoactive_affordability     = "Ecoactive sharing\nAffordability sufficiency",
-  affordability_ecoactive     = "Affordability sharing\nEcoactive sufficiency"
+  ecoactive_affordability     = "Ecoactive\nSharing\nAffordability\nSufficiency",
+  affordability_ecoactive     = "Affordability\nSharing\nEcoactive\nSufficiency"
 )
 
-scen_levels <- c("Baseline", "Regressive", "Progressive")
-scen_short  <- c(Baseline = "BAU", Regressive = "Regressive",
-                 Progressive = "Progressive")
+scen_levels <- c("Baseline", "Strong.Regressive", "Strong.Progressive")
+scen_short  <- c(Baseline = "Current (low)", Strong.Regressive = "Concentrated",
+                 Strong.Progressive = "Broad")
 add_dmc_split <- function(df) {
   m_vars <- c("M_virgin_nondurable","M_virgin_otherdurable",
               "M_virgin_energydurable","M_virgin_capital",
@@ -184,19 +203,31 @@ x_lab_fun <- function(x) {
   vapply(x, function(lvl) {
     if (grepl("^GAp::", lvl)) return("")
     parts <- strsplit(lvl, "::")[[1]]
-    if (parts[2] == "Regressive") parts[1] else ""   
+    if (parts[2] == "Concentrated") parts[1] else ""   
   }, character(1))
 }
 
-base_theme <- theme_gray(base_size = 9) +
+base_theme <- theme_gray(base_size = 7) +
   theme(
-    axis.text.x      = element_text(angle = 0, hjust = 0.5),
+    axis.text.x      = element_text(angle = 45, hjust = 1, size = 5),
+    axis.text.y      = element_text(size = 6),
+    axis.title       = element_text(size = 6),
     axis.ticks.x     = element_blank(),
     panel.grid.major = element_line(color = "white"),
     panel.grid.minor = element_line(color = "white"),
-    strip.text       = element_text(size = 8, color = "black", face = "bold"),
+    strip.text       = element_text(size = 5, color = "black", face = "bold",
+                                    lineheight = 0.85),
     legend.position  = "right",
-    plot.title       = element_text(size = 9, face = "bold")
+    legend.box       = "vertical",
+    legend.box.just  = "left",
+    legend.title     = element_text(size = 6),
+    legend.text      = element_text(size = 5),
+    legend.key.size  = unit(0.28, "cm"),
+    legend.spacing.y = unit(0.10, "cm"),
+    legend.margin    = margin(l = 0, r = 0),
+    plot.title       = element_text(size = 7, face = "bold",
+                                    margin = margin(b = 2)),
+    plot.margin      = margin(t = 2, r = 2, b = 2, l = 2)
   )
 
 add_total_points <- function(p, totals_df) {
@@ -206,23 +237,21 @@ add_total_points <- function(p, totals_df) {
     geom_point(
       data = totals_df,
       aes(x = YearCombo, y = total, shape = combo, fill = combo, color = combo),
-      size = 1.5, stroke = 0.8, inherit.aes = FALSE
+      size = 1.0, stroke = 0.6, inherit.aes = FALSE
     ) +
-    scale_shape_manual(name = "Infrastructures",
-                       values = c(BAU = 21, Regressive = 24, Progressive = 23)) +
-    scale_fill_manual(name = "Infrastructures",
-                      values = c(BAU = "white", Regressive = "white",
-                                 Progressive = "white")) +
-    scale_color_manual(name = "Infrastructures",
-                       values = c(BAU = "black", Regressive = "black",
-                                  Progressive = "black")) +
+    scale_shape_manual(name = "Infrastructure enablement",
+                       values = setNames(c(21, 24, 23), c("Current (low)", "Concentrated", "Broad"))) +
+    scale_fill_manual(name = "Infrastructure enablement",
+                      values = setNames(rep("white", 3), c("Current (low)", "Concentrated", "Broad"))) +
+    scale_color_manual(name = "Infrastructure enablement",
+                       values = setNames(rep("black", 3), c("Current (low)", "Concentrated", "Broad"))) +
     guides(fill = "none", color = "none",
            shape = guide_legend(order = 2, override.aes = list(
              fill  = "white",
              color = "black")))
 }
 
-y_lab <- expression("Relative to reference run in Mt year"^-1)
+y_lab <- expression("Relative to reference in Mt year"^-1)
 
 make_panel <- function(vars, fills, fill_labels, fill_name, title, fill_breaks = NULL) {
   d_long <- df %>% filter(variable %in% vars) %>%
@@ -258,7 +287,7 @@ make_co2_panel <- function(d_long, title) {
     geom_bar(stat = "identity", position = "stack", color = "black", linewidth = 0.2) +
     scale_fill_manual(
       values = c(CO2_economy = "plum1", CO2_incineration = "yellow1"),
-      name   = "Cumulative CO2",
+      name   = expression("Cumulative CO"[2]),
       labels = c(CO2_economy = "Economy (energy)", CO2_incineration = "Incineration")
     ) +
     guides(fill = guide_legend(order = 1)) +
@@ -266,7 +295,7 @@ make_co2_panel <- function(d_long, title) {
     facet_wrap(~ lifestyle_lbl, nrow = 1, scales = "free_x") +
     scale_x_discrete(guide = guide_axis_nested(), drop = FALSE, labels = x_lab_fun) +
     labs(x = "Year",
-         y = expression("Mt CO2"),
+         y = expression("Mt CO"[2]),
          title = title) +
     base_theme
   add_total_points(p, totals)
@@ -295,11 +324,12 @@ p_waste <- make_panel(
                   IW                = "Industrial waste"),
   fill_name = "Waste flows",
   fill_breaks = c("MW_nondurables", "MW_otherdurables", "MW_energydurables", "IW"),
-  title = "b. Municipal and industrial waste flows")
+  title = "b. Municipal and industrial waste flows") +
+  guides(shape = "none")   # same enablement legend as panel a
 
 p_co2 <- make_co2_panel(
   co2_df,
-  title = "c. Cumulative CO2 emissions")
+  title = expression(bold("c. Cumulative CO"[2]*" emissions")))
 co2_df_2050 <- co2_df %>% filter(Year == "2050")
 co2_2050_levels <- all_combos
 co2_df_2050 <- co2_df_2050 %>%
@@ -314,7 +344,7 @@ make_co2_panel_2050 <- function(d_long, title) {
     geom_bar(stat = "identity", position = "stack", color = "black", linewidth = 0.2) +
     scale_fill_manual(
       values = c(CO2_economy = "#CC79A7", CO2_incineration = "#F0E442"),
-      name   = "Cumulative CO2",
+      name   = expression("Cumulative CO"[2]),
       labels = c(CO2_economy = "Economy (energy)", CO2_incineration = "Incineration")
     ) +
     guides(fill = guide_legend(order = 1)) +
@@ -324,27 +354,27 @@ make_co2_panel_2050 <- function(d_long, title) {
     ggnewscale::new_scale_color() +
     geom_point(data = totals, aes(x = combo_only, y = total, shape = combo_only,
                                   fill = combo_only, color = combo_only),
-               size = 1.8, stroke = 0.8, inherit.aes = FALSE) +
-    scale_shape_manual(name = "Infrastructures",
-                       values = c(BAU = 21, Regressive = 24, Progressive = 23)) +
-    scale_fill_manual(name = "Infrastructures",
-                      values = c(BAU = "white", Regressive = "white", Progressive = "white")) +
-    scale_color_manual(name = "Infrastructures",
-                       values = c(BAU = "black", Regressive = "black", Progressive = "black")) +
+               size = 1.2, stroke = 0.6, inherit.aes = FALSE) +
+    scale_shape_manual(name = "Infrastructure enablement",
+                       values = setNames(c(21, 24, 23), c("Current (low)", "Concentrated", "Broad"))) +
+    scale_fill_manual(name = "Infrastructure enablement",
+                      values = setNames(rep("white", 3), c("Current (low)", "Concentrated", "Broad"))) +
+    scale_color_manual(name = "Infrastructure enablement",
+                       values = setNames(rep("black", 3), c("Current (low)", "Concentrated", "Broad"))) +
     guides(fill = "none", color = "none",
            shape = guide_legend(order = 2, override.aes = list(
              fill = "white", color = "black"))) +
-    labs(x = NULL, y = expression("Mt CO2 relative to the reference run"), title = title) +
+    labs(x = NULL, y = expression("Mt CO"[2]*" relative to the reference"), title = title) +
     base_theme + theme(axis.text.x = element_blank())
   p
 }
 
 p_co2_main <- make_co2_panel_2050(
   co2_df_2050,
-  title = "c. Cumulative CO2 emissions to 2050")
+  title = expression(bold("c. Cumulative CO"[2]*" emissions to 2050")))
 lifestyles_hm <- c("ecoactive_ecoactive","affordability_ecoactive",
                    "ecoactive_affordability","affordability_affordability")
-scenarios_hm  <- c("Baseline","Regressive","Progressive")
+scenarios_hm  <- c("Baseline","Strong.Regressive","Strong.Progressive")
 hm_scalar <- function(d,v){ yc<-grep("^Y[0-9]{4}$",names(d),value=TRUE); as.numeric(d[d$Row==v,yc])[yc=="Y2050"] }
 hm_series <- function(d,v){ yc<-grep("^Y[0-9]{4}$",names(d),value=TRUE); setNames(as.numeric(d[d$Row==v,yc]),as.integer(sub("Y","",yc))) }
 
@@ -366,7 +396,7 @@ for(i in seq_len(nrow(grid))){
   grid$eq_accessgap[i] <- 100*(ratio_scen - ratio_ref)/ratio_ref      
 }                                                                
 
-welfare_base <- file.path(data_dir, "Welfare")
+welfare_base <- "~/Desktop/Paper_Rethink_Results/Welfare"
 grid$cev_gap <- NA_real_
 for(i in seq_len(nrow(grid))){
   wf <- file.path(welfare_base, paste0(grid$lifestyle[i],"_AE"), "welfare_CEV_lifetime.csv")
@@ -378,24 +408,24 @@ for(i in seq_len(nrow(grid))){
 cat("CEV gap NA count (should be 0):", sum(is.na(grid$cev_gap)), "\n")
 
 grid$ls_f <- factor(grid$lifestyle, levels = lifestyles_hm,
-                    labels = c("Ecoactive - All","Affordability sharing\nEcoactive sufficiency","Ecoactive sharing\nAffordability sufficiency","Affordordability - All"))
+                    labels = c("Ecoactive - All","Affordability sharing\nEcoactive sufficiency","Ecoactive sharing\nAffordability sufficiency","Affordability - All"))
 grid$sc_f <- factor(grid$scenario, levels = scenarios_hm,
-                    labels = c("BAU","Regressive","Progressive"))
+                    labels = c("Current (low)","Concentrated","Broad"))
 p_heatmap <- ggplot(grid, aes(eq_accessgap, cev_gap)) +
   annotate("rect", xmin = 0, xmax = Inf, ymin = 0, ymax = Inf,
            fill = "#EAF3DE", alpha = 0.6) +
   geom_hline(yintercept = 0, color = "#B4B2A9", linewidth = 0.4) +
   geom_vline(xintercept = 0, color = "#B4B2A9", linewidth = 0.4) +
-  geom_point(aes(fill = env_co2, shape = sc_f), size = 3, stroke = 0.2, color = "black") +
+  geom_point(aes(fill = env_co2, shape = sc_f), size = 2, stroke = 0.2, color = "black") +
   scale_fill_gradient2(low = "#27500A", mid = "#F1EFE8", high = "#791F1F",
-                       midpoint = 0, name = "Cumulative CO2\nvs reference run",
+                       midpoint = 0, name = expression(atop("Cumulative CO"[2], "vs reference")),
                        breaks = c(-90, 0, 90), labels = c("-90 Mt", "0 Mt", "90 Mt")) +
-  scale_shape_manual(values = c(21, 24, 23), name = "Infrastructures") + 
+  scale_shape_manual(values = c(21, 24, 23), name = "Infrastructure enablement") + 
   guides(fill = guide_colourbar(order = 1),
          shape = guide_legend(order = 2, override.aes = list(fill = "grey50"))) +
   facet_wrap(~ ls_f, nrow = 2) +
-  labs(x = "Access-gap equity  (\u2192 gap narrows toward parity, %)",
-       y = "Welfare-gap equity  (\u2191 gap narrows, pp)",
+  labs(x = "Access-gap equity (right: gap narrows toward parity, %)",
+       y = "Welfare-gap equity (up: gap narrows, pp)",
        title = "d. Environmental and equity trade-off") +
   base_theme +
   theme(panel.grid.minor = element_blank(),
@@ -403,22 +433,20 @@ p_heatmap <- ggplot(grid, aes(eq_accessgap, cev_gap)) +
         legend.key.height = unit(0.4, "cm"),
         panel.spacing = unit(0.6, "lines"))
 
-top_row_main <- plot_grid(p_dmc, p_waste, ncol = 2, align = "v", axis = "lr", rel_widths = c(1, 1))
+top_row_main <- (p_dmc | p_waste) +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "right", legend.justification = "center")
 
-bottom_row_main <- plot_grid(NULL, p_co2_main, NULL, ncol = 3, rel_widths = c(0.5, 1, 0.5))
+bottom_row_main <- (plot_spacer() | p_co2_main | plot_spacer()) +
+  plot_layout(widths = c(0.5, 1, 0.5))
 
-main_plot <- plot_grid(
-  top_row_main, bottom_row_main,
-  ncol = 1, rel_heights = c(1, 0.8)
-)
+main_plot <- (wrap_elements(top_row_main) + theme(plot.margin = margin(b = 0))) /
+  (wrap_elements(bottom_row_main) + theme(plot.margin = margin(t = 0))) +
+  plot_layout(heights = c(1, 0.8))
 
-ggsave(file.path(out_dir, "fig5_main.pdf"), main_plot, width = 15, height = 11, device = "pdf")
-ggsave(file.path(out_dir, "fig5_main.png"), main_plot, width = 15, height = 11, dpi = 300)
-message("Saved: fig5_main (a, b, simplified c centered) in ", out_dir)
+save_ns(main_plot, "fig5_main", height_in = 5.20)
 print(main_plot)
 
 si_plot <- plot_grid(p_co2, p_heatmap, ncol = 1, rel_heights = c(1, 1.2))
 
-ggsave(file.path(out_dir, "fig5_supplementary_co2_and_tradeoff.pdf"), si_plot, width = 15, height = 14, device = "pdf")
-ggsave(file.path(out_dir, "fig5_supplementary_co2_and_tradeoff.png"), si_plot, width = 15, height = 14, dpi = 300)
-message("Saved: fig5_supplementary_co2_and_tradeoff in ", out_dir)
+save_ns(si_plot, "fig5_supplementary_co2_and_tradeoff", height_in = 6.61)

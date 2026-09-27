@@ -1,13 +1,31 @@
-data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
-out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
-
 library(tidyverse)
 library(patchwork)
 library(ggh4x)
 
-base    <- file.path(data_dir, "Outputs", "CIRCEE_output_levels")
-out_dir <- out_dir_default
+base    <- "~/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
+out_dir <- "~/Desktop/Paper_Rethink_Results/figures"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+FIG_W <- 180 / 25.4
+DPI   <- 600
+FONT  <- "sans"  
+
+update_geom_defaults("text",  list(family = FONT))
+update_geom_defaults("label", list(family = FONT))
+if (requireNamespace("ggrepel", quietly = TRUE))
+  update_geom_defaults(ggrepel::GeomTextRepel, list(family = FONT))
+
+save_ns <- function(plot, name, height_in, dir = out_dir) {
+  if (inherits(plot, "patchwork"))
+    plot <- plot & ggplot2::theme(text = ggplot2::element_text(family = FONT))
+  ggsave(file.path(dir, paste0(name, ".pdf")), plot,
+         width = FIG_W, height = height_in, units = "in",
+         device = "pdf", family = FONT)
+  ggsave(file.path(dir, paste0(name, ".png")), plot,
+         width = FIG_W, height = height_in, units = "in", dpi = DPI)
+  message("Saved ", name, " at 180 mm x ", round(height_in * 25.4), " mm")
+}
+
 
 read_y2050 <- function(path) {
   df <- read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
@@ -36,11 +54,11 @@ groups <- c("constrained", "cautious", "lowcarbon")
 lifestyle_labels <- c(
   ecoactive_ecoactive         = "Ecoactive - All",
   affordability_affordability = "Affordability - All",
-  ecoactive_affordability     = "Ecoactive - Sharing \nAffordability - Sufficiency",
-  affordability_ecoactive     = "Affordability - Sharing \nEcoactive - Sufficiency")
+  ecoactive_affordability     = "Ecoactive - Sharing\nAffordability - Sufficiency",
+  affordability_ecoactive     = "Affordability - Sharing\nEcoactive - Sufficiency")
 
-scenario_order_with_base <- c("Baseline","Regressive","Progressive")
-scenario_order_behav     <- c("Baseline","Regressive","Progressive")
+scenario_order_with_base <- c("Baseline","Strong_Regressive","Strong_Progressive")
+scenario_order_behav     <- c("Baseline","Strong_Regressive","Strong_Progressive")
 
 relabel_groups <- function(grp) factor(case_when(
   grp == "constrained" ~ "Lower income",
@@ -49,17 +67,18 @@ relabel_groups <- function(grp) factor(case_when(
 ), levels = c("Lower income", "Medium income", "Higher income"))
 
 scenario_labeller <- labeller(scenario_lbl = c(
-  Baseline="BAU", Regressive="Regressive", Progressive="Progressive"))
+  Baseline="Current", Strong_Regressive="Concentrated", Strong_Progressive="Broad"))
 
-base_theme <- theme_minimal(base_size = 9) +
+base_theme <- theme_minimal(base_size = 7) +
   theme(strip.placement="outside",
-        strip.text.x.bottom = element_text(face="bold", size=8, margin=margin(t=4, b=3)),
-        strip.text.y.right  = element_text(face="bold", size=7, angle=270, lineheight=1.05),
-        axis.text.x.top=element_text(angle=45, hjust=0, size=8), axis.text.y=element_text(size=7),
-        panel.grid=element_blank(), plot.title=element_text(face="bold", size=10),
-        legend.title=element_text(size=8), legend.text=element_text(size=8),
-        plot.subtitle=element_text(size=8),
-        plot.margin = margin(t = 5, r = 20, b = 5, l = 5),
+        strip.text.x.bottom = element_text(face="bold", size=6, margin=margin(t=4, b=3)),
+        strip.text.y.right  = element_text(face="bold", size=5, angle=0,
+                                           hjust=0, lineheight=0.9),
+        axis.text.x.top=element_text(angle=45, hjust=0, size=6), axis.text.y=element_text(size=5.5),
+        panel.grid=element_blank(), plot.title=element_text(face="bold", size=7),
+        legend.title=element_text(size=6), legend.text=element_text(size=6),
+        plot.subtitle=element_text(size=6),
+        plot.margin = margin(t = 5, r = 4, b = 0, l = 5),
         plot.background=element_rect(fill="white", color=NA))
 
 compute_intensity3 <- function(df, h) {
@@ -96,25 +115,25 @@ p3a <- ggplot(behav_df2, aes(indicator, group_lbl, fill=value_norm)) +
   facet_grid(lifestyle_lbl ~ scenario_lbl, switch="x", labeller=scenario_labeller) +
   scale_x_discrete(position="top", limits=c("Refuse","Rethink")) +
   labs(title="a. Behavioural engagement (2050 snapshot)",
-       subtitle="Y2050 vs. reference run with no lifestyle heterogeneity and BAU infrastructures", x=NULL, y=NULL) +
+       subtitle="Y2050 vs. reference with no lifestyle heterogeneity and current enablement", x=NULL, y=NULL) +
   base_theme
 
 foresight_keep <- "AE"
-scen_levels <- c("Baseline","Regressive","Progressive")
-scen_labels <- c("BAU","Regressive","Progressive")   # display only; file token stays "Baseline"
+scen_levels <- c("Baseline","Strong_Regressive","Strong_Progressive")
+scen_labels <- c("Current (low)","Concentrated (high, favouring higher-income)","Broad (high, favouring lower-income)")   # display only; file token stays "Baseline"
 
 lifestyle_labels <- c(
-  ecoactive_ecoactive         = " Ecoactive - All",
-  affordability_affordability = " Affordability - All",
-  ecoactive_affordability     = " Ecoactive sharing \n Affordability sufficiency",
-  affordability_ecoactive     = " Affordability sharing \n Ecoactive sufficiency")
+  ecoactive_ecoactive         = "Ecoactive - All",
+  affordability_affordability = "Affordability - All",
+  ecoactive_affordability     = "Ecoactive - Sharing\nAffordability - Sufficiency",
+  affordability_ecoactive     = "Affordability - Sharing\nEcoactive - Sufficiency")
 
-ls_col <- c(" Ecoactive - All"="#1B7837"," Affordability - All"="#762A83",
-            " Ecoactive sharing \n Affordability sufficiency"="#E08214",
-            " Affordability sharing \n Ecoactive sufficiency"="#2166AC")
+ls_col <- c("Ecoactive - All"="#1B7837","Affordability - All"="#762A83",
+            "Ecoactive - Sharing\nAffordability - Sufficiency"="#E08214",
+            "Affordability - Sharing\nEcoactive - Sufficiency"="#2166AC")
 
-scen_shapes    <- c("BAU"=21,"Regressive"=24,"Progressive"=23)
-scen_linetypes <- c("BAU"="solid","Regressive"="solid","Progressive"="solid")
+scen_shapes    <- c("Current (low)"=21,"Concentrated (high, favouring higher-income)"=24,"Broad (high, favouring lower-income)"=23)
+scen_linetypes <- c("Current (low)"="solid","Concentrated (high, favouring higher-income)"="solid","Broad (high, favouring lower-income)"="solid")
 
 read_years <- function(path, keep_rows = NULL) {
   df <- read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
@@ -150,7 +169,7 @@ compute_grp_yr <- function(df, h) {
   ratio_pol   <- df[[paste0("ES_sharing_",h)]] / df[[paste0("ES_home_",h)]]
   ratio_nomod <- df[[paste0("ES_sharing_",h,"_nomod")]] / df[[paste0("ES_home_",h,"_nomod")]]
   tibble(lifestyle=df$lifestyle, scenario=df$scenario, year=df$year, grp=h,
-         Refuse  = (inv_nomod - inv_pol) / inv_nomod,
+         Refuse  = (inv_pol - inv_nomod) / inv_nomod,
          Rethink = (ratio_pol - ratio_nomod) / ratio_nomod)
 }
 
@@ -160,15 +179,14 @@ compute_agg_yr <- function(df) {
   ratio_pol   <- df[["ES_sharing"]] / df[["ES_home"]]
   ratio_nomod <- df[["ES_sharing_nomod"]] / df[["ES_home_nomod"]]
   tibble(lifestyle=df$lifestyle, scenario=df$scenario, year=df$year, grp="economy",
-         Refuse  = (inv_nomod - inv_pol) / inv_nomod,
+         Refuse  = (inv_pol - inv_nomod) / inv_nomod,
          Rethink = (ratio_pol - ratio_nomod) / ratio_nomod)
 }
 
-group_levels_with_agg <- c("Economy-wide","Higher income","Medium income","Lower income")
+group_levels_with_agg <- c("Higher income","Medium income","Lower income")
 
 evo <- bind_rows(
-  map_dfr(groups, ~ compute_grp_yr(joined, .x)),
-  compute_agg_yr(joined)
+  map_dfr(groups, ~ compute_grp_yr(joined, .x))
 ) %>%
   filter(scenario %in% scen_levels, year >= 2018, year <= 2050) %>%
   pivot_longer(c(Refuse, Rethink), names_to="indicator", values_to="value") %>%
@@ -177,11 +195,10 @@ evo <- bind_rows(
          group_lbl     = factor(case_when(
            grp == "constrained" ~ "Lower income",
            grp == "cautious"    ~ "Medium income",
-           grp == "lowcarbon"   ~ "Higher income",
-           grp == "economy"     ~ "Economy-wide"
+           grp == "lowcarbon"   ~ "Higher income"
          ), levels = group_levels_with_agg))
 
-theme_ns <- function(base = 9) {
+theme_ns <- function(base = 7) {
   theme_minimal(base_size = base) +
     theme(
       text             = element_text(color = "#1A1A1A"),
@@ -194,10 +211,14 @@ theme_ns <- function(base = 9) {
       panel.grid.major = element_line(color = "white", linewidth = 0.5),
       panel.spacing    = unit(0.6, "lines"),
       legend.position  = "bottom",
-      legend.title     = element_text(size = base, face = "bold"),
-      legend.text      = element_text(size = base),
-      legend.key.width = unit(0.8, "cm"),
-      legend.key.height= unit(0.3, "cm"),
+      legend.title     = element_text(size = 6, hjust = 0),
+      legend.text      = element_text(size = 5),
+      legend.key       = element_rect(fill = "grey95", colour = NA),
+      legend.key.size  = unit(0.28, "cm"),
+      legend.spacing.y = unit(0.10, "cm"),
+      legend.margin    = margin(l = 0, r = 0),
+      legend.box.just  = "left",
+      legend.justification = "left",
       plot.background  = element_rect(fill = "white", color = NA),
       panel.background = element_rect(fill = "#EBEBEB", color = NA),
       strip.background = element_rect(fill = "grey90", colour = NA)
@@ -206,11 +227,11 @@ theme_ns <- function(base = 9) {
 theme_evo <- theme_ns()
 
 evo <- evo %>%
-  mutate(enablement_grp = factor(if_else(scenario_lbl == "BAU", "BAU", "Enabling"),
-                                 levels = c("BAU", "Enabling")))
+  mutate(enablement_grp = factor(if_else(scenario_lbl == "Current (low)", "Current (low)", "Enabling"),
+                                 levels = c("Current (low)", "Enabling")))
 
-enable_shapes    <- c(BAU = 21, Enabling = 24)
-enable_linetypes <- c(BAU = "solid", Enabling = "solid")
+enable_shapes    <- c(`Current (low)` = 21, Enabling = 24)
+enable_linetypes <- c(`Current (low)` = "solid", Enabling = "solid")
 
 mk_traj <- function(ind, ttl, sub = NULL, data = evo, show_ecosystem = FALSE, ylim = NULL,
                     ylab = NULL, peak_band = NULL, peak_label = NULL,
@@ -229,10 +250,10 @@ mk_traj <- function(ind, ttl, sub = NULL, data = evo, show_ecosystem = FALSE, yl
   
   lab_layer <- if (is.null(peak_band) || is.null(peak_label)) NULL else {
     y_top <- if (!is.null(ylim)) ylim[2] else max(d$value, na.rm = TRUE)
-    lab_df <- tibble(group_lbl = factor(group_levels_with_agg[1], levels = group_levels_with_agg),
+    lab_df <- tibble(group_lbl = factor("Higher income", levels = group_levels_with_agg),
                      year = mean(peak_band), value = y_top, label = peak_label)
     geom_text(data = lab_df, aes(x = year, y = value, label = label),
-              inherit.aes = FALSE, size = 2.5, vjust = peak_label_vjust,
+              inherit.aes = FALSE, size = 1.9, vjust = peak_label_vjust,
               lineheight = 0.9, colour = "#4D4D4D")
   }
   if (show_ecosystem) {
@@ -242,14 +263,16 @@ mk_traj <- function(ind, ttl, sub = NULL, data = evo, show_ecosystem = FALSE, yl
       geom_line(aes(linetype=scenario_lbl), linewidth=0.4)+
       geom_point(data=filter(d, year %in% mark_years), aes(shape=scenario_lbl), size=1.5, fill="white", stroke=0.6)+
       facet_wrap(~ group_lbl, nrow=1)+
-      scale_colour_manual("Behaviour", values=ls_col)+
-      scale_shape_manual("Infrastructures", values=scen_shapes,
-                         guide=guide_legend(override.aes=list(fill="white", colour="black", linetype=0)))+
-      scale_linetype_manual("Infrastructures", values=scen_linetypes, guide="none")+
-      scale_y_continuous(labels=scales::percent, limits=ylim)+
+      scale_colour_manual("Lifestyle driver", values=ls_col,
+                          guide=guide_legend(keywidth=unit(0.8,"cm"),
+                                             keyheight=unit(0.3,"cm")))+
+      scale_shape_manual("Infrastructure enablement", values=scen_shapes,
+                         guide=guide_legend(override.aes=list(fill="white", colour="black", linetype=0, size=1.8)))+
+      scale_linetype_manual("Infrastructure enablement", values=scen_linetypes, guide="none")+
+      scale_y_continuous(labels=scales::percent, limits=ylim, breaks = seq(-1, 1, by = 0.25))+
       scale_x_continuous(breaks=c(2020,2035,2050), limits=c(2018,2050))+
       labs(title=ttl, subtitle=sub, x=NULL, y=ylab)+lab_layer+theme_evo+
-      theme(axis.text.y=element_text(size=8), axis.title.y=element_text(size=8))
+      theme(axis.text.y=element_text(size=6), axis.title.y=element_text(size=6))
   } else {
     p <- ggplot(d, aes(year, value, colour=lifestyle_lbl, group=interaction(lifestyle_lbl, scenario_lbl)))+
       band+
@@ -257,32 +280,34 @@ mk_traj <- function(ind, ttl, sub = NULL, data = evo, show_ecosystem = FALSE, yl
       geom_line(aes(linetype=enablement_grp), linewidth=0.5)+
       geom_point(data=filter(d, year %in% mark_years), aes(shape=enablement_grp), size=1.5, fill="white", stroke=0.6)+
       facet_wrap(~ group_lbl, nrow=1)+
-      scale_colour_manual("Behaviour", values=ls_col)+
-      scale_shape_manual("Infrastructures", values=enable_shapes,
-                         labels=c(BAU="BAU", Enabling="Enabling (Progressive or Regressive)"),
-                         guide=guide_legend(override.aes=list(fill="white", colour="black", linetype=0)))+
+      scale_colour_manual("Lifestyle driver", values=ls_col,
+                          guide=guide_legend(keywidth=unit(0.8,"cm"),
+                                             keyheight=unit(0.3,"cm")))+
+      scale_shape_manual("Infrastructure enablement", values=enable_shapes,
+                         labels=c(`Current (low)`="Current (low)", Enabling="Enabling (broad or concentrated)"),
+                         guide=guide_legend(override.aes=list(fill="white", colour="black", linetype=0, size=1.8)))+
       scale_linetype_manual("Infrastructures", values=enable_linetypes, guide="none")+
-      scale_y_continuous(labels=scales::percent, limits=ylim)+
+      scale_y_continuous(labels=scales::percent, limits=ylim, breaks = seq(-1, 1, by = 0.25))+
       scale_x_continuous(breaks=c(2020,2035,2050), limits=c(2018,2050))+
       labs(title=ttl, subtitle=sub, x=NULL, y=ylab)+lab_layer+theme_evo+
-      theme(axis.text.y=element_text(size=8), axis.title.y=element_text(size=8))
+      theme(axis.text.y=element_text(size=6), axis.title.y=element_text(size=6))
   }
   p
 }
 
 shared_ylim <- range(evo$value[evo$indicator %in% c("Refuse","Rethink")], na.rm = TRUE)
-shared_ylab <- "% vs. reference run"
+shared_ylab <- "% vs. reference"
 
 pB <- mk_traj("Refuse",  "b. Refuse",
-              "Reduction in investment in energy-using goods (new purchases and repairs)",
+              "Change in investment in energy-using goods (new purchases and repairs)",
               data = evo, show_ecosystem = TRUE, ylim = shared_ylim, ylab = shared_ylab)
 pC <- mk_traj("Rethink", "c. Rethink",
-              "Increase in the PSS-to-home energy-services ratio",
+              "Change in the PSS-to-home energy-services ratio",
               data = evo, show_ecosystem = TRUE, ylim = shared_ylim, ylab = shared_ylab,
               peak_band = c(2030, 2035), peak_label = "Peak\n2030\u20132035",
               peak_label_vjust = 0.9)
 
-top <- (plot_spacer() | p3a | plot_spacer()) + plot_layout(widths = c(0.5, 1, 0.5))
+top <- (plot_spacer() | p3a | plot_spacer()) + plot_layout(widths = c(0.06, 1, 0.06))
 
 MERGE_BC <- FALSE
 
@@ -304,8 +329,10 @@ if (!MERGE_BC) {
   band_df <- tibble(indicator = factor(ind_labels[2], levels = ind_labels),
                     xmin = 2030, xmax = 2035)
   lab_df  <- tibble(indicator = factor(ind_labels[2], levels = ind_labels),
-                    group_lbl = factor(group_levels_with_agg[1], levels = group_levels_with_agg),
-                    year = 2032.5, value = shared_ylim[2], label = "Peak\n2030\u20132035")
+                    group_lbl = factor("Higher income", levels = group_levels_with_agg),
+                    year = 2032.5,
+                    value = shared_ylim[2] - 0.18 * diff(shared_ylim),
+                    label = "Peak\n2030\u20132035")
   
   bottom <- ggplot(bc_data, aes(year, value, colour = lifestyle_lbl,
                                 group = interaction(lifestyle_lbl, scenario_lbl))) +
@@ -316,24 +343,25 @@ if (!MERGE_BC) {
     geom_point(data = filter(bc_data, year %in% mark_years), aes(shape = scenario_lbl),
                size = 1.5, fill = "white", stroke = 0.6) +
     geom_text(data = lab_df, aes(x = year, y = value, label = label), inherit.aes = FALSE,
-              size = 2.5, vjust = 1.1, lineheight = 0.9, colour = "#4D4D4D") +
+              size = 1.9, vjust = 1.1, lineheight = 0.9, colour = "#4D4D4D") +
     facet_grid(indicator ~ group_lbl) +
-    scale_colour_manual("Behaviour", values = ls_col) +
+    scale_colour_manual("Lifestyle driver", values = ls_col,
+                        guide = guide_legend(keywidth = unit(0.8, "cm"),
+                                             keyheight = unit(0.3, "cm"))) +
     scale_shape_manual("Infrastructures", values = scen_shapes,
                        guide = guide_legend(override.aes = list(fill = "white", colour = "black", linetype = 0))) +
     scale_linetype_manual("Infrastructures", values = scen_linetypes, guide = "none") +
-    scale_y_continuous(labels = scales::percent, limits = shared_ylim) +
+    scale_y_continuous(labels = scales::percent, limits = shared_ylim, breaks = seq(-1, 1, by = 0.25)) +
     scale_x_continuous(breaks = c(2020, 2035, 2050), limits = c(2018, 2050)) +
     labs(x = NULL, y = shared_ylab) +
     theme_evo +
     theme(legend.position = "right", legend.justification = "center",
-          axis.text.y = element_text(size = 8), axis.title.y = element_text(size = 8))
+          axis.text.y = element_text(size = 6), axis.title.y = element_text(size = 6))
 }
 
-fig <- (wrap_elements(top) / wrap_elements(bottom)) +
+fig <- (wrap_elements(top) + theme(plot.margin = margin(b = 0))) /
+  (wrap_elements(bottom) + theme(plot.margin = margin(t = 0))) +
   plot_layout(heights = c(1, 1.35))
 
-ggsave(file.path(out_dir, "fig_behavioural_engagement.pdf"), fig, width = 11, height = 15, device = "pdf")
-ggsave(file.path(out_dir, "fig_behavioural_engagement.png"), fig, width = 11, height = 15, dpi = 300)
-message("Saved: fig_behavioural_engagement in ", out_dir)
+save_ns(fig, "fig_behavioural_engagement", height_in = 9.00)
 print(fig)

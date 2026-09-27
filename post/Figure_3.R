@@ -1,13 +1,31 @@
-data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
-out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
-
 library(tidyverse)
 library(patchwork)
 library(ggh4x)
 
-base    <- file.path(data_dir, "Outputs", "CIRCEE_output_levels")
-out_dir <- out_dir_default
+base    <- "~/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
+out_dir <- "~/Desktop/Paper_Rethink_Results/figures"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+FIG_W <- 180 / 25.4   
+DPI   <- 600                 
+FONT  <- "sans"           
+
+update_geom_defaults("text",  list(family = FONT))
+update_geom_defaults("label", list(family = FONT))
+if (requireNamespace("ggrepel", quietly = TRUE))
+  update_geom_defaults(ggrepel::GeomTextRepel, list(family = FONT))
+
+save_ns <- function(plot, name, height_in, dir = out_dir) {
+  if (inherits(plot, "patchwork"))
+    plot <- plot & ggplot2::theme(text = ggplot2::element_text(family = FONT))
+  ggsave(file.path(dir, paste0(name, ".pdf")), plot,
+         width = FIG_W, height = height_in, units = "in",
+         device = "pdf", family = FONT)
+  ggsave(file.path(dir, paste0(name, ".png")), plot,
+         width = FIG_W, height = height_in, units = "in", dpi = DPI)
+  message("Saved ", name, " at 180 mm x ", round(height_in * 25.4), " mm")
+}
+
 
 read_y2050 <- function(path) {
   df <- read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
@@ -36,11 +54,11 @@ groups <- c("constrained", "cautious", "lowcarbon")
 lifestyle_labels <- c(
   ecoactive_ecoactive         = "Ecoactive - All",
   affordability_affordability = "Affordability - All",
-  ecoactive_affordability     = "Ecoactive - Sharing \nAffordability - Sufficiency",
-  affordability_ecoactive     = "Affordability - Sharing \nEcoactive - Sufficiency")
+  ecoactive_affordability     = "Ecoactive - Sharing\nAffordability - Sufficiency",
+  affordability_ecoactive     = "Affordability - Sharing\nEcoactive - Sufficiency")
 
-scenario_order_with_base <- c("Baseline","Regressive","Progressive")
-scenario_order_behav     <- c("Baseline","Regressive","Progressive")
+scenario_order_with_base <- c("Baseline","Strong_Regressive","Strong_Progressive")
+scenario_order_behav     <- c("Baseline","Strong_Regressive","Strong_Progressive")
 group_levels <- c("Lower income","Medium income","Higher income")
 
 relabel_groups <- function(grp) factor(case_when(
@@ -48,20 +66,21 @@ relabel_groups <- function(grp) factor(case_when(
   levels = group_levels)
 
 scenario_labeller <- labeller(scenario_lbl = c(
-  Baseline="BAU", Regressive="Regressive", Progressive="Progressive"))
+  Baseline="Current", Strong_Regressive="Concentrated", Strong_Progressive="Broad"))
 
-base_theme <- theme_minimal(base_size = 9) +
+base_theme <- theme_minimal(base_size = 7) +
   theme(strip.placement="outside",
-        strip.text.x.bottom = element_text(face="bold", size=8, margin=margin(t=4,b=3)),
-        strip.text.y.right  = element_text(face="bold", size=7, angle=270, lineheight=0.9),
-        axis.text.x.top=element_text(angle=45, hjust=0, size=8), axis.text.y=element_text(size=7),
-        panel.grid=element_blank(), plot.title=element_text(face="bold", size=10),
-        legend.title=element_text(size=8), legend.text=element_text(size=8),
-        plot.subtitle=element_text(size=8),
+        strip.text.x.bottom = element_text(face="bold", size=6, margin=margin(t=4,b=3)),
+        strip.text.y.right  = element_text(face="bold", size=5, angle=0,
+                                           hjust=0, lineheight=0.9),
+        axis.text.x.top=element_text(angle=45, hjust=0, size=6), axis.text.y=element_text(size=5.5),
+        panel.grid=element_blank(), plot.title=element_text(face="bold", size=7),
+        legend.title=element_text(size=6), legend.text=element_text(size=6),
+        plot.subtitle=element_text(size=6),
         plot.background=element_rect(fill="white", color=NA))
 
 shapes_sc  <- c("Higher income"=15, "Medium income"=16, "Lower income"=17, "Economy-wide"=18)
-eco_colors <- c("BAU"="grey50", "Regressive"="#B2182B", "Progressive"="#2166AC")
+eco_colors <- c("Current"="grey50", "Concentrated"="#B2182B", "Broad"="#2166AC")
 
 pop_lookup <- basket_2050_joined %>%
   transmute(scenario, lifestyle, foresight,
@@ -105,7 +124,7 @@ p3a <- ggplot(behav_df2, aes(indicator, group_lbl, fill=value_norm)) +
   facet_grid(lifestyle_lbl ~ scenario_lbl, switch="x", labeller=scenario_labeller) +
   scale_x_discrete(position="top", limits=c("Refuse","Rethink")) +
   labs(title="a. Behavioural engagement",
-       subtitle="Y2050 vs. reference run with no lifestyle heterogeneity and BAU infrastructures", x=NULL, y=NULL) +
+       subtitle="Y2050 vs. reference with no lifestyle heterogeneity and current enablement", x=NULL, y=NULL) +
   base_theme
 
 compute_footprint <- function(df, h) {
@@ -141,7 +160,7 @@ p3b <- ggplot(fp_df2, aes(indicator, group_lbl, fill=value_norm)) +
   facet_grid(lifestyle_lbl ~ scenario_lbl, switch="x", labeller=scenario_labeller) +
   scale_x_discrete(position="top", limits=c("Carbon","Waste","Material")) +
   labs(title="a. Environmental footprint (per household)",
-       subtitle="Y2050 vs. reference run with no lifestyle heterogeneity and BAU infrastructures; colours show direction and rank, not magnitude (see b, c)",
+       subtitle="Y2050 vs. reference with no lifestyle heterogeneity and current enablement; colours show direction and rank, not magnitude (see b, c)",
        x=NULL, y=NULL) +
   base_theme
 
@@ -187,7 +206,7 @@ cf_grp <- map_dfr(groups, ~ compute_cf_change(basket_2050_joined, .x)) %>%
          inc=factor(case_when(grp=="constrained"~"L", grp=="cautious"~"M", grp=="lowcarbon"~"H"),
                     levels=c("L","M","H","E")),
          lifestyle_lbl=factor(lifestyle_labels[lifestyle], levels=lifestyle_labels),
-         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("BAU","Regressive","Progressive"))) %>%
+         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("Current","Concentrated","Broad"))) %>%
   filter(lifestyle_lbl %in% c("Ecoactive - All","Affordability - All"))
 
 cf_ref_econ <- map_dfr(groups, ~ compute_cf_change(basket_2050_joined, .x)) %>%
@@ -208,7 +227,7 @@ cf_agg <- map_dfr(groups, ~ compute_cf_change(basket_2050_joined, .x)) %>%
          good=factor(good_labels[good], levels=good_labels),
          inc=factor("E", levels=c("L","M","H","E")),
          lifestyle_lbl=factor(lifestyle_labels[lifestyle], levels=lifestyle_labels),
-         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("BAU","Regressive","Progressive"))) %>%
+         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("Current","Concentrated","Broad"))) %>%
   filter(lifestyle_lbl %in% c("Ecoactive - All","Affordability - All"))
 
 cf_change_df <- bind_rows(cf_grp, cf_agg)
@@ -225,7 +244,7 @@ p3c <- ggplot(cf_change_df, aes(x=inc, y=d_cf_pct)) +
   geom_col(aes(fill=good), width=0.8, position="stack") +
   geom_hline(yintercept=0, colour="grey40", linewidth=0.3) +
   geom_point(data=cf_net_df, aes(x=inc, y=net_pct, shape=group_lbl),
-             inherit.aes=FALSE, size=1.8, colour="grey20") +
+             inherit.aes=FALSE, size=1.2, colour="grey20") +
   facet_nested(~ lifestyle_lbl + Ecosystem,
                strip=strip_nested(background_x=elem_list_rect(fill=c("grey90","grey96")), by_layer_x=TRUE)) +
   scale_fill_manual("Consumption good", values=good_colors) +
@@ -234,20 +253,20 @@ p3c <- ggplot(cf_change_df, aes(x=inc, y=d_cf_pct)) +
                               "Lower income"="Lower income (L)",   "Economy-wide"="Economy-wide (E)")) +
   scale_y_continuous(labels=scales::percent_format(accuracy=0.1),
                      breaks=scales::pretty_breaks(4)) +
-  labs(title="b. Carbon footprint change by consumption good vs. reference run", x=NULL,
-       y="\u0394 Carbon footprint (% of reference)") +
-  theme_minimal(base_size=9) +
+  labs(title="b. Carbon footprint change by consumption good", x=NULL,
+       y="Change in carbon footprint (% of reference)") +
+  theme_minimal(base_size=7) +
   theme(panel.grid.major.x=element_blank(), panel.grid.minor=element_blank(),
         panel.background=element_rect(fill="grey95", colour=NA),
         panel.grid.major.y=element_line(colour="white"),
-        strip.text=element_text(face="bold", size=7, lineheight=0.9),
+        strip.text=element_text(face="bold", size=5.5, lineheight=0.9),
         panel.spacing.x=unit(0.08,"lines"), panel.spacing.y=unit(0.5,"lines"),
-        plot.title=element_text(face="bold", size=10),
-        axis.text.x=element_text(size=8), axis.text.y=element_text(size=8),
-        axis.title.y=element_text(size=8, margin=margin(r=8)),
-        legend.title=element_text(size=8), legend.text=element_text(size=7),
+        plot.title=element_text(face="bold", size=7),
+        axis.text.x=element_text(size=6), axis.text.y=element_text(size=6),
+        axis.title.y=element_text(size=6, margin=margin(r=8)),
+        legend.title=element_text(size=6), legend.text=element_text(size=5.5),
         legend.key=element_rect(colour="grey95", linewidth=0.2),
-        legend.key.size=unit(0.5,"cm"), legend.position="right",
+        legend.key.size=unit(0.34,"cm"), legend.position="right",
         legend.justification=c(0.5,0.5))
 
 cf_to_g <- 1e12; wf_to_g <- 1
@@ -264,23 +283,23 @@ scatter_df <- map_dfr(groups, ~ compute_levels(basket_2050_joined, .x)) %>%
   filter(foresight=="AE", scenario %in% scenario_order_behav) %>%
   mutate(group_lbl=relabel_groups(grp),
          lifestyle_lbl=factor(lifestyle_labels[lifestyle], levels=lifestyle_labels),
-         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("BAU","Regressive","Progressive")))
+         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("Current","Concentrated","Broad")))
 
 p3c_intensity_SI <- ggplot(scatter_df, aes(x=MF_int, y=CF_int, fill=group_lbl, shape=Ecosystem)) +
-  geom_point(size=3.2, colour="grey30", stroke=0.5, alpha=0.85) +
+  geom_point(size=2.2, colour="grey30", stroke=0.5, alpha=0.85) +
   scale_fill_manual("Income group",
                     values=c("Lower income"="#FEE090","Medium income"="#FC8D59","Higher income"="#B2182B")) +
-  scale_shape_manual("Infrastructures", values=c(BAU=21, Regressive=24, Progressive=23)) +
+  scale_shape_manual("Infrastructure enablement", values=setNames(c(21,24,23), c("Current","Concentrated","Broad"))) +
   scale_x_continuous("Material intensity (g/consumption unit/year)", breaks=scales::pretty_breaks(4)) +
   scale_y_continuous(expression("Carbon intensity (gCO"[2]*"eq/consumption unit/year)"), breaks=scales::pretty_breaks(4)) +
   coord_cartesian(xlim=c(1.61,1.69), ylim=c(1.27,1.35)) +
   labs(title="Intensity is stable across infrastructures but rises for lower-income groups") +
   guides(fill=guide_legend(override.aes=list(shape=21)),
          shape=guide_legend(override.aes=list(fill="grey70"))) +
-  theme_minimal(base_size=9) +
+  theme_minimal(base_size=7) +
   theme(panel.background=element_rect(fill="grey95", colour=NA),
         panel.grid.major=element_line(colour="white"), panel.grid.minor=element_line(colour="white"),
-        plot.title=element_text(face="bold", size=10))
+        plot.title=element_text(face="bold", size=7))
 
 wf_to_t  <- 1e-6
 wf_goods <- c("nondurable","otherdurable","energydurable","sharing","repair")
@@ -302,7 +321,7 @@ wf_grp <- map_dfr(groups, ~ compute_wf_change(basket_2050_joined, .x)) %>%
          inc=factor(case_when(grp=="constrained"~"L", grp=="cautious"~"M", grp=="lowcarbon"~"H"),
                     levels=c("L","M","H","E")),
          lifestyle_lbl=factor(lifestyle_labels[lifestyle], levels=lifestyle_labels),
-         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("BAU","Regressive","Progressive"))) %>%
+         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("Current","Concentrated","Broad"))) %>%
   filter(lifestyle_lbl %in% c("Ecoactive - All","Affordability - All"))
 
 wf_ref_econ <- map_dfr(groups, ~ compute_wf_change(basket_2050_joined, .x)) %>%
@@ -327,7 +346,7 @@ wf_agg <- map_dfr(groups, ~ compute_wf_change(basket_2050_joined, .x)) %>%
          good=factor(good_labels[good], levels=good_labels),
          inc=factor("E", levels=c("L","M","H","E")),
          lifestyle_lbl=factor(lifestyle_labels[lifestyle], levels=lifestyle_labels),
-         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("BAU","Regressive","Progressive"))) %>%
+         Ecosystem=factor(scenario, levels=scenario_order_behav, labels=c("Current","Concentrated","Broad"))) %>%
   filter(lifestyle_lbl %in% c("Ecoactive - All","Affordability - All"))
 
 wf_change_df <- bind_rows(wf_grp, wf_agg)
@@ -344,7 +363,7 @@ p3e <- ggplot(wf_change_df, aes(x=inc, y=d_wf_pct)) +
   geom_col(aes(fill=good), width=0.8, position="stack") +
   geom_hline(yintercept=0, colour="grey40", linewidth=0.3) +
   geom_point(data=wf_net_df, aes(x=inc, y=net_pct, shape=group_lbl),
-             inherit.aes=FALSE, size=1.8, colour="grey20") +
+             inherit.aes=FALSE, size=1.2, colour="grey20") +
   facet_nested(~ lifestyle_lbl + Ecosystem,
                strip=strip_nested(background_x=elem_list_rect(fill=c("grey90","grey96")), by_layer_x=TRUE)) +
   scale_fill_manual("Consumption good", values=good_colors) +
@@ -353,20 +372,20 @@ p3e <- ggplot(wf_change_df, aes(x=inc, y=d_wf_pct)) +
                               "Lower income"="Lower income (L)",   "Economy-wide"="Economy-wide (E)")) +
   scale_y_continuous(labels=scales::percent_format(accuracy=0.1),
                      breaks=scales::pretty_breaks(4)) +
-  labs(title="c. Waste footprint change by consumption good vs. reference run", x=NULL,
-       y="\u0394 Waste footprint (% of reference)") +
-  theme_minimal(base_size=9) +
+  labs(title="c. Waste footprint change by consumption good", x=NULL,
+       y="Change in waste footprint (% of reference)") +
+  theme_minimal(base_size=7) +
   theme(panel.grid.major.x=element_blank(), panel.grid.minor=element_blank(),
         panel.background=element_rect(fill="grey95", colour=NA),
         panel.grid.major.y=element_line(colour="white"),
-        strip.text=element_text(face="bold", size=7, lineheight=0.9),
+        strip.text=element_text(face="bold", size=5.5, lineheight=0.9),
         panel.spacing.x=unit(0.08,"lines"), panel.spacing.y=unit(0.5,"lines"),
-        plot.title=element_text(face="bold", size=10),
-        axis.text.x=element_text(size=8), axis.text.y=element_text(size=8),
-        axis.title.y=element_text(size=8, margin=margin(r=8)),
-        legend.title=element_text(size=8), legend.text=element_text(size=7),
+        plot.title=element_text(face="bold", size=7),
+        axis.text.x=element_text(size=6), axis.text.y=element_text(size=6),
+        axis.title.y=element_text(size=6, margin=margin(r=8)),
+        legend.title=element_text(size=6), legend.text=element_text(size=5.5),
         legend.key=element_rect(colour="grey95", linewidth=0.2),
-        legend.key.size=unit(0.5,"cm"), legend.position="right",
+        legend.key.size=unit(0.34,"cm"), legend.position="right",
         legend.justification=c(0.5,0.5))
 
 stack_extent <- function(d, val) {
@@ -379,18 +398,21 @@ fp_extent <- bind_rows(stack_extent(cf_change_df, "d_cf_pct"),
 fp_pct_lim <- c(min(fp_extent$lo), max(fp_extent$hi)) * 1.08
 
 p3c <- p3c + coord_cartesian(ylim=fp_pct_lim)
-p3e <- p3e + coord_cartesian(ylim=fp_pct_lim)
+p3e <- p3e + coord_cartesian(ylim=fp_pct_lim) +
+  guides(fill = "none", shape = "none")
 
-top    <- (plot_spacer() | p3b | plot_spacer()) + plot_layout(widths=c(0.5,1,0.5))
-bottom <- (p3c | p3e)
+top <- (plot_spacer() | p3b | plot_spacer()) + plot_layout(widths=c(0.06,1,0.06))
 
-fig <- (wrap_elements(top) / wrap_elements(bottom)) + plot_layout(heights=c(1.3,1.0))
+p3c_stack <- p3c + theme(axis.text.x = element_blank(), axis.ticks.x = element_blank())
 
-ggsave(file.path(out_dir,"fig_environmental_outcomes.pdf"), fig, width=15, height=13, device="pdf")
-ggsave(file.path(out_dir,"fig_environmental_outcomes.png"), fig, width=15, height=13, dpi=300)
-message("Saved: fig_environmental_outcomes in ", out_dir)
+bottom <- (p3c_stack / p3e) + plot_layout(guides = "collect") &
+  theme(legend.position = "right", legend.justification = "center")
+
+fig <- (wrap_elements(top) + theme(plot.margin = margin(b = 0))) /
+  (wrap_elements(bottom) + theme(plot.margin = margin(t = 0))) +
+  plot_layout(heights = c(1.0, 1.7))
+
+save_ns(fig, "fig_environmental_outcomes", height_in = 8.50)
 print(fig)
 
-ggsave(file.path(out_dir,"fig2_supplementary_intensity_scatter.pdf"), p3c_intensity_SI, width=8, height=5, device="pdf")
-ggsave(file.path(out_dir,"fig2_supplementary_intensity_scatter.png"), p3c_intensity_SI, width=8, height=5, dpi=300)
-message("Saved: fig2_supplementary_intensity_scatter in ", out_dir)
+save_ns(p3c_intensity_SI, "fig2_supplementary_intensity_scatter", height_in = 4.43)

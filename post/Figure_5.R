@@ -1,44 +1,62 @@
-data_dir        <- "~/Desktop/Paper_Rethink_Results/data_zenodo"
-out_dir_default <- "~/Desktop/Paper_Rethink_Results/figures"
-
 library(tidyverse)
 library(patchwork)
 library(gridExtra)
 library(grid)
 library(gtable)
 
-welfare_dir <- file.path(data_dir, "Welfare")
-out_dir     <- out_dir_default
+welfare_dir <- "~/Desktop/Paper_Rethink_Results/Welfare"
+out_dir     <- "~/Desktop/Paper_Rethink_Results/figures"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
+
+FIG_W <- 180 / 25.4    
+DPI   <- 600        
+FONT  <- "sans"          
+
+update_geom_defaults("text",  list(family = FONT))
+update_geom_defaults("label", list(family = FONT))
+if (requireNamespace("ggrepel", quietly = TRUE))
+  update_geom_defaults(ggrepel::GeomTextRepel, list(family = FONT))
+
+save_ns <- function(plot, name, height_in, dir = out_dir) {
+  if (inherits(plot, "patchwork"))
+    plot <- plot & ggplot2::theme(text = ggplot2::element_text(family = FONT))
+  ggsave(file.path(dir, paste0(name, ".pdf")), plot,
+         width = FIG_W, height = height_in, units = "in",
+         device = "pdf", family = FONT)
+  ggsave(file.path(dir, paste0(name, ".png")), plot,
+         width = FIG_W, height = height_in, units = "in", dpi = DPI)
+  message("Saved ", name, " at 180 mm x ", round(height_in * 25.4), " mm")
+}
+
 
 foresight  <- "AE"
 lifestyles <- c("ecoactive_ecoactive", "affordability_affordability",
                 "ecoactive_affordability", "affordability_ecoactive")
 
-scen_levels <- c("Baseline", "Regressive", "Progressive")
-scen_labels <- c("BAU", "Regressive", "Progressive")
+scen_levels <- c("Baseline", "Strong.Regressive", "Strong.Progressive")
+scen_labels <- c("Current", "Concentrated", "Broad")
 
 lifestyle_labels <- c(
   ecoactive_ecoactive         = "Ecoactive - All",
   affordability_affordability = "Affordability - All",
-  ecoactive_affordability     = " Ecoactive - Sharing \n Affordability - Sufficiency",
-  affordability_ecoactive     = " Affordability - Sharing \n Ecoactive - Sufficiency")
+  ecoactive_affordability     = "Ecoactive - Sharing\nAffordability - Sufficiency",
+  affordability_ecoactive     = "Affordability - Sharing\nEcoactive - Sufficiency")
 
 group_levels <- c("Lower", "Med", "Higher")
 group_labels <- c("Lower income", "Medium income", "Higher income")
 
 pal_sigma <- c(
   "Baseline"           = "#d98ca8",
-  "Regressive"  = "#156082",
-  "Progressive" = "#66913f")
+  "Strong.Regressive"  = "#156082",
+  "Strong.Progressive" = "#66913f")
 names(pal_sigma) <- scen_levels
 
 pal_ls <- c("Ecoactive - All"                                     = "#1B7837",
             "Affordability - All"                                  = "#762A83",
-            " Ecoactive - Sharing \n Affordability - Sufficiency" = "#E08214",
-            " Affordability - Sharing \n Ecoactive - Sufficiency" = "#2166AC")
+            "Ecoactive - Sharing\nAffordability - Sufficiency" = "#E08214",
+            "Affordability - Sharing\nEcoactive - Sufficiency" = "#2166AC")
 
-theme_ns <- function(base = 9) {
+theme_ns <- function(base = 6) {
   theme_minimal(base_size = base) +
     theme(
       text             = element_text(color = "#1A1A1A"),
@@ -54,21 +72,21 @@ theme_ns <- function(base = 9) {
       panel.grid.major = element_line(color = "white", linewidth = 0.5),
       panel.spacing    = unit(0.6, "lines"),
       legend.position  = "bottom",
-      legend.title     = element_text(size = base, face = "bold"),
-      legend.text      = element_text(size = base),
-      legend.key.width = unit(0.8, "cm"),
-      legend.key.height= unit(0.3, "cm"),
+      legend.title     = element_text(size = 6, hjust = 0),
+      legend.text      = element_text(size = 5),
+      legend.key       = element_rect(fill = "grey95", colour = NA),
+      legend.key.size  = unit(0.28, "cm"),
+      legend.spacing.y = unit(0.10, "cm"),
+      legend.margin    = margin(l = 0, r = 0),
+      legend.box.just  = "left",
+      legend.justification = "left",
       plot.background  = element_rect(fill = "white", color = NA),
       panel.background = element_rect(fill = "#EBEBEB", color = NA),
       strip.background = element_blank()
     )
 }
 
-save_fig <- function(fig, name, w, h) {
-  ggsave(file.path(out_dir, paste0(name, ".pdf")), fig, width = w, height = h, device = "pdf")
-  ggsave(file.path(out_dir, paste0(name, ".png")), fig, width = w, height = h, dpi = 300)
-  message("Saved: ", name)
-}
+
 
 load_welfare <- function(filename) {
   map_dfr(lifestyles, function(ls) {
@@ -92,8 +110,8 @@ snap_years <- c(2025, 2030, 2035, 2040, 2045, 2050)
 message("Loading welfare CSVs (AE)...")
 es_dist_raw <- load_welfare("welfare_ES_distribution.csv")
 
-levels_dir  <- file.path(data_dir, "Outputs", "CIRCEE_output_levels")
-shocks_csv  <- "~/Desktop/circee_clonetest/data/JPN/raw/shocks.csv"
+levels_dir  <- "~/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
+shocks_csv  <- "~/Desktop/circeemodel/data/JPN/raw/shocks.csv"
 es_rows     <- c("ES_constrained", "ES_cautious", "ES_lowcarbon")
 es_years    <- c("Y2025","Y2030","Y2035","Y2040","Y2045","Y2050")
 ratio_years <- c(2025, 2035, 2050)
@@ -230,11 +248,10 @@ names(scen_fills)  <- scen_levels
 
 scen_shape_scale <- scale_shape_manual(
   values = scen_shapes, breaks = scen_levels, labels = scen_labels,
-  name = "Infrastructures (substitution elasticity)",
+  name = "Infrastructure enablement",
   guide = guide_legend(order = 2,
                        override.aes = list(fill = "white", color = "black")))
 
-# ---- Panel A ---------------------------------------------------------------
 ratio_color <- scale_color_manual(
   values = pal_ratio, breaks = ratio_levels, name = "Lifestyle pair",
   guide = guide_legend(order = 1,
@@ -257,13 +274,13 @@ pA <- ggplot(accessA2,
             linewidth = 0.45, alpha = 0.55, show.legend = FALSE) +
   geom_line(linewidth = 0.5, alpha = 0.85,
             show.legend = c(colour = TRUE, shape = FALSE)) +
-  geom_point(aes(shape = Scenario), size = 1.9, stroke = 0.8, fill = "white",
+  geom_point(aes(shape = Scenario), size = 1.3, stroke = 0.6, fill = "white",
              show.legend = c(colour = FALSE, shape = TRUE)) +
   facet_wrap(~ lifestyle, nrow = 1) +
   scale_x_continuous(breaks = c(2025, 2035, 2050)) +
   ratio_color + scen_shape_scale +
   labs(title = "a. Per-household energy-service access ratios by lifestyle pair",
-       subtitle = "Dashed = reference run with no lifestyle heterogeneity and BAU infrastructures",
+       subtitle = "Dashed = reference with no lifestyle heterogeneity and current enablement",
        x = NULL, y = "Access ratio (per household)") +
   theme_ns() +
   theme(panel.grid = element_blank(), 
@@ -272,17 +289,17 @@ pA <- ggplot(accessA2,
 pB <- ggplot(panelB_df, aes(x = group, y = cev, group = Scenario)) +
   geom_hline(yintercept = 0, color = "#9A9A9A", linewidth = 0.4, linetype = "dashed") +
   geom_point(aes(shape = Scenario), color = "black", fill = "white",
-             size = 2.2, stroke = 0.7,
+             size = 1.5, stroke = 0.6,
              position = position_dodge(width = 0.55)) +
   facet_wrap(~ lifestyle, nrow = 1) +
   scen_shape_scale +
   guides(shape = "none") +
-  labs(title = "b. Lifetime CEV by lifestyle group in comparison to the reference run",
+  labs(title = "b. Lifetime CEV by lifestyle group in comparison to the reference",
        x = NULL, y = "Lifetime CEV (%)") +
   theme_ns() +
   theme(axis.text.x = element_text(angle = 30, hjust = 1))
 
-ls_fill <- scale_fill_manual(values = pal_ls, name = "Behaviour")
+ls_fill <- scale_fill_manual(values = pal_ls, name = "Lifestyle driver")
 xlabs <- setNames(scen_labels, scen_levels)
 
 welfare_ineq <- cev_life %>%
@@ -304,7 +321,7 @@ g_welfare_spread <- ggplot(welfare_ineq, aes(Scenario, spread, fill = lifestyle)
   scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
   scale_x_discrete(labels = xlabs, expand = expansion(add = 0.4)) + ls_fill +
   labs(title = "c. Welfare (CEV) spread across lifestyle groups",
-       subtitle = "Max \u2212 min lifetime CEV, percentage points", x = NULL, y = NULL) +
+       subtitle = "Highest minus lowest lifetime CEV, percentage points", x = NULL, y = NULL) +
   theme_ns() + theme(axis.title.x = element_text(color = "white"))
 
 gini_ratio_supp <- gp %>%
@@ -353,7 +370,7 @@ if (anyNA(trilemma$env_pct) || anyNA(trilemma$access_ratio) || anyNA(trilemma$sp
 
 has_repel <- requireNamespace("ggrepel", quietly = TRUE)
 label_layer <- if (has_repel) {
-  ggrepel::geom_text_repel(aes(label = scen_lab), size = 2.5, colour = "grey25",
+  ggrepel::geom_text_repel(aes(label = scen_lab), size = 1.9, colour = "grey25",
                            seed = 1,
                            segment.colour = NA,
                            box.padding   = 0.12,
@@ -364,51 +381,75 @@ label_layer <- if (has_repel) {
                            max.time      = 1, max.iter = 20000)
 } else {
   message("ggrepel not installed - using fixed nudge; check label overlap")
-  geom_text(aes(label = scen_lab), size = 2.6, colour = "grey25",
+  geom_text(aes(label = scen_lab), size = 1.9, colour = "grey25",
             hjust = -0.15, vjust = -0.5)
 }
 
+access_2020 <- local({
+  p <- file.path(levels_dir, paste0("NoModifiers_", foresight, ".csv"))
+  if (!file.exists(p) || !"Y2020" %in% names(read.csv(p, check.names = FALSE, nrows = 1)))
+    return(NA_real_)
+  d  <- read.csv(p, check.names = FALSE); d <- d[!duplicated(d$Row), ]
+  g  <- function(r) { x <- as.numeric(d[d$Row == r, "Y2020"]); if (!length(x)) NA_real_ else x }
+  om <- omega_tab[omega_tab$year == 2020, ]
+  if (!nrow(om)) return(NA_real_)
+  (g("ES_constrained") / om$omega_constrained) / (g("ES_lowcarbon") / om$omega_lowcarbon)
+})
+message(sprintf("Reference access ratio in 2020: %.3f", access_2020))
+
+ref2020_layers <- if (is.na(access_2020)) NULL else list(
+  geom_vline(xintercept = access_2020, linetype = "solid",
+             colour = "grey75", linewidth = 0.4),
+  annotate("text", x = access_2020, y = Inf, vjust = 1.4, hjust = -0.05,
+           size = 1.8, colour = "grey40", label = sprintf("2020: %.2f", access_2020))
+)
+
 g_trilemma <- ggplot(trilemma, aes(access_ratio, env_pct)) +
   geom_vline(xintercept = 1, linetype = "dotted", colour = "grey60", linewidth = 0.3) +
+  annotate("text", x = 1, y = Inf, vjust = 1.4, hjust = 1.05, size = 1.8,
+           colour = "grey40", label = "equal access") +
+  ref2020_layers +
   geom_hline(yintercept = 0, linetype = "dashed", colour = "grey60", linewidth = 0.4) +
   geom_point(aes(shape = Scenario, fill = lifestyle, size = spread),
-             colour = "grey20", stroke = 0.4) +
+             colour = "grey20", stroke = 0.3) +
   label_layer +
   scale_shape_manual(values = scen_shapes, breaks = scen_levels,
                      labels = scen_labels, guide = "none") +
-  scale_fill_manual(values = pal_ls, name = "Behaviour") +
-  scale_size_continuous(range = c(2.2, 7),
-                        name = "Welfare spread\n(max \u2212 min CEV, p.p.)") +
+  scale_fill_manual(values = pal_ls, name = "Lifestyle driver") +
+  scale_size_continuous(range = c(1.5, 4.8),
+                        name = "Welfare spread\n(highest minus lowest CEV, p.p.)") +
   scale_x_continuous(labels = scales::number_format(accuracy = 0.01)) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 0.1),
                      limits = c(-0.015, 0.015),
                      breaks = seq(-0.015, 0.015, by = 0.005)) +
-  guides(fill = guide_legend(order = 1, override.aes = list(shape = 21, size = 3.5)),
+  guides(fill = guide_legend(order = 1,
+                             override.aes = list(shape = 22, size = 1.8, colour = "black")),
          size = guide_legend(order = 2, override.aes = list(shape = 21, fill = "grey70"))) +
   labs(title = "c. The trilemma",
        subtitle = "Down = lower carbon footprint; right = more equal access; larger = wider welfare gap",
        x = "Access equity (lower/higher-income access ratio, 2050)",
-       y = "Carbon footprint vs. reference run") +
+       y = "Carbon footprint vs. reference") +
   theme_ns()
 
 TRILEMMA_PANEL <- TRUE
 pC <- if (TRILEMMA_PANEL) g_trilemma else g_welfare_spread
 top <- pA + plot_layout(guides = "collect") &
-  theme(legend.position = "bottom", legend.justification = "center",
-        legend.box = "horizontal")
+  theme(legend.position = "right", legend.justification = "center",
+        legend.box = "vertical", legend.box.just = "left")
 
-middle <- (pB | pC) + plot_layout(guides = "collect", widths = c(1.6, 1)) &
-  theme(legend.position = "bottom", legend.justification = "center",
-        legend.box = "horizontal")
+middle <- (pB / pC) + plot_layout(guides = "collect", heights = c(1, 1.2)) &
+  theme(legend.position = "right", legend.justification = "center",
+        legend.box = "vertical", legend.box.just = "left")
 
-fig <- (wrap_elements(top) / wrap_elements(middle)) +
-  plot_layout(heights = c(1.3, 1.1))
+fig <- (wrap_elements(top) + theme(plot.margin = margin(b = 0))) /
+  (wrap_elements(middle) + theme(plot.margin = margin(t = 0))) +
+  plot_layout(heights = c(1.0, 2.2))
 
 message("Writing CEV + CV tables to CSV (Supplementary)...")
 
-scen_levels_tab <- c("Baseline", "Regressive",
-                     "Progressive")
-scen_labels_tab <- c("BAU", "Regressive", "Progressive")
+scen_levels_tab <- c("Baseline", "Strong.Regressive",
+                     "Strong.Progressive")
+scen_labels_tab <- c("Current", "Concentrated", "Broad")
 grp_levels_tab <- c("constrained", "cautious", "lowcarbon")
 grp_labels_tab <- c("Lower", "Medium", "Higher")
 
@@ -449,7 +490,7 @@ wide <- welfare_table %>%
          Lower_CEV, Medium_CEV, Higher_CEV, Lower_CV, Medium_CV, Higher_CV)
 write_csv(wide, file.path(out_dir, "table_cev_cv_wide.csv"))
 
-save_fig(fig, "fig_welfare_equity_v26", w = 15, h = 8)
+save_ns(fig, "fig_welfare_equity_v26", height_in = 7.20)
 
 cat("\n=== CEV (lifetime welfare, %) + CV (2050 price index, %), vs no lifestyle changes ===\n")
 print(as.data.frame(welfare_table %>%
