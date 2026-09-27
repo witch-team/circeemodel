@@ -21,10 +21,10 @@ Two dimensions vary across runs: the infrastructures configurations (the substit
 
 | File | Behavioural modifiers | Infrastructures
 | --- | --- | --- |
-| `NoModifiers_AE.csv` | Behavioural modifiers all zero — the reference run | BAU
-| `<behavioural>_AE_Baseline.csv`| Behavioural modifiers active| BAU
-| `<behavioural>_AE_Progressive.csv`| Behavioural modifiers active | Progressive
-| `<behavioural>_AE_Regressive.csv`| Behavioural modifiers active | Regressive
+| `NoModifiers_AE.csv` | Behavioural modifiers all zero — the reference run | Current enablement
+| `<behavioural>_AE_Baseline.csv`| Behavioural modifiers active| Current enablement
+| `<behavioural>_AE_Progressive.csv`| Behavioural modifiers active | Broad enablement
+| `<behavioural>_AE_Regressive.csv`| Behavioural modifiers active | Concentrated enablement
 
 `AE` denotes anticipation errors. `<behavioural>` is one of `ecoactive_ecoactive`, `affordability_affordability`, `ecoactive_affordability`, `affordability_ecoactive` — sharing driver followed by sufficiency driver.
 For example, `ecoactive_affordability`, reads as Ecoactive - Sharing x Affordability - Sufficiency.
@@ -37,9 +37,9 @@ Twelve scenario runs are expected (four behavioural configurations × three infr
 
 | Code token | Paper label |
 | --- | --- |
-| `Baseline` | BAU |
-| `Progressive` | Progressive |
-| `Regressive` | Regressive |
+| `Baseline` | Current enablement |
+| `Progressive` | Broad enablement |
+| `Regressive` | Concentrated enablement |
 | `NoModifiers` | reference run |
 | `lowcarbon` | Higher income |
 | `cautious` | Medium income |
