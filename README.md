@@ -243,6 +243,8 @@ results/ is created at runtime and is not tracked. Runtime-generated files — s
 
 The two behavioural modifier triplets (sharing × {lowcarbon, cautious, constrained} and sufficiency × the same three groups) are jointly calibrated so that CIRCEE's year-2020 outputs match propensity-space targets in the LIFE model. Each block is tuned by 1D bisection (`lib/tune_sharing.sh`, `lib/tune_expenditures.sh`); the two blocks are then alternated until both are jointly satisfied. The order of tuning alternates each iteration to reduce ordering bias.
 
+Propensities in LIFE are homogenous across activities: it is a property of the driver, not the behaviour. It says how ecoactive-driven or affordability-driven a lifestyle group is.
+
 ### Phase 2 — Outer CIRCEE ↔ LIFE loop
 
 * **Run A** — CIRCEE with all behavioural modifiers = 0 (the homogeneous baseline, where all households behave identically). Runs once.
