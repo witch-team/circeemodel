@@ -38,7 +38,7 @@ CIRCEE_RunFile
 
 `CIRCEE_RunFile.m` writes `src/CIRCEE_shocks.m` before invoking Dynare, so calling `dynare CIRCEE_PF.mod` directly will fail on that missing include.
 
-## Reproducing Corbier et al., *Beyond Ownership: Lifestyles and inequality shape product-sharing's sustainability potential*
+## Reproducing *Beyond Ownership: Lifestyles and inequality shape product-sharing's sustainability potential*
 
 The paper reports twelve runs: four lifestyle configurations (sharing driver × sufficiency driver) under three ecosystem scenarios, plus a zero-modifier reference run.
 
