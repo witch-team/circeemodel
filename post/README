@@ -1,6 +1,6 @@
 # Post-processing scripts
 
-R scripts producing the figures in Corbier et al., *Beyond Ownership: Lifestyle, infrastructures, and distributional challenges for Product-Service Systems*.
+R scripts producing the figures in Corbier et al., *Beyond Ownership: Sufficiency and inequality shape product-sharing’s environmental potential*.
 
 These read **model output**, not the model itself. Run CIRCEE first (see the main README), then point these scripts at the resulting files.
 
@@ -71,15 +71,16 @@ out_dir    <- "path/to/figures"
 
 | Script | Produces | Needs first |
 | --- | --- | --- |
-| `SI/Carbon_and_waste_footprint_SI.R` | Footprint change by good, all four behavioural configurations | `Figure_3.R` |
-| `SI/TrilemmaWaste_SI.R` | Trilemma panel with the waste footprint on the vertical axis | `Figure_5.R` |
-| `SI/Prices_SI.R` | Price divergence between home production and PSS energy services | — |
-| `SI/Userates_SI.R` | Use rates of owned and PSS energy-using goods | — |
-| `SI/Energy_SI.R` | Exogenous WITCH/SSP2 inputs: efficiencies, emission factors, price growth | `scen_meta`, from any main script |
-| `SI/Sensitivitybounds_SI.R` | Sensitivity of the behavioural response to the substitution elasticity | — |
+| `Figure_S1.R` | Evolution of energy efficiency index, emission factor (Mt CO2/EJ) and energy prices (% change compared to 2018) until 2050. | `scen_meta`, from any main script |
+| `Figure_S2.R` | Evolution of energy services prices | — |
+| `Figure_S3.R` | Carbon and waste footprints change by consumption good vs. the reference run | `Figure_3.R` |
+| `Figure_S4.R` | Use rate of owned energy-using goods by households and use rate of energy-using goods of the PSS sector | — |
+| `Figure_S5.R` | Energy services expenditures | — |
+| `Figure_S6.R` | The trilemma – Waste footprint | `Figure_5.R` |
+| `Figure_S9.R` | Sensitivity of behavioural modifiers to the substitution elasticity between home and PSS energy services across income groups and behavioural scenarios. | — |
+| `Figure_S10-13.R` | Sensitivity analysis | — |
 
-`Sensitivitybounds_SI.R` carries its values inline rather than reading a file, so it runs standalone.
-
+`Figure_S9.R` carries its values inline rather than reading a file, so it runs standalone.
 ---
 
 ## Order of execution
