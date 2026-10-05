@@ -1,6 +1,6 @@
 # Post-processing scripts
 
-R scripts producing the figures in Corbier et al., *Beyond Ownership: Sufficiency and inequality shape product-sharing’s environmental potential*.
+R scripts producing the figures in *Beyond Ownership: Sufficiency and inequality shape product-sharing’s environmental potential*.
 
 These read **model output**, not the model itself. Run CIRCEE first (see the main README), then point these scripts at the resulting files.
 
