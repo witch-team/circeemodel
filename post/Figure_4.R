@@ -8,8 +8,8 @@ library(ggh4x)
 library(ggnewscale)
 library(patchwork)
 
-base    <- "/Users/dariuscorbier/Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
-out_dir <- "/Users/dariuscorbier/Desktop/Paper_Rethink_Results/figures"
+base    <- "Desktop/Paper_Rethink_Results/Outputs/CIRCEE_output_levels"
+out_dir <- "Desktop/Paper_Rethink_Results/figures"
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 FIG_W <- 180 / 25.4 
