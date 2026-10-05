@@ -1,4 +1,4 @@
-# CIRCEE: The CIRCular Energy Economy model
+<img width="468" height="27" alt="image" src="https://github.com/user-attachments/assets/7a747a73-363b-4ff8-b2fb-910056ccc235" /># CIRCEE: The CIRCular Energy Economy model
 
 ## General description
 
@@ -38,7 +38,7 @@ CIRCEE_RunFile
 
 `CIRCEE_RunFile.m` writes `src/CIRCEE_shocks.m` before invoking Dynare, so calling `dynare CIRCEE_PF.mod` directly will fail on that missing include.
 
-## Reproducing Corbier et al., *Beyond Ownership: Lifestyles, infrastructures and distributional challenges to move away from ownership models*
+## Reproducing Corbier et al., *Beyond Ownership: Lifestyles and inequality shape product-sharing's sustainability potential*
 
 The paper reports twelve runs: four lifestyle configurations (sharing driver × sufficiency driver) under three ecosystem scenarios, plus a zero-modifier reference run.
 
@@ -392,7 +392,7 @@ CIRCEE is under active development. Planned extensions include:
 
 * **Supply-side circular-economy strategies** — the current model focuses on demand-side, consumer-facing strategies (sharing, repair, sufficiency). Future versions will add supply-side strategies such as **recycling** and **green product design** (e.g. durability, reparability, and material choices at the design stage).
 * **Additional lifestyles** — the **repair** lifestyle will be released open-source (currently available on demand).
-* **More regions** — the EU27 and South Korea are planned, alongside the current Japan (JPN) calibration.
+* **More regions** — the EU27 and China are planned, alongside the current Japan (JPN) calibration. However, CIRCEE-LIFE will only have Japan, and potentially China. The EU27 is not planned for CIRCEE-LIFE because of lack of surveys.
 * **More SSP scenarios** — SSP1, SSP4, SSP5, and NoGrowth, beyond the current SSP2.
 * **A Julia implementation** of the model.
 
