@@ -1,4 +1,4 @@
-<img width="468" height="27" alt="image" src="https://github.com/user-attachments/assets/7a747a73-363b-4ff8-b2fb-910056ccc235" /># CIRCEE: The CIRCular Energy Economy model
+# CIRCEE: The CIRCular Energy Economy model
 
 ## General description
 
