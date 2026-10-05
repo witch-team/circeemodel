@@ -196,11 +196,13 @@ Code tokens differ from the labels used in the paper:
     ├── Figure_4.R
     ├── Figure_5.R
     └── SI/
-        ├── TrilemmaWaste_SI.R
-        └── Carbon_and_waste_footprint_SI.R
-        └── Prices_SI.R
-        └── Userates_SI.R
-        └── Sensitivitybounds_SI.R
+        ├── Figure_S1.R
+        └── Figure_S2.R
+        └── Figure_S3.R
+        ├── Figure_S4.R
+        └── Figure_S5.R
+        └── Figure_S6.R
+        ├── Figure_S9.R
 ├── scripts/
 │   ├── config.sh                           ← edit this (scenarios + MATLAB path + tolerances)
 │   ├── run.sh                              ← run this
