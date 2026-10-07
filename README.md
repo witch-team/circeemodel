@@ -421,3 +421,15 @@ If you encounter any issues, please contact darius.corbier@cmcc.it. Comments and
 - Corbier, D., Pettifor, H., Agnew, M., & Schlegel, N. (2026). Economic incentives and lifestyle drivers: how they shape consumers' engagement in repairing energy-using consumer goods and their environmental impacts in Japan. *Global Environmental Change*, 96, 103102.
 - Corbier, D., Pettifor, H., Agnew, M., & Drouet, L. (2024). CIRCEE, the CIRCular Energy Economy model: Bridging the gap between economic and industrial ecology concepts. *Journal of Industrial Ecology*, 28(6)
 
+DOI Badge
+DOI10.5281/zenodo.23189968Markdown
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23189968.svg)](https://doi.org/10.5281/zenodo.23189968)
+reStructuredText
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.23189968.svg
+  :target: https://doi.org/10.5281/zenodo.23189968
+HTML
+<a href="https://doi.org/10.5281/zenodo.23189968"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.23189968.svg" alt="DOI"></a>
+Image URL
+https://zenodo.org/badge/DOI/10.5281/zenodo.23189968.svg
+Target URL
+https://doi.org/10.5281/zenodo.23189968
