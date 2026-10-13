@@ -195,14 +195,15 @@ Code tokens differ from the labels used in the paper:
     ├── Figure_3.R
     ├── Figure_4.R
     ├── Figure_5.R
-    └── SI/
-        ├── Figure_S1.R
-        └── Figure_S2.R
-        └── Figure_S3.R
-        ├── Figure_S4.R
-        └── Figure_S5.R
-        └── Figure_S6.R
-        ├── Figure_S9.R
+    ├── Supplementary_Figure_1.R
+    ├── Supplementary_Figure_2.R
+    ├── Supplementary_Figure_3.R
+    ├── Supplementary_Figure_4.R
+    ├── Supplementary_Figure_5.R
+    ├── Supplementary_Figure_6.R
+    ├── Supplementary_Figure_9.R
+    ├── Supplementary_Figure_10-13.R
+    ├── Supplementary_Tables_1_2.md
 ├── scripts/
 │   ├── config.sh                           ← edit this (scenarios + MATLAB path + tolerances)
 │   ├── run.sh                              ← run this
