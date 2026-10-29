@@ -149,7 +149,7 @@ To facilitate cross-country comparison, the CIRCEE-LIFE model can be recalibrate
 | Firms’ electricity excise tax | `t_el_f` | 0.01096 | Model’s First-Order Conditions, Agency for Natural Resources and Energy, OECD and RIETI databases |
 | Households’ electricity excise tax | `t_el_h` | 0 | Model’s First-Order Conditions, Agency for Natural Resources and Energy, E-stat, OECD and RIETI databases |
 | Use rate of energy-using goods owned by households | `u_lowuse` | 0.1625 | See Table S2 |
-| Sensitivity parameter of the depreciation rate to the use rate of energy-using goods owned by households | `siggma_dep_lowuse` | 1.04669 | Model’s depreciation rate equation to reach u_lowuse and depreciation rate for energy-using goods of 0.08077 from [25] |
+| Sensitivity parameter of the depreciation rate to the use rate of energy-using goods owned by households | `siggma_dep_lowuse` | 1.04669 | Model’s depreciation rate equation to reach u_lowuse and depreciation rate for energy-using goods of 0.08077 from [25] , [41] |
 | Use rate of energy-using goods used by the PSS sector | `u_highuse` | 0.27 | Calibration using available data for car-sharing vehicles and washing machines:<br>Cars: 10.5 hours per day according to a survey of the Consumer Affairs Agency<sup>26</sup> <br>Washing machines: 3 hours per day on average according to https://land.home4u.jp/guide/landry-6-2599<br>Vehicles and washing machines represent 6.66% and 7.76% of the total of energy-using goods stock, respectively. The weighted average gives a use rate of approximately 0.27. |
 | Sensitivity parameter of the depreciation rate to the use rate of energy-using goods used by the PSS sector | `siggma_dep_highuse` | 1.04669 | Assumed equal to siggma_dep_lowuse, yielding a depreciation rate of 0.147 |
 | <br>Share of higher-income group in the total population | `omegga_lowcarbon` | 0.69046 | [27] |
@@ -284,3 +284,5 @@ To facilitate cross-country comparison, the CIRCEE-LIFE model can be recalibrate
 39. Ministry of Internal Affairs and Communications (2021). 2021 Survey on Time Use and Leisure Activities
 
 40. Shiraki, H., Nakamura, S., Ashina, S., Honjo, K. (2016). Estimating the hourly electricity profile of Japanese households–coupling of engineering and statistical methods. Energy 114, 478–491
+
+41. Nakamoto, Y., Nishijima, D., & Kagawa, S. (2019). The role of vehicle lifetime extensions of countries on global CO2 emissions. Journal of cleaner production, 207, 1040-1046.
